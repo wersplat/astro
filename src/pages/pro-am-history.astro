@@ -25,7 +25,13 @@ const { data: champions } = await supabase
 
       <div style="display: flex; flex-direction: column; gap: 2rem;">
         {champions?.map((champ: any) => (
-          <div class="paper">
+          <a 
+            href={`/team/${champ.team_id}`}
+            class="paper"
+            style="text-decoration: none; color: inherit; display: block; transition: all 0.2s;"
+            onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 10px 25px rgba(0, 0, 0, 0.5)';"
+            onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='';"
+          >
             <div style="display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap;">
               {champ.champion_logo && (
                 <img 
@@ -35,8 +41,8 @@ const { data: champions } = await supabase
                 />
               )}
               <div style="flex: 1;">
-                <h3 style="margin: 0 0 0.5rem; color: var(--color-primary);">
-                  {champ.team_name}
+                <h3 style="margin: 0 0 0.5rem; color: var(--color-primary); font-weight: 700;">
+                  {champ.team_name} →
                 </h3>
                 <p class="text-secondary" style="margin: 0;">
                   {champ.is_tournament ? '🏆 Tournament' : '🏀 League'} • {champ.year}
@@ -44,11 +50,11 @@ const { data: champions } = await supabase
                   {champ.season && ` Season ${champ.season}`}
                 </p>
               </div>
-              <span style="padding: 0.5rem 1rem; border-radius: 4px; background: rgba(245, 158, 8, 0.2); color: #F59E08; font-weight: 600;">
-                Champion
+              <span style="padding: 0.5rem 1rem; border-radius: 4px; background: rgba(245, 158, 8, 0.2); color: #F59E08; font-weight: 700; font-size: 1.125rem;">
+                🏆 Champion
               </span>
             </div>
-          </div>
+          </a>
         ))}
       </div>
 

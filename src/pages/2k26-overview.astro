@@ -32,13 +32,20 @@ const { data: activeLeagues } = await supabase
 
       <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-bottom: 2rem;">
         <div class="paper">
-          <h2 style="margin-bottom: 1.5rem;">Top Players</h2>
+          <h2 style="margin-bottom: 1.5rem;">Top Players - Click to view profile</h2>
           <div style="display: flex; flex-direction: column; gap: 0.75rem;">
             {topPlayers?.slice(0, 5).map((player: any, idx: number) => (
-              <a href={`/player/${player.id}`} style="text-decoration: none; color: inherit; display: flex; justify-content: space-between; align-items: center; padding: 0.5rem; border-radius: 4px; background: var(--color-background);">
+              <a 
+                href={`/player/${player.id}`} 
+                style="text-decoration: none; color: inherit; display: flex; justify-content: space-between; align-items: center; padding: 0.75rem; border-radius: 4px; background: var(--color-background); transition: all 0.2s;"
+                onmouseover="this.style.backgroundColor='var(--color-surface)'; this.style.transform='translateX(4px)';"
+                onmouseout="this.style.backgroundColor='var(--color-background)'; this.style.transform='translateX(0)';"
+              >
                 <div>
-                  <span style="color: var(--color-text-secondary); margin-right: 0.5rem;">#{idx + 1}</span>
-                  <span>{player.gamertag}</span>
+                  <span style={`color: ${idx === 0 ? '#F59E08' : idx === 1 ? '#94A3B8' : idx === 2 ? '#CD7F32' : 'var(--color-text-secondary)'}; margin-right: 0.5rem; font-weight: 700;`}>
+                    #{idx + 1}
+                  </span>
+                  <span style="font-weight: 600;">{player.gamertag}</span>
                 </div>
                 <span class="text-secondary" style="font-size: 0.875rem;">{player.position}</span>
               </a>
@@ -47,11 +54,16 @@ const { data: activeLeagues } = await supabase
         </div>
 
         <div class="paper">
-          <h2 style="margin-bottom: 1.5rem;">Active Leagues</h2>
+          <h2 style="margin-bottom: 1.5rem;">Active Leagues - Click to view</h2>
           <div style="display: flex; flex-direction: column; gap: 0.75rem;">
             {activeLeagues?.map((league: any) => (
-              <a href={`/league/${league.league_id}`} style="text-decoration: none; color: inherit; padding: 0.5rem; border-radius: 4px; background: var(--color-background);">
-                <h4 style="margin: 0 0 0.25rem;">{league.league_name}</h4>
+              <a 
+                href={`/league/${league.league_id}`} 
+                style="text-decoration: none; color: inherit; padding: 0.75rem; border-radius: 4px; background: var(--color-background); transition: all 0.2s;"
+                onmouseover="this.style.backgroundColor='var(--color-surface)'; this.style.transform='translateX(4px)';"
+                onmouseout="this.style.backgroundColor='var(--color-background)'; this.style.transform='translateX(0)';"
+              >
+                <h4 style="margin: 0 0 0.25rem; font-weight: 700;">{league.league_name}</h4>
                 <p class="text-secondary" style="font-size: 0.875rem; margin: 0;">
                   Season {league.season_number}
                 </p>

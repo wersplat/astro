@@ -24,8 +24,14 @@ const { data: topTeams } = await supabase
       </div>
 
       <div class="grid">
-        {topTeams?.map((team: any) => (
-          <a href={`/team/${team.id}`} class="card" style="text-decoration: none; color: inherit;">
+        {topTeams?.map((team: any, idx: number) => (
+          <a 
+            href={`/team/${team.id}`} 
+            class="card" 
+            style="text-decoration: none; color: inherit; transition: all 0.2s;"
+            onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 10px 25px rgba(0, 0, 0, 0.5)';"
+            onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='';"
+          >
             <div style="display: flex; align-items: center; gap: 1rem;">
               {team.logo_url && (
                 <img 
@@ -35,13 +41,15 @@ const { data: topTeams } = await supabase
                 />
               )}
               <div style="flex: 1;">
-                <h4 style="margin: 0 0 0.25rem;">{team.name}</h4>
+                <h4 style="margin: 0 0 0.25rem; font-weight: 700;">{team.name}</h4>
                 <p class="text-secondary" style="font-size: 0.875rem; margin: 0;">
-                  Rank #{team.global_rank}
+                  <span style={`color: ${idx < 3 ? (idx === 0 ? '#F59E08' : idx === 1 ? '#94A3B8' : '#CD7F32') : 'inherit'}; font-weight: 700;`}>
+                    #{team.global_rank}
+                  </span>
                 </p>
               </div>
               <div style="text-align: right;">
-                <p style="margin: 0; font-weight: 700; color: var(--color-primary);">
+                <p style="margin: 0; font-weight: 700; color: var(--color-primary); font-size: 1.125rem;">
                   {team.current_rp || 0} RP
                 </p>
               </div>

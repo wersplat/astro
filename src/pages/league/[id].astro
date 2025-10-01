@@ -2,6 +2,7 @@
 import Layout from '@/layouts/Layout.astro';
 import { createClientServer } from '@/lib/supabaseClient';
 import StandingsTable from '@/components/league/StandingsTable';
+import LeagueMatchCard from '@/components/league/MatchCard';
 
 const { id } = Astro.params;
 const supabase = createClientServer(Astro.cookies);
@@ -68,20 +69,11 @@ const { data: recentMatches } = await supabase
           </div>
 
           <div class="paper">
-            <h2 style="margin-bottom: 1.5rem;">Recent Matches</h2>
+            <h2 style="margin-bottom: 1.5rem;">Recent Matches - Click team names</h2>
             {recentMatches && recentMatches.length > 0 ? (
               <div style="display: flex; flex-direction: column; gap: 1rem;">
                 {recentMatches.map((match: any) => (
-                  <div class="card" style="padding: 1rem;">
-                    <div style="display: flex; justify-content: space-between; align-items: center;">
-                      <span style="font-size: 1.125rem; font-weight: 600;">
-                        {match.score_a} - {match.score_b}
-                      </span>
-                      <p class="text-secondary" style="font-size: 0.875rem; margin: 0;">
-                        {new Date(match.played_at).toLocaleDateString()}
-                      </p>
-                    </div>
-                  </div>
+                  <LeagueMatchCard match={match} client:load />
                 ))}
               </div>
             ) : (
