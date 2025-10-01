@@ -7,122 +7,230 @@ import LeagueMatchCard from '@/components/league/MatchCard';
 const { id } = Astro.params;
 const supabase = createClientServer(Astro.cookies);
 
-const { data: league } = await supabase
-  .from('league_seasons')
-  .select('*')
-  .eq('id', id!)
+// Use league_calendar view for 2K26 leagues (matches Next.js approach)
+const { data: leagueCal } = await supabase
+  .from('league_calendar')
+  .select(`
+    league_id, 
+    league_name, 
+    league_logo, 
+    season_id, 
+    season_number, 
+    start_date, 
+    end_date, 
+    is_active,
+    game_year
+  `)
+  .eq('game_year', '2K26')
+  .or(`season_id.eq.${id},league_id.eq.${id}`)
   .maybeSingle();
 
-// Get teams in this league through team_rosters
-const { data: teamsInLeague } = await supabase
-  .from('team_rosters')
-  .select('team_id, teams!inner(id, name, logo_url, current_rp)')
-  .eq('season_id', id!)
-  .is('left_at', null);
+// Load entry fee and prize pool from league_seasons table if we have a season_id
+let entryFee: number | null = null;
+let prizePool: number | null = null;
+if (leagueCal?.season_id) {
+  const { data: seasonData } = await supabase
+    .from('league_seasons')
+    .select('entry_fee, prize_pool')
+    .eq('id', leagueCal.season_id)
+    .maybeSingle();
+  
+  if (seasonData) {
+    entryFee = seasonData.entry_fee;
+    prizePool = seasonData.prize_pool;
+  }
+}
 
-// Extract unique teams and add standings info
-const uniqueTeams = new Map();
-teamsInLeague?.forEach((roster: any) => {
-  const team = Array.isArray(roster.teams) ? roster.teams[0] : roster.teams;
-  if (team && !uniqueTeams.has(team.id)) {
-    uniqueTeams.set(team.id, { 
-      ...team, 
-      team_id: team.id, 
-      team_name: team.name,
-      wins: 0, // Will be calculated from matches
-      losses: 0
+let league: any = leagueCal;
+
+// Add entry fee and prize pool
+if (league) {
+  league.entry_fee = entryFee;
+  league.prize_pool = prizePool;
+}
+
+// Get additional league info if we have a league_id
+if (league?.league_id) {
+  const { data: leagueInfo } = await supabase
+    .from('leagues_info')
+    .select('id, league, lg_logo_url, lg_url, lg_discord, twitch_url, twitter_id')
+    .eq('id', league.league_id)
+    .maybeSingle();
+  
+  if (leagueInfo) {
+    league.leagues_info = leagueInfo;
+  }
+}
+
+if (!league) {
+  // Fallback to leagues_info for 2K26 leagues
+  const { data: info } = await supabase
+    .from('leagues_info')
+    .select('id as league_id, league as league_name, lg_logo_url as league_logo, lg_url, lg_discord, twitch_url, twitter_id')
+    .eq('id', id!)
+    .maybeSingle();
+  league = info;
+}
+
+if (!league) {
+  return new Response(null, { status: 404 });
+}
+
+// Load standings/teams using league_results view (matches Next.js)
+const seasonId = league?.season_id;
+const currLeagueId = league?.league_id;
+const filter = seasonId
+  ? { column: 'season_id', value: seasonId }
+  : currLeagueId
+    ? { column: 'league_id', value: currLeagueId }
+    : null;
+
+const { data: standings } = filter ? await supabase
+  .from('league_results')
+  .select(`
+    team_id, 
+    team_name, 
+    logo_url, 
+    wins, 
+    losses, 
+    win_percentage, 
+    current_rp,
+    elo_rating
+  `)
+  .eq(filter.column as any, filter.value as any)
+  .eq('year', '2K26')
+  .order('wins', { ascending: false })
+  .order('win_percentage', { ascending: false }) : { data: [] } as any;
+
+// Fetch teams data separately and merge
+let teamsWithData = standings || [];
+if (standings && standings.length > 0) {
+  const teamIds = standings.map((s: any) => s.team_id).filter(Boolean);
+  if (teamIds.length > 0) {
+    const { data: teamsData } = await supabase
+      .from('teams')
+      .select('id, global_rank, hybrid_score, leaderboard_tier')
+      .in('id', teamIds);
+    
+    // Merge teams data with standings
+    teamsWithData = standings.map((standing: any) => {
+      const teamData = teamsData?.find((t: any) => t.id === standing.team_id);
+      return {
+        ...standing,
+        teams: teamData
+      };
     });
   }
-});
+}
 
-// Calculate W/L records from matches
-const { data: allSeasonMatches } = await supabase
-  .from('matches')
-  .select('team_a_id, team_b_id, score_a, score_b, winner_id')
-  .eq('season_id', id!)
-  .not('score_a', 'is', null);
+const teams = teamsWithData;
 
-allSeasonMatches?.forEach((match: any) => {
-  const teamAData = uniqueTeams.get(match.team_a_id);
-  const teamBData = uniqueTeams.get(match.team_b_id);
+// Add current team count to league data
+if (league && teams && teams.length > 0) {
+  league.current_teams = teams.length;
+}
+
+// Get all season matches (matches Next.js approach)
+let seasonMatches: any[] = [];
+if (seasonId) {
+  const { data } = await supabase
+    .from('matches')
+    .select(`
+      id,
+      score_a,
+      score_b,
+      played_at,
+      stage,
+      team_a_id,
+      team_b_id,
+      boxscore_url,
+      team_a:team_a_id(name, logo_url),
+      team_b:team_b_id(name, logo_url)
+    `)
+    .eq('season_id', seasonId)
+    .not('score_a', 'is', null)
+    .order('played_at', { ascending: false });
   
-  if (teamAData) {
-    if (match.winner_id === match.team_a_id) teamAData.wins++;
-    else if (match.winner_id) teamAData.losses++;
-  }
-  if (teamBData) {
-    if (match.winner_id === match.team_b_id) teamBData.wins++;
-    else if (match.winner_id) teamBData.losses++;
-  }
-});
+  seasonMatches = data || [];
+}
 
-const teams = Array.from(uniqueTeams.values()).sort((a: any, b: any) => {
-  const aWins = a.wins || 0;
-  const bWins = b.wins || 0;
-  if (bWins !== aWins) return bWins - aWins;
-  return (b.current_rp || 0) - (a.current_rp || 0);
-});
+const totalMatches = seasonMatches.length;
+const recentMatches = seasonMatches.slice(0, 10);
 
-// Get all matches for this season
-const { data: allMatches } = await supabase
-  .from('matches')
-  .select(`
-    id,
-    played_at,
-    team_a_id,
-    team_b_id,
-    score_a,
-    score_b,
-    boxscore_url,
-    team_a:team_a_id(name, logo_url),
-    team_b:team_b_id(name, logo_url)
-  `)
-  .eq('season_id', id!)
-  .not('score_a', 'is', null)
-  .order('played_at', { ascending: false });
+// Get all player statistics using player_stats_by_league_season view (matches Next.js)
+let allPlayerStats: any[] = [];
+if (filter) {
+  const { data: playerStatsData } = await supabase
+    .from('player_stats_by_league_season')
+    .select(`
+      player_gamertag,
+      player_id,
+      league_id,
+      league_season_id,
+      points,
+      assists,
+      rebounds,
+      steals,
+      blocks,
+      turnovers,
+      fgm,
+      fga,
+      three_points_made,
+      three_points_attempted,
+      ftm,
+      fta,
+      fouls,
+      plus_minus,
+      games_played,
+      performance_score,
+      avg_points,
+      avg_assists,
+      avg_rebounds,
+      avg_steals,
+      avg_blocks
+    `)
+    .eq(filter.column === 'season_id' ? 'league_season_id' : 'league_id', filter.value)
+    .eq('game_year', '2K26')
+    .order('points', { ascending: false });
 
-const totalMatches = allMatches?.length || 0;
-const recentMatches = allMatches?.slice(0, 10) || [];
+  if (playerStatsData && playerStatsData.length > 0) {
+    // Get team names for players
+    const playerIds = [...new Set(playerStatsData.map((stat: any) => stat.player_id).filter(Boolean))];
+    const { data: teamsData } = await supabase
+      .from('players')
+      .select(`
+        id,
+        current_team_id,
+        team:current_team_id(id, name)
+      `)
+      .in('id', playerIds);
 
-// Get player stats for this season
-const { data: playerStatsRaw } = await supabase
-  .from('player_stats')
-  .select(`
-    player_id,
-    points,
-    assists,
-    rebounds,
-    players!inner(gamertag, current_team_id, teams:current_team_id(name))
-  `)
-  .in('match_id', allMatches?.map((m: any) => m.id) || []);
-
-// Aggregate player stats
-const playerStatsMap = new Map();
-playerStatsRaw?.forEach((stat: any) => {
-  const player = Array.isArray(stat.players) ? stat.players[0] : stat.players;
-  const team = player?.teams ? (Array.isArray(player.teams) ? player.teams[0] : player.teams) : null;
-  
-  if (!playerStatsMap.has(stat.player_id)) {
-    playerStatsMap.set(stat.player_id, {
-      player_id: stat.player_id,
-      gamertag: player?.gamertag || 'Unknown',
-      team_name: team?.name,
-      points: 0,
-      assists: 0,
-      rebounds: 0,
-      games: 0
+    // Map the data to match the expected structure
+    allPlayerStats = playerStatsData.map((stat: any) => {
+      const playerTeamData = teamsData?.find((t: any) => t.id === stat.player_id);
+      const team = playerTeamData?.team ? (Array.isArray(playerTeamData.team) ? playerTeamData.team[0] : playerTeamData.team) : null;
+      
+      return {
+        player_id: stat.player_id,
+        gamertag: stat.player_gamertag,
+        team_name: team?.name || 'Unknown',
+        points: stat.points,
+        assists: stat.assists,
+        rebounds: stat.rebounds,
+        steals: stat.steals,
+        blocks: stat.blocks,
+        games: stat.games_played || 0,
+        avg_points: stat.avg_points,
+        avg_assists: stat.avg_assists,
+        avg_rebounds: stat.avg_rebounds
+      };
     });
   }
-  
-  const playerData = playerStatsMap.get(stat.player_id);
-  playerData.points += stat.points || 0;
-  playerData.assists += stat.assists || 0;
-  playerData.rebounds += stat.rebounds || 0;
-  playerData.games += 1;
-});
+}
 
-const playerStats = Array.from(playerStatsMap.values())
-  .sort((a: any, b: any) => (b.points / b.games) - (a.points / a.games))
+// Use top 20 for player stats tab
+const playerStats = allPlayerStats
+  .sort((a: any, b: any) => (b.avg_points || 0) - (a.avg_points || 0))
   .slice(0, 20);
 ---
 
@@ -148,9 +256,9 @@ const playerStats = Array.from(playerStatsMap.values())
                       Season {league.season_number}
                     </span>
                   )}
-                  {league.year && (
+                  {league.game_year && (
                     <span class="text-secondary" style="font-weight: 600;">
-                      {league.year}
+                      {league.game_year}
                     </span>
                   )}
                   {league.is_active !== null && (

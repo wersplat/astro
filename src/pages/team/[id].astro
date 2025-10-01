@@ -7,44 +7,87 @@ import MatchCard from '@/components/team/MatchCard';
 const { id } = Astro.params;
 const supabase = createClientServer(Astro.cookies);
 
-const { data: team } = await supabase
+// Get team core data
+const { data: teamRow } = await supabase
   .from('teams')
-  .select('*')
+  .select('id, name, logo_url, created_at, team_twitter, is_active, leaderboard_tier')
   .eq('id', id!)
   .maybeSingle();
 
-// Try getting roster from team_rosters first
-let playersRaw = await supabase
-  .from('team_rosters')
-  .select(`
-    player_id,
-    is_captain,
-    is_player_coach,
-    joined_at,
-    players!inner(id, gamertag, position, player_rp, performance_score)
-  `)
+// Pull rank/RP from performance view for accuracy (matches Next.js)
+const { data: perf } = await supabase
+  .from('team_performance_view')
+  .select('team_id, team_name, current_rp, global_rank, logo_url, elo_rating, money_won, championship_count')
   .eq('team_id', id!)
-  .is('left_at', null);
+  .maybeSingle();
 
-// If no roster found, try getting players by current_team_id
-if (!playersRaw.data || playersRaw.data.length === 0) {
-  const { data: currentPlayers } = await supabase
-    .from('players')
-    .select('id, gamertag, position, player_rp, performance_score')
-    .eq('current_team_id', id!);
-  
-  playersRaw.data = currentPlayers?.map((p: any) => ({
-    player_id: p.id,
-    is_captain: false,
-    is_player_coach: false,
-    player: p
-  })) || [];
+const team = teamRow ? {
+  ...teamRow,
+  name: perf?.team_name || teamRow.name,
+  logo_url: perf?.logo_url || teamRow.logo_url,
+  global_rank: perf?.global_rank ?? null,
+  current_rp: perf?.current_rp ?? null,
+  elo_rating: perf?.elo_rating ?? null,
+  money_won: perf?.money_won ?? null,
+  championship_count: perf?.championship_count ?? null
+} : null;
+
+if (!team) {
+  return new Response(null, { status: 404 });
 }
 
-const players = playersRaw.data?.map((r: any) => ({
-  ...r,
-  player: Array.isArray(r.players) ? r.players[0] : r.players || r.player
-})) || [];
+// Get team players - try team_roster_current view first (matches Next.js)
+let players: any[] = [];
+try {
+  const { data: currentRoster } = await supabase
+    .from('team_roster_current')
+    .select('*')
+    .eq('team_id', id!);
+  
+  if (currentRoster && currentRoster.length > 0) {
+    // Transform the data to match the expected format
+    players = currentRoster.map((roster: any) => ({
+      player_id: roster.player_id,
+      position: roster.position,
+      joined_at: roster.joined_at,
+      is_captain: roster.is_captain,
+      is_player_coach: roster.is_player_coach,
+      player: {
+        id: roster.player_id,
+        gamertag: roster.gamertag,
+        position: roster.position,
+        player_rp: null, // Not available in this view
+        performance_score: null // Not available in this view
+      }
+    }));
+  } else {
+    // Fallback to team_rosters table
+    const { data: rosterData } = await supabase
+      .from('team_rosters')
+      .select(`
+        player_id,
+        position,
+        joined_at,
+        is_captain,
+        is_player_coach,
+        player:player_id(
+          id,
+          gamertag,
+          position,
+          player_rp,
+          performance_score
+        )
+      `)
+      .eq('team_id', id!)
+      .is('left_at', null)
+      .eq('game_year', '2K26');
+    
+    players = rosterData || [];
+  }
+} catch (error) {
+  console.error('Error fetching team roster:', error);
+  players = [];
+}
 
 // Get all matches for this team
 const { data: allTeamMatches } = await supabase
@@ -83,27 +126,42 @@ allTeamMatches?.forEach((match: any) => {
     <div class="container">
       {team ? (
         <>
+          {/* Team Header */}
           <div class="paper" style="margin-bottom: 2rem;">
-            <div style="display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap;">
-              {team.logo_url && (
-                <img 
-                  src={team.logo_url} 
-                  alt={team.name || 'Team'} 
-                  style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover;"
-                />
-              )}
-              <div style="flex: 1;">
-                <h1 style="margin: 0 0 0.5rem; font-size: 2.5rem;">{team.name}</h1>
-                <div style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: center;">
-                  {team.global_rank && (
-                    <span style="color: var(--color-primary); font-weight: 600; font-size: 1.125rem;">
-                      #{team.global_rank} Global
-                    </span>
-                  )}
-                  {team.is_active !== null && (
-                    <span style={`padding: 0.25rem 0.75rem; border-radius: 4px; font-size: 0.75rem; font-weight: 600; background: ${team.is_active ? '#10B98120' : '#6B728020'}; color: ${team.is_active ? '#10B981' : '#6B7280'};`}>
-                      {team.is_active ? 'Active' : 'Inactive'}
-                    </span>
+            <div style="display: flex; align-items: flex-start; gap: 2rem; flex-wrap: wrap;">
+              <div style="display: flex; align-items: center; gap: 1.5rem; flex: 1;">
+                {team.logo_url && (
+                  <img 
+                    src={team.logo_url} 
+                    alt={team.name || 'Team'} 
+                    style="width: 120px; height: 120px; object-fit: contain; border-radius: 8px; background: var(--color-background); padding: 0.5rem;"
+                  />
+                )}
+                <div style="flex: 1;">
+                  <h1 style="margin: 0 0 0.5rem; font-size: 2.5rem;">{team.name}</h1>
+                  <div style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: center; margin-bottom: 0.5rem;">
+                    {team.global_rank !== null && (
+                      <span style="color: var(--color-primary); font-weight: 700; font-size: 1.25rem;">
+                        #{team.global_rank}
+                      </span>
+                    )}
+                    {team.leaderboard_tier && (
+                      <span style="padding: 0.25rem 0.75rem; border-radius: 4px; font-size: 0.875rem; font-weight: 700; background: var(--color-primary); color: #0A0F1C;">
+                        Tier {team.leaderboard_tier}
+                      </span>
+                    )}
+                    {team.is_active !== null && (
+                      <span style={`padding: 0.25rem 0.75rem; border-radius: 4px; font-size: 0.75rem; font-weight: 600; background: ${team.is_active ? '#10B98120' : '#6B728020'}; color: ${team.is_active ? '#10B981' : '#6B7280'};`}>
+                        {team.is_active ? 'Active' : 'Inactive'}
+                      </span>
+                    )}
+                  </div>
+                  {team.championship_count !== null && team.championship_count > 0 && (
+                    <div style="margin-top: 0.5rem;">
+                      <span style="color: #F59E08; font-weight: 600; font-size: 0.875rem;">
+                        🏆 {team.championship_count} {team.championship_count === 1 ? 'Championship' : 'Championships'}
+                      </span>
+                    </div>
                   )}
                 </div>
               </div>
@@ -158,30 +216,25 @@ allTeamMatches?.forEach((match: any) => {
                 </div>
               </div>
             )}
-            {team.leaderboard_tier && (
-              <div class="paper" style="text-align: center; padding: 1rem;">
-                <div class="text-secondary" style="font-size: 0.875rem; margin-bottom: 0.25rem;">Tier</div>
-                <div style="font-size: 1.5rem; font-weight: 700; color: var(--color-primary);">
-                  {team.leaderboard_tier}
-                </div>
-              </div>
-            )}
           </div>
 
+          {/* Roster */}
           <div class="paper" style="margin-bottom: 2rem;">
-            <h2 style="margin-bottom: 1.5rem;">Current Roster ({players.length}) - Click for details</h2>
-            <div class="grid" style="grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));">
-              {players.map((p: any) => (
-                <RosterCard player={p} client:load />
-              ))}
-            </div>
-            {players.length === 0 && (
-              <p class="text-secondary">No players found</p>
+            <h2 style="margin-bottom: 1.5rem;">Current Roster - Click players</h2>
+            {players && players.length > 0 ? (
+              <div class="grid" style="grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1rem;">
+                {players.map((player: any) => (
+                  <RosterCard player={player} client:load />
+                ))}
+              </div>
+            ) : (
+              <p class="text-secondary">No roster information available</p>
             )}
           </div>
 
+          {/* Recent Matches */}
           <div class="paper">
-            <h2 style="margin-bottom: 1.5rem;">Recent Matches - Click to expand</h2>
+            <h2 style="margin-bottom: 1.5rem;">Recent Matches - Click for details</h2>
             {recentMatches && recentMatches.length > 0 ? (
               <div style="display: flex; flex-direction: column; gap: 1rem;">
                 {recentMatches.map((match: any) => (
