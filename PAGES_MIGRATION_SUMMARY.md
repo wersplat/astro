@@ -7,6 +7,7 @@ This document summarizes the migration of pages from the Next.js app to the Astr
 ### New Pages Added to Astro App
 
 #### Static Pages
+
 1. **achievements.astro** - Achievements/badges showcase with filters
 2. **crews.astro** - City crews listing with search and filters
 3. **events.astro** - All events (tournaments + leagues) combined view
@@ -19,6 +20,7 @@ This document summarizes the migration of pages from the Next.js app to the Astr
 10. **2k26-team-preview.astro** - 2K26 specific team preview
 
 #### Dynamic Routes
+
 1. **crew/[id].astro** - Individual crew detail pages
 2. **league/[id].astro** - Individual league detail pages
 3. **player/[id].astro** - Individual player detail pages
@@ -73,6 +75,7 @@ All necessary components were copied from `next-app/src/components/` to `astro/s
 ### Page Structure
 
 All pages follow this structure:
+
 ```astro
 ---
 // Import statements
@@ -109,6 +112,7 @@ const searchParams = {
 ## Pages Now Available in Astro App
 
 ### Browse & Explore
+
 - `/` - Home page with leaderboards
 - `/players` - All players listing
 - `/teams` - All teams listing
@@ -118,6 +122,7 @@ const searchParams = {
 - `/ranking-system` - System explanation
 
 ### Competitions
+
 - `/tournaments` - All tournaments
 - `/leagues` - All leagues
 - `/events` - Combined events view
@@ -127,6 +132,7 @@ const searchParams = {
 - `/2k26-team-preview` - 2K26 team preview
 
 ### Detail Pages
+
 - `/player/[id]` - Player profiles
 - `/team/[id]` - Team profiles
 - `/crew/[id]` - Crew profiles
@@ -134,6 +140,7 @@ const searchParams = {
 - `/tournament/[id]` - Tournament details
 
 ### Admin
+
 - `/submit-results` - Result submission (placeholder)
 
 ## Testing Recommendations
@@ -161,4 +168,3 @@ const searchParams = {
 4. Add loading states for client components
 5. Optimize data fetching strategies
 6. Consider adding ISR (Incremental Static Regeneration) for static pages
-

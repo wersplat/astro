@@ -1,6 +1,7 @@
 ---
 import Layout from '@/layouts/Layout.astro';
 import { achievements } from '@/data/achievements';
+import AchievementCard from '@/components/achievements/AchievementCard';
 
 const searchQuery = Astro.url.searchParams.get('search')?.toLowerCase() || '';
 const categoryFilter = Astro.url.searchParams.get('category') || '';
@@ -30,24 +31,7 @@ const filteredAchievements = achievements.filter(achievement => {
 
       <div class="grid">
         {filteredAchievements.map((achievement) => (
-          <div class="card">
-            <div style="text-align: center;">
-              <div style="font-size: 3rem; margin-bottom: 1rem;">{achievement.icon}</div>
-              <span class="badge" style="font-size: 0.75rem; padding: 0.25rem 0.5rem; border: 1px solid var(--color-border); border-radius: 4px; color: var(--color-text-secondary);">
-                {achievement.badge}
-              </span>
-              <h3 style="margin: 1rem 0 0.5rem;">{achievement.title}</h3>
-              <p class="text-secondary" style="font-size: 0.875rem; min-height: 3rem;">{achievement.description}</p>
-              <div style="display: flex; gap: 0.5rem; justify-content: center; margin-top: 1rem; flex-wrap: wrap;">
-                <span style={`font-size: 0.75rem; padding: 0.25rem 0.5rem; border-radius: 4px; background: ${achievement.rarity === 'legendary' ? 'rgba(245, 158, 8, 0.2)' : achievement.rarity === 'epic' ? 'rgba(139, 92, 246, 0.2)' : achievement.rarity === 'rare' ? 'rgba(59, 130, 246, 0.2)' : 'rgba(107, 114, 128, 0.2)'}; color: ${achievement.rarity === 'legendary' ? '#F59E08' : achievement.rarity === 'epic' ? '#8B5CF6' : achievement.rarity === 'rare' ? '#3B82F6' : '#6B7280'};`}>
-                  {achievement.rarity}
-                </span>
-                <span style="font-size: 0.75rem; padding: 0.25rem 0.5rem; border-radius: 4px; border: 1px solid var(--color-border); color: var(--color-text-secondary);">
-                  {achievement.type}
-                </span>
-              </div>
-            </div>
-          </div>
+          <AchievementCard achievement={achievement} client:load />
         ))}
       </div>
 

@@ -3,6 +3,7 @@
 ## Available Pages
 
 ### Main Pages
+
 - **Home:** `/`
 - **Players:** `/players` - Browse all players with filters
 - **Teams:** `/teams` - Browse all teams with rankings
@@ -10,6 +11,7 @@
 - **Tournaments:** `/tournaments` - Tournament listings
 
 ### New Pages Added
+
 - **Achievements:** `/achievements` - Achievement system and badges
 - **Crews:** `/crews` - City crews from around the world
 - **Events:** `/events` - Combined view of all tournaments and leagues
@@ -22,6 +24,7 @@
 - **Submit Results:** `/submit-results` - Match result submission
 
 ### Dynamic Routes
+
 - **Player Profile:** `/player/[id]` - Individual player pages
 - **Team Profile:** `/team/[id]` - Individual team pages
 - **Crew Profile:** `/crew/[id]` - Individual crew pages
@@ -47,6 +50,7 @@ npm run preview
 ## Environment Setup
 
 Copy `env.example` to `.env` and configure:
+
 ```env
 PUBLIC_SUPABASE_URL=your_supabase_url
 PUBLIC_SUPABASE_ANON_KEY=your_anon_key
@@ -55,6 +59,7 @@ PUBLIC_SUPABASE_ANON_KEY=your_anon_key
 ## Navigation Structure
 
 ### Explore Menu
+
 - Players
 - Teams
 - Crews
@@ -63,6 +68,7 @@ PUBLIC_SUPABASE_ANON_KEY=your_anon_key
 - Ranking System
 
 ### Competition Menu
+
 - Tournaments
 - Leagues
 - Events
@@ -80,9 +86,9 @@ PUBLIC_SUPABASE_ANON_KEY=your_anon_key
 ## Known Build Warnings
 
 The build may show TypeScript warnings related to:
+
 - MUI Grid component (v6 compatibility)
 - Some unused imports
 - Type annotations
 
 These are cosmetic and don't affect runtime functionality.
-

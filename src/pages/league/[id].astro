@@ -1,6 +1,7 @@
 ---
 import Layout from '@/layouts/Layout.astro';
 import { createClientServer } from '@/lib/supabaseClient';
+import StandingsTable from '@/components/league/StandingsTable';
 
 const { id } = Astro.params;
 const supabase = createClientServer(Astro.cookies);
@@ -58,38 +59,10 @@ const { data: recentMatches } = await supabase
           </div>
 
           <div class="paper" style="margin-bottom: 2rem;">
-            <h2 style="margin-bottom: 1.5rem;">Standings</h2>
-            <div style="overflow-x: auto;">
-              <table style="width: 100%; border-collapse: collapse;">
-                <thead>
-                  <tr style="border-bottom: 1px solid var(--color-border);">
-                    <th style="padding: 0.75rem; text-align: left; color: var(--color-text-secondary);">Rank</th>
-                    <th style="padding: 0.75rem; text-align: left; color: var(--color-text-secondary);">Team</th>
-                    <th style="padding: 0.75rem; text-align: left; color: var(--color-text-secondary);">W</th>
-                    <th style="padding: 0.75rem; text-align: left; color: var(--color-text-secondary);">L</th>
-                    <th style="padding: 0.75rem; text-align: left; color: var(--color-text-secondary);">RP</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {teams?.map((team: any, idx: number) => (
-                    <tr style="border-bottom: 1px solid var(--color-border);">
-                      <td style="padding: 0.75rem;">{idx + 1}</td>
-                      <td style="padding: 0.75rem;">
-                        <a href={`/team/${team.team_id}`} style="color: inherit; text-decoration: none;">
-                          {team.team_name}
-                        </a>
-                      </td>
-                      <td style="padding: 0.75rem;">{team.wins || 0}</td>
-                      <td style="padding: 0.75rem;">{team.losses || 0}</td>
-                      <td style="padding: 0.75rem; color: var(--color-primary); font-weight: 600;">
-                        {team.current_rp || 0}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-            {(!teams || teams.length === 0) && (
+            <h2 style="margin-bottom: 1.5rem;">Standings - Click team to view details</h2>
+            {teams && teams.length > 0 ? (
+              <StandingsTable teams={teams} client:load />
+            ) : (
               <p class="text-secondary">No teams found</p>
             )}
           </div>

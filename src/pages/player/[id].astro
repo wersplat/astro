@@ -1,6 +1,7 @@
 ---
 import Layout from '@/layouts/Layout.astro';
 import { createClientServer } from '@/lib/supabaseClient';
+import RecentGamesTable from '@/components/player/RecentGamesTable';
 
 const { id } = Astro.params;
 const supabase = createClientServer(Astro.cookies);
@@ -66,32 +67,10 @@ const { data: recentGames } = await supabase
           </div>
 
           <div class="paper">
-            <h2 style="margin-bottom: 1.5rem;">Recent Games</h2>
-            <div style="overflow-x: auto;">
-              <table style="width: 100%; border-collapse: collapse;">
-                <thead>
-                  <tr style="border-bottom: 1px solid var(--color-border);">
-                    <th style="padding: 0.75rem; text-align: left; color: var(--color-text-secondary);">PTS</th>
-                    <th style="padding: 0.75rem; text-align: left; color: var(--color-text-secondary);">AST</th>
-                    <th style="padding: 0.75rem; text-align: left; color: var(--color-text-secondary);">REB</th>
-                    <th style="padding: 0.75rem; text-align: left; color: var(--color-text-secondary);">STL</th>
-                    <th style="padding: 0.75rem; text-align: left; color: var(--color-text-secondary);">BLK</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {recentGames?.map((game: any) => (
-                    <tr style="border-bottom: 1px solid var(--color-border);">
-                      <td style="padding: 0.75rem;">{game.points || 0}</td>
-                      <td style="padding: 0.75rem;">{game.assists || 0}</td>
-                      <td style="padding: 0.75rem;">{game.rebounds || 0}</td>
-                      <td style="padding: 0.75rem;">{game.steals || 0}</td>
-                      <td style="padding: 0.75rem;">{game.blocks || 0}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-            {(!recentGames || recentGames.length === 0) && (
+            <h2 style="margin-bottom: 1.5rem;">Recent Games (Click for details)</h2>
+            {recentGames && recentGames.length > 0 ? (
+              <RecentGamesTable games={recentGames} client:load />
+            ) : (
               <p class="text-secondary">No recent games found</p>
             )}
           </div>

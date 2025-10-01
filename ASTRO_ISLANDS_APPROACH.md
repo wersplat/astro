@@ -7,6 +7,7 @@
 ## Architecture
 
 ### Pure Astro + CSS
+
 - **No MUI dependencies** - Removed all Material-UI packages
 - **CSS Variables** - Using existing `theme.css` with custom properties
 - **Server-side rendering** - All data fetching in Astro frontmatter
@@ -16,6 +17,7 @@
 ### Pages Implemented
 
 #### Fully Functional (with data)
+
 1. ✅ `/achievements` - Achievement grid with native filtering
 2. ✅ `/events` - Combined tournaments + leagues listing
 3. ✅ `/crews` - City crews listing from database
@@ -29,6 +31,7 @@
 11. ✅ `/2k26-overview` - 2K26 season with top players and leagues
 
 #### Placeholder Pages
+
 12. ✅ `/ranking-system` - Static content page
 13. ✅ `/submit-results` - Placeholder
 14. ✅ `/upa-college` - Placeholder
@@ -37,6 +40,7 @@
 ## Design System
 
 ### CSS Variables Used
+
 ```css
 --color-primary: #3B82F6
 --color-secondary: #F59E08
@@ -49,6 +53,7 @@
 ```
 
 ### Common Classes
+
 - `.app-theme` - Main wrapper with dark theme
 - `.container` - Centered max-width container
 - `.paper` - Card/panel background
@@ -59,7 +64,9 @@
 ## Key Features
 
 ### Server-Side Data Fetching
+
 All pages fetch data in Astro frontmatter:
+
 ```astro
 ---
 const supabase = createClientServer(Astro.cookies);
@@ -68,6 +75,7 @@ const { data } = await supabase.from('table').select('*');
 ```
 
 ### Dynamic Routes
+
 - `/crew/[id]` - Astro.params.id
 - `/player/[id]` - Astro.params.id  
 - `/team/[id]` - Astro.params.id
@@ -75,12 +83,14 @@ const { data } = await supabase.from('table').select('*');
 - `/tournament/[id]` - Astro.params.id
 
 ### Query Parameters
+
 ```astro
 const searchQuery = Astro.url.searchParams.get('search');
 const categoryFilter = Astro.url.searchParams.get('category');
 ```
 
 ### Styling Approach
+
 - **Inline styles** for component-specific styling
 - **CSS classes** from theme.css for common patterns
 - **CSS variables** for consistent theming
@@ -97,6 +107,7 @@ const categoryFilter = Astro.url.searchParams.get('category');
 ## Existing React Components
 
 Pages that already use React islands (unchanged):
+
 - `/` - HomePageContent with interactive leaderboards
 - `/players` - PlayersTable with filters
 - `/teams` - TeamsGrid with filters  
@@ -118,6 +129,7 @@ Bundle size optimized without MUI
 ## Next Steps
 
 ### Optional Enhancements
+
 1. Add client-side filtering for achievements page
 2. Add pagination for events and crews
 3. Create detailed stat tables for player/team pages
@@ -125,6 +137,7 @@ Bundle size optimized without MUI
 5. Implement submit-results form functionality
 
 ### Ready for Deployment
+
 - All pages build successfully
 - No TypeScript errors
 - Zero runtime dependencies for new pages
@@ -133,6 +146,7 @@ Bundle size optimized without MUI
 ## Summary
 
 **Migration Complete:** All 15 new pages from Next.js app are now available in Astro using a pure Astro islands approach with:
+
 - Native HTML/CSS
 - Server-side rendering
 - Zero JavaScript overhead
@@ -140,4 +154,3 @@ Bundle size optimized without MUI
 - Consistent with existing theme
 
 The app is production-ready! 🎉
-

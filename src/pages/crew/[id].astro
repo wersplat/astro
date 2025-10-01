@@ -1,6 +1,7 @@
 ---
 import Layout from '@/layouts/Layout.astro';
 import { createClientServer } from '@/lib/supabaseClient';
+import MemberCard from '@/components/crew/MemberCard';
 
 const { id } = Astro.params;
 const supabase = createClientServer(Astro.cookies);
@@ -44,20 +45,10 @@ const { data: members } = await supabase
           </div>
 
           <div class="paper">
-            <h2 style="margin-bottom: 1.5rem;">Members ({members?.length || 0})</h2>
+            <h2 style="margin-bottom: 1.5rem;">Members ({members?.length || 0}) - Hover for info</h2>
             <div class="grid" style="grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));">
-              {members?.map((member) => (
-                <a href={`/player/${member.id}`} class="card" style="text-decoration: none; color: inherit;">
-                  <h4 style="margin: 0 0 0.5rem;">{member.gamertag}</h4>
-                  <p class="text-secondary" style="font-size: 0.875rem; margin: 0;">
-                    {member.position || 'Position Unknown'}
-                  </p>
-                  {member.player_rp && (
-                    <p style="margin: 0.5rem 0 0; font-weight: 600; color: var(--color-primary);">
-                      {member.player_rp} RP
-                    </p>
-                  )}
-                </a>
+              {members?.map((member: any) => (
+                <MemberCard member={member} client:load />
               ))}
             </div>
             {(!members || members.length === 0) && (

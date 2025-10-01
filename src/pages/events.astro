@@ -1,6 +1,7 @@
 ---
 import Layout from '@/layouts/Layout.astro';
 import { createClientServer } from '@/lib/supabaseClient';
+import EventCard from '@/components/events/EventCard';
 
 const supabase = createClientServer(Astro.cookies);
 
@@ -20,21 +21,21 @@ const { data: leagues } = await supabase
 
 // Combine into events
 const events = [
-  ...(tournaments || []).map(t => ({ 
+  ...(tournaments || []).map((t: any) => ({ 
     ...t, 
     type: 'tournament', 
     name: t.tournament_name,
     event_date: t.start_date,
     tier: t.tier === 'T1' ? 1 : t.tier === 'T2' ? 2 : t.tier === 'T3' ? 3 : t.tier === 'T4' ? 4 : 5
   })),
-  ...(leagues || []).map(l => ({ 
+  ...(leagues || []).map((l: any) => ({ 
     ...l, 
     type: 'league', 
     name: l.league_name,
     event_date: l.start_date,
     tier: 2
   }))
-].sort((a, b) => new Date(b.event_date || '').getTime() - new Date(a.event_date || '').getTime());
+].sort((a: any, b: any) => new Date(b.event_date || '').getTime() - new Date(a.event_date || '').getTime());
 
 function getTierLabel(tier: number) {
   return `T${tier}`;
@@ -59,39 +60,9 @@ function getTierColor(tier: number) {
       </div>
 
       <div class="grid">
-        {events.map((event) => {
-          const tierColor = getTierColor(event.tier);
-          const tierLabel = getTierLabel(event.tier);
-          const isUpcoming = new Date(event.event_date || '') > new Date();
-          
-          return (
-            <a 
-              href={event.type === 'league' ? `/league/${event.id}` : `/tournament/${event.id}`}
-              class="card"
-              style="text-decoration: none; color: inherit;"
-            >
-              <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 1rem;">
-                <h3 style="margin: 0; flex: 1;">{event.name}</h3>
-                <div style="display: flex; flex-direction: column; gap: 0.5rem; align-items: flex-end;">
-                  <span style={`font-size: 0.75rem; padding: 0.25rem 0.5rem; border-radius: 4px; background: ${tierColor}20; color: ${tierColor}; border: 1px solid ${tierColor};`}>
-                    {tierLabel}
-                  </span>
-                  <span style={`font-size: 0.75rem; padding: 0.25rem 0.5rem; border-radius: 4px; background: ${isUpcoming ? '#10B98120' : '#6B728020'}; color: ${isUpcoming ? '#10B981' : '#6B7280'};`}>
-                    {isUpcoming ? 'Upcoming' : 'Completed'}
-                  </span>
-                </div>
-              </div>
-              <p class="text-secondary" style="font-size: 0.875rem; margin-bottom: 1rem;">
-                {event.type === 'tournament' ? '🏆 Tournament' : '🏀 League'}
-              </p>
-              {event.event_date && (
-                <p class="text-secondary" style="font-size: 0.875rem;">
-                  📅 {new Date(event.event_date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
-                </p>
-              )}
-            </a>
-          );
-        })}
+        {events.map((event) => (
+          <EventCard event={event} client:load />
+        ))}
       </div>
 
       {events.length === 0 && (

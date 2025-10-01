@@ -1,6 +1,7 @@
 ---
 import Layout from '@/layouts/Layout.astro';
 import { createClientServer } from '@/lib/supabaseClient';
+import CrewCard from '@/components/crew/CrewCard';
 
 const supabase = createClientServer(Astro.cookies);
 
@@ -24,36 +25,8 @@ const { data: crews } = await supabase
       </div>
 
       <div class="grid">
-        {crews?.map((crew) => (
-          <a 
-            href={`/crew/${crew.id}`}
-            class="card"
-            style="text-decoration: none; color: inherit;"
-          >
-            <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
-              {crew.crew_logo && (
-                <img 
-                  src={crew.crew_logo} 
-                  alt={crew.crewName || 'Crew'} 
-                  style="width: 48px; height: 48px; border-radius: 50%; object-fit: cover;"
-                />
-              )}
-              <div style="flex: 1;">
-                <h3 style="margin: 0 0 0.25rem;">{crew.crewName}</h3>
-                <p class="text-secondary" style="font-size: 0.875rem; margin: 0;">
-                  {crew.crewRegion || 'Region Unknown'}
-                </p>
-              </div>
-              {crew.crewRank && (
-                <div style="text-align: right;">
-                  <div class="text-secondary" style="font-size: 0.75rem;">Rank</div>
-                  <div style="font-size: 1.5rem; font-weight: 700; color: var(--color-primary);">
-                    #{crew.crewRank}
-                  </div>
-                </div>
-              )}
-            </div>
-          </a>
+        {crews?.map((crew: any) => (
+          <CrewCard crew={crew} client:load />
         ))}
       </div>
 

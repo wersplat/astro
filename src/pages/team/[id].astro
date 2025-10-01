@@ -1,6 +1,8 @@
 ---
 import Layout from '@/layouts/Layout.astro';
 import { createClientServer } from '@/lib/supabaseClient';
+import RosterCard from '@/components/team/RosterCard';
+import MatchCard from '@/components/team/MatchCard';
 
 const { id } = Astro.params;
 const supabase = createClientServer(Astro.cookies);
@@ -75,18 +77,10 @@ const { data: recentMatches } = await supabase
           </div>
 
           <div class="paper" style="margin-bottom: 2rem;">
-            <h2 style="margin-bottom: 1.5rem;">Current Roster ({players.length})</h2>
+            <h2 style="margin-bottom: 1.5rem;">Current Roster ({players.length}) - Click for details</h2>
             <div class="grid" style="grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));">
               {players.map((p: any) => (
-                <a href={`/player/${p.player?.id}`} class="card" style="text-decoration: none; color: inherit;">
-                  <h4 style="margin: 0 0 0.5rem;">
-                    {p.player?.gamertag}
-                    {p.is_captain && ' (C)'}
-                  </h4>
-                  <p class="text-secondary" style="font-size: 0.875rem; margin: 0;">
-                    {p.player?.position || p.position || 'No Position'}
-                  </p>
-                </a>
+                <RosterCard player={p} client:load />
               ))}
             </div>
             {players.length === 0 && (
@@ -95,33 +89,12 @@ const { data: recentMatches } = await supabase
           </div>
 
           <div class="paper">
-            <h2 style="margin-bottom: 1.5rem;">Recent Matches</h2>
+            <h2 style="margin-bottom: 1.5rem;">Recent Matches - Click to expand</h2>
             {recentMatches && recentMatches.length > 0 ? (
               <div style="display: flex; flex-direction: column; gap: 1rem;">
-                {recentMatches.map((match: any) => {
-                  const isTeamA = match.team_a_id === id;
-                  const teamScore = isTeamA ? match.score_a : match.score_b;
-                  const oppScore = isTeamA ? match.score_b : match.score_a;
-                  const won = teamScore > oppScore;
-                  
-                  return (
-                    <div class="card" style="padding: 1rem;">
-                      <div style="display: flex; justify-content: space-between; align-items: center;">
-                        <div>
-                          <span style={`color: ${won ? '#10B981' : '#EF4444'}; font-weight: 600;`}>
-                            {won ? 'W' : 'L'}
-                          </span>
-                          <span style="margin-left: 1rem; font-size: 1.25rem; font-weight: 700;">
-                            {teamScore} - {oppScore}
-                          </span>
-                        </div>
-                        <p class="text-secondary" style="font-size: 0.875rem; margin: 0;">
-                          {new Date(match.played_at).toLocaleDateString()}
-                        </p>
-                      </div>
-                    </div>
-                  );
-                })}
+                {recentMatches.map((match: any) => (
+                  <MatchCard match={match} teamId={id!} client:load />
+                ))}
               </div>
             ) : (
               <p class="text-secondary">No recent matches found</p>
