@@ -1,0 +1,26 @@
+[build]
+builder = "NIXPACKS"
+
+[deploy]
+startCommand = "npm start"
+healthcheckPath = "/"
+healthcheckTimeout = 100
+restartPolicyType = "ON_FAILURE"
+restartPolicyMaxRetries = 10
+
+[env]
+# Ensure Astro builds with the correct environment
+NODE_ENV = "production"
+
+# Railway will automatically inject these if they're set in the dashboard
+# PUBLIC_SUPABASE_URL = "your_supabase_url"
+# PUBLIC_SUPABASE_ANON_KEY = "your_supabase_anon_key"
+
+# Cloudflare R2 Configuration
+# CLOUDFLARE_R2_URL = "your_cloudflare_r2_url"
+# CLOUDFLARE_R2_ACCESS_KEY_ID = "your_cloudflare_r2_access_key"
+# CLOUDFLARE_R2_SECRET_ACCESS_KEY = "your_cloudflare_r2_secret_key"
+# CLOUDFLARE_R2_PUBLIC_URL = "your_cloudflare_r2_public_url"
+
+# OpenAI Configuration
+# OPENAI_API_KEY = "your_openai_api_key"

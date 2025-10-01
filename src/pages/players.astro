@@ -1,0 +1,58 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import PlayersTable from '@/components/players/PlayersTable';
+import PlayersFilters from '@/components/players/PlayersFilters';
+
+// Get search parameters from URL
+const url = Astro.url;
+const searchParams = {
+  search: url.searchParams.get('search') || undefined,
+  position: url.searchParams.get('position') || undefined,
+  team: url.searchParams.get('team') || undefined,
+  sort: url.searchParams.get('sort') || undefined,
+  page: url.searchParams.get('page') || undefined,
+};
+---
+
+<Layout 
+  title="Players — NBA 2K Pro-Am Global Rankings"
+  description="Browse and search all registered players in the NBA 2K Pro-Am unified ranking system."
+>
+  <div class="container">
+    <!-- Header -->
+    <div style="margin-bottom: 2rem;">
+      <h1 class="gradient-heading">
+        Players
+      </h1>
+      <p class="subtitle">
+        Discover and compare players across all registered Pro-Am leagues
+      </p>
+    </div>
+
+    <!-- Filters -->
+    <div style="margin-bottom: 1.5rem;">
+      <PlayersFilters searchParams={searchParams} client:load />
+    </div>
+
+    <!-- Players Table -->
+    <PlayersTable searchParams={searchParams} client:load />
+  </div>
+</Layout>
+
+<style>
+  .gradient-heading {
+    font-size: 2.5rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, #3B82F6 0%, #9BF00B 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    margin: 0 0 0.5rem 0;
+  }
+  
+  .subtitle {
+    font-size: 1.25rem;
+    color: var(--color-text-secondary);
+    margin: 0;
+  }
+</style>

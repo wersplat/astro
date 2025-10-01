@@ -1,0 +1,56 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import TeamsGrid from '@/components/teams/TeamsGrid';
+import TeamsFilters from '@/components/teams/TeamsFilters';
+
+// Get search parameters from URL
+const url = Astro.url;
+const searchParams = {
+  search: url.searchParams.get('search') || undefined,
+  sort: url.searchParams.get('sort') || undefined,
+  page: url.searchParams.get('page') || undefined,
+};
+---
+
+<Layout 
+  title="Teams — NBA 2K Pro-Am Global Rankings"
+  description="Explore all registered teams competing in the NBA 2K Pro-Am unified ranking system."
+>
+  <div class="container">
+    <!-- Header -->
+    <div style="margin-bottom: 2rem;">
+      <h1 class="gradient-heading">
+        Teams
+      </h1>
+      <p class="subtitle">
+        Browse all registered Pro-Am teams and their current standings
+      </p>
+    </div>
+
+    <!-- Filters -->
+    <div style="margin-bottom: 1.5rem;">
+      <TeamsFilters searchParams={searchParams} client:load />
+    </div>
+
+    <!-- Teams Grid -->
+    <TeamsGrid searchParams={searchParams} client:load />
+  </div>
+</Layout>
+
+<style>
+  .gradient-heading {
+    font-size: 2.5rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, #3B82F6 0%, #9BF00B 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    margin: 0 0 0.5rem 0;
+  }
+  
+  .subtitle {
+    font-size: 1.25rem;
+    color: var(--color-text-secondary);
+    margin: 0;
+  }
+</style>

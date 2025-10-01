@@ -1,0 +1,168 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import { createClientServer } from '@/lib/supabaseClient';
+
+const supabase = createClientServer(Astro.cookies);
+
+const { data: leagueCalendar, error: calendarError } = await supabase
+  .from('league_calendar')
+  .select(`
+    league_id,
+    league_name,
+    league_logo,
+    is_active,
+    season_id,
+    season_number,
+    start_date,
+    end_date,
+    game_year
+  `)
+  .eq('game_year', '2K26')
+  .order('start_date', { ascending: false });
+
+let leagues: any[] = [];
+let metrics = { activeCount: 0, totalParticipants: 0, regionsCovered: 0, totalLeagues: 0 };
+
+if (!calendarError && leagueCalendar) {
+  // Process leagues... (keeping the existing logic)
+  leagues = leagueCalendar.map((cal: any, index: number) => ({
+    id: cal.league_id || `league-${index}`,
+    name: cal.league_name || 'League',
+    logo: cal.league_logo,
+    status: cal.is_active ? 'Active' : 'Upcoming',
+    start_date: cal.start_date,
+    end_date: cal.end_date,
+    season_number: cal.season_number,
+    game_year: cal.game_year,
+    participants: 0
+  }));
+
+  metrics = {
+    activeCount: leagues.filter(l => l.status === 'Active').length,
+    totalParticipants: 0,
+    regionsCovered: 0,
+    totalLeagues: leagues.length
+  };
+}
+
+function getStatusColor(status: string) {
+  switch (status.toLowerCase()) {
+    case 'active': return '#4CAF50';
+    case 'upcoming': return '#FF9800';
+    default: return '#9E9E9E';
+  }
+}
+---
+
+<Layout 
+  title="Leagues — NBA 2K Pro-Am Global Rankings"
+  description="Explore all registered Pro-Am leagues for NBA 2K26 contributing to the unified ranking system."
+>
+  <div class="container">
+    <!-- Header -->
+    <div style="text-align: center; margin-bottom: 3rem;">
+      <h1 class="gradient-heading">Leagues</h1>
+      <p class="subtitle" style="max-width: 600px; margin: 0 auto;">
+        Discover all registered Pro-Am leagues for NBA 2K26 contributing to the unified ranking system worldwide.
+      </p>
+    </div>
+
+    <!-- Stats Overview -->
+    <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); margin-bottom: 3rem;">
+      <div class="paper" style="text-align: center;">
+        <div style="font-size: 2.5rem; font-weight: 800; color: #9BF00B; margin-bottom: 0.5rem;">
+          {metrics.activeCount}
+        </div>
+        <div class="text-secondary">Active Leagues</div>
+      </div>
+      
+      <div class="paper" style="text-align: center;">
+        <div style="font-size: 2.5rem; font-weight: 800; color: #3B82F6; margin-bottom: 0.5rem;">
+          {metrics.totalParticipants || '—'}
+        </div>
+        <div class="text-secondary">Total Teams</div>
+      </div>
+      
+      <div class="paper" style="text-align: center;">
+        <div style="font-size: 2.5rem; font-weight: 800; color: #10B981; margin-bottom: 0.5rem;">
+          {metrics.regionsCovered || '—'}
+        </div>
+        <div class="text-secondary">Regions Covered</div>
+      </div>
+      
+      <div class="paper" style="text-align: center;">
+        <div style="font-size: 2.5rem; font-weight: 800; color: #FF9800; margin-bottom: 0.5rem;">
+          {metrics.totalLeagues || '—'}
+        </div>
+        <div class="text-secondary">Total Leagues</div>
+      </div>
+    </div>
+
+    <!-- Leagues Grid -->
+    <div class="grid">
+      {leagues.map((league: any) => (
+        <div class="card">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem;">
+            {league.logo && (
+              <img src={league.logo} alt={league.name} style="width: 32px; height: 32px; border-radius: 4px;" />
+            )}
+            <span 
+              style={`padding: 0.25rem 0.75rem; border-radius: 0.25rem; font-size: 0.75rem; font-weight: 600; background-color: ${getStatusColor(league.status)}33; color: ${getStatusColor(league.status)};`}
+            >
+              {league.status}
+            </span>
+          </div>
+
+          <h3 style="margin: 0 0 1rem 0; font-size: 1.25rem;">{league.name}</h3>
+
+          <div class="text-secondary" style="font-size: 0.875rem; margin-bottom: 1rem;">
+            {league.start_date ? 
+              new Date(league.start_date).toLocaleDateString() : '—'
+            }
+          </div>
+
+          {league.season_number && (
+            <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 1rem; border-top: 1px solid var(--color-border);">
+              <span class="text-secondary" style="font-size: 0.875rem;">Season</span>
+              <span style="font-weight: 600;">Season {league.season_number}</span>
+            </div>
+          )}
+        </div>
+      ))}
+    </div>
+
+    {leagues.length === 0 && (
+      <div class="paper" style="text-align: center; padding: 3rem;">
+        <p class="text-secondary">No leagues found for 2K26.</p>
+      </div>
+    )}
+
+    <!-- Call to Action -->
+    <div class="paper" style="text-align: center; margin-top: 4rem; padding: 3rem;">
+      <h2 style="margin-top: 0;">Want to Register Your League?</h2>
+      <p class="text-secondary" style="max-width: 600px; margin: 1rem auto 2rem;">
+        Join the unified ranking system and have your league's results contribute to global player rankings.
+      </p>
+      <a href="#" class="button" style="display: inline-block; text-decoration: none; padding: 0.75rem 2rem;">
+        Contact Us
+      </a>
+    </div>
+  </div>
+</Layout>
+
+<style>
+  .gradient-heading {
+    font-size: 2.5rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, #3B82F6 0%, #9BF00B 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    margin: 0 0 1rem 0;
+  }
+  
+  .subtitle {
+    font-size: 1.25rem;
+    color: var(--color-text-secondary);
+  }
+</style>
