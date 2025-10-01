@@ -8,17 +8,27 @@ const { id } = Astro.params;
 const supabase = createClientServer(Astro.cookies);
 
 const { data: league } = await supabase
-  .from('league_calendar')
+  .from('league_seasons')
   .select('*')
-  .eq('league_id', id!)
+  .eq('id', id!)
   .maybeSingle();
 
-const { data: teams } = await supabase
-  .from('league_results')
-  .select('*')
-  .eq('league_id', id!)
-  .order('wins', { ascending: false })
-  .limit(20);
+// Get teams in this league through team_rosters
+const { data: teamsInLeague } = await supabase
+  .from('team_rosters')
+  .select('team_id, teams!inner(id, name, logo_url, current_rp)')
+  .eq('season_id', id!)
+  .is('left_at', null);
+
+// Extract unique teams
+const uniqueTeams = new Map();
+teamsInLeague?.forEach((roster: any) => {
+  const team = Array.isArray(roster.teams) ? roster.teams[0] : roster.teams;
+  if (team && !uniqueTeams.has(team.id)) {
+    uniqueTeams.set(team.id, { ...team, team_id: team.id, team_name: team.name });
+  }
+});
+const teams = Array.from(uniqueTeams.values()).sort((a: any, b: any) => (b.current_rp || 0) - (a.current_rp || 0));
 
 const { data: recentMatches } = await supabase
   .from('matches')
@@ -28,10 +38,13 @@ const { data: recentMatches } = await supabase
     team_a_id,
     team_b_id,
     score_a,
-    score_b
+    score_b,
+    boxscore_url,
+    team_a:team_a_id(name, logo_url),
+    team_b:team_b_id(name, logo_url)
   `)
-  .eq('league_id', id!)
-  .not('played_at', 'is', null)
+  .eq('season_id', id!)
+  .not('score_a', 'is', null)
   .order('played_at', { ascending: false })
   .limit(10);
 ---

@@ -7,20 +7,34 @@ const { id } = Astro.params;
 const supabase = createClientServer(Astro.cookies);
 
 const { data: tournament } = await supabase
-  .from('tournament_calendar')
+  .from('tournaments')
   .select('*')
   .eq('id', id!)
   .maybeSingle();
 
+// Get results from event_results table
 const { data: results } = await supabase
-  .from('tournament_results')
-  .select('*')
+  .from('event_results')
+  .select('*, teams!inner(id, name, logo_url)')
   .eq('tournament_id', id!)
-  .order('final_placement', { ascending: true })
+  .order('placement', { ascending: true })
   .limit(20);
+
+// Format for display
+const formattedResults = results?.map((r: any) => {
+  const team = Array.isArray(r.teams) ? r.teams[0] : r.teams;
+  return {
+    team_id: team?.id || r.team_id,
+    team_name: team?.name || 'Unknown Team',
+    logo_url: team?.logo_url,
+    final_placement: r.placement,
+    wins: 0, // Not tracked in event_results
+    losses: 0
+  };
+}) || [];
 ---
 
-<Layout title={`${tournament?.tournament_name || 'Tournament'} - Global Rankings`}>
+<Layout title={`${tournament?.name || 'Tournament'} - Global Rankings`}>
   <div class="app-theme">
     <div class="container">
       {tournament ? (
@@ -35,9 +49,9 @@ const { data: results } = await supabase
                 />
               )}
               <div style="flex: 1;">
-                <h1 style="margin: 0 0 0.5rem; font-size: 2.5rem;">{tournament.tournament_name}</h1>
+                <h1 style="margin: 0 0 0.5rem; font-size: 2.5rem;">{tournament.name}</h1>
                 <p class="text-secondary">
-                  {tournament.organizer_name}
+                  Organizer
                   {tournament.start_date && ` • ${new Date(tournament.start_date).toLocaleDateString()}`}
                 </p>
               </div>
@@ -51,8 +65,8 @@ const { data: results } = await supabase
 
           <div class="paper">
             <h2 style="margin-bottom: 1.5rem;">Results - Click team to view profile</h2>
-            {results && results.length > 0 ? (
-              <ResultsTable results={results} client:load />
+            {formattedResults && formattedResults.length > 0 ? (
+              <ResultsTable results={formattedResults} client:load />
             ) : (
               <p class="text-secondary">No results found</p>
             )}

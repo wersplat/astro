@@ -28,7 +28,12 @@ const { data: recentGames } = await supabase
     rebounds,
     steals,
     blocks,
-    matches!inner(played_at)
+    turnovers,
+    fgm,
+    fga,
+    three_points_made,
+    three_points_attempted,
+    matches!inner(id, played_at, boxscore_url)
   `)
   .eq('player_id', id!)
   .order('created_at', { ascending: false })

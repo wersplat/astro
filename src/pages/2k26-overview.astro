@@ -5,15 +5,15 @@ import { createClientServer } from '@/lib/supabaseClient';
 const supabase = createClientServer(Astro.cookies);
 
 const { data: topPlayers } = await supabase
-  .from('player_performance_view')
+  .from('players')
   .select('id, gamertag, position, player_rank_score')
   .order('player_rank_score', { ascending: false })
   .limit(10);
 
 const { data: activeLeagues } = await supabase
-  .from('league_calendar')
+  .from('league_seasons')
   .select('*')
-  .eq('game_year', '2K26')
+  .eq('year', '2K26')
   .order('start_date', { ascending: false })
   .limit(10);
 ---

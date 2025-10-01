@@ -1,3 +1,7 @@
+'use client';
+
+import { useState } from 'react';
+
 const exploreItems = [
   { label: 'Players', href: '/players' },
   { label: 'Teams', href: '/teams' },
@@ -17,6 +21,9 @@ const competitionItems = [
 ];
 
 export default function SimpleNavigation({ pathname }: { pathname: string }) {
+  const [exploreOpen, setExploreOpen] = useState(false);
+  const [competitionOpen, setCompetitionOpen] = useState(false);
+
   return (
     <nav style={{
       backgroundColor: '#0F172A',
@@ -56,7 +63,7 @@ export default function SimpleNavigation({ pathname }: { pathname: string }) {
 
         {/* Desktop Navigation */}
         <div style={{ 
-          display: 'none', // Hide on mobile for now
+          display: 'flex',
           alignItems: 'center', 
           gap: '1rem'
         }}>
@@ -68,14 +75,19 @@ export default function SimpleNavigation({ pathname }: { pathname: string }) {
               textDecoration: 'none',
               padding: '0.5rem 1rem',
               borderRadius: '4px',
-              backgroundColor: pathname === '/' ? '#1E40AF' : 'transparent'
+              backgroundColor: pathname === '/' ? '#1E40AF' : 'transparent',
+              transition: 'all 0.2s'
             }}
           >
             Home
           </a>
 
           {/* Explore Dropdown */}
-          <div style={{ position: 'relative' }}>
+          <div 
+            style={{ position: 'relative' }}
+            onMouseEnter={() => setExploreOpen(true)}
+            onMouseLeave={() => setExploreOpen(false)}
+          >
             <button style={{
               color: '#E5E7EB',
               background: 'none',
@@ -84,9 +96,11 @@ export default function SimpleNavigation({ pathname }: { pathname: string }) {
               cursor: 'pointer',
               display: 'flex',
               alignItems: 'center',
-              gap: '0.25rem'
+              gap: '0.25rem',
+              fontSize: '1rem',
+              transition: 'color 0.2s'
             }}>
-              Explore ▼
+              Explore {exploreOpen ? '▲' : '▼'}
             </button>
             <div style={{
               position: 'absolute',
@@ -95,19 +109,32 @@ export default function SimpleNavigation({ pathname }: { pathname: string }) {
               backgroundColor: '#0F172A',
               border: '1px solid #374151',
               borderRadius: '4px',
-              minWidth: '150px',
-              display: 'none' // Simplified for now
+              minWidth: '180px',
+              display: exploreOpen ? 'block' : 'none',
+              boxShadow: '0 10px 25px rgba(0, 0, 0, 0.5)',
+              marginTop: '0.5rem'
             }}>
-              {exploreItems.map(item => (
-                <a 
+              {exploreItems.map((item) => (
+                <a
                   key={item.href}
                   href={item.href}
                   style={{
                     display: 'block',
-                    color: '#E5E7EB',
+                    padding: '0.75rem 1rem',
+                    color: pathname === item.href ? '#3B82F6' : '#E5E7EB',
                     textDecoration: 'none',
-                    padding: '0.5rem 1rem',
-                    borderBottom: '1px solid #374151'
+                    backgroundColor: pathname === item.href ? '#1E3A5F' : 'transparent',
+                    transition: 'background-color 0.2s'
+                  }}
+                  onMouseOver={(e) => {
+                    if (pathname !== item.href) {
+                      e.currentTarget.style.backgroundColor = '#1E293B';
+                    }
+                  }}
+                  onMouseOut={(e) => {
+                    if (pathname !== item.href) {
+                      e.currentTarget.style.backgroundColor = 'transparent';
+                    }
                   }}
                 >
                   {item.label}
@@ -116,8 +143,12 @@ export default function SimpleNavigation({ pathname }: { pathname: string }) {
             </div>
           </div>
 
-          {/* Competitions Dropdown */}
-          <div style={{ position: 'relative' }}>
+          {/* Competition Dropdown */}
+          <div 
+            style={{ position: 'relative' }}
+            onMouseEnter={() => setCompetitionOpen(true)}
+            onMouseLeave={() => setCompetitionOpen(false)}
+          >
             <button style={{
               color: '#E5E7EB',
               background: 'none',
@@ -126,9 +157,11 @@ export default function SimpleNavigation({ pathname }: { pathname: string }) {
               cursor: 'pointer',
               display: 'flex',
               alignItems: 'center',
-              gap: '0.25rem'
+              gap: '0.25rem',
+              fontSize: '1rem',
+              transition: 'color 0.2s'
             }}>
-              Competitions ▼
+              Competition {competitionOpen ? '▲' : '▼'}
             </button>
             <div style={{
               position: 'absolute',
@@ -137,97 +170,40 @@ export default function SimpleNavigation({ pathname }: { pathname: string }) {
               backgroundColor: '#0F172A',
               border: '1px solid #374151',
               borderRadius: '4px',
-              minWidth: '150px',
-              display: 'none' // Simplified for now
+              minWidth: '180px',
+              display: competitionOpen ? 'block' : 'none',
+              boxShadow: '0 10px 25px rgba(0, 0, 0, 0.5)',
+              marginTop: '0.5rem'
             }}>
-              {competitionItems.map(item => (
-                <a 
+              {competitionItems.map((item) => (
+                <a
                   key={item.href}
                   href={item.href}
                   style={{
                     display: 'block',
-                    color: '#E5E7EB',
+                    padding: '0.75rem 1rem',
+                    color: pathname === item.href ? '#3B82F6' : '#E5E7EB',
                     textDecoration: 'none',
-                    padding: '0.5rem 1rem',
-                    borderBottom: '1px solid #374151'
+                    backgroundColor: pathname === item.href ? '#1E3A5F' : 'transparent',
+                    transition: 'background-color 0.2s'
+                  }}
+                  onMouseOver={(e) => {
+                    if (pathname !== item.href) {
+                      e.currentTarget.style.backgroundColor = '#1E293B';
+                    }
+                  }}
+                  onMouseOut={(e) => {
+                    if (pathname !== item.href) {
+                      e.currentTarget.style.backgroundColor = 'transparent';
+                    }
                   }}
                 >
                   {item.label}
                 </a>
               ))}
             </div>
-          </div>
-
-          {/* 2K26 */}
-          <a 
-            href="/2k26-overview" 
-            style={{
-              color: pathname === '/2k26-overview' ? '#3B82F6' : '#E5E7EB',
-              textDecoration: 'none',
-              padding: '0.5rem 1rem',
-              borderRadius: '4px',
-              backgroundColor: pathname === '/2k26-overview' ? '#1E40AF' : 'transparent'
-            }}
-          >
-            2K26
-          </a>
-
-          {/* Rankings Explanation */}
-          <a 
-            href="/ranking-system" 
-            style={{
-              color: pathname === '/ranking-system' ? '#3B82F6' : '#E5E7EB',
-              textDecoration: 'none',
-              padding: '0.5rem 1rem',
-              borderRadius: '4px',
-              backgroundColor: pathname === '/ranking-system' ? '#1E40AF' : 'transparent'
-            }}
-          >
-            Rankings Explanation
-          </a>
-
-          {/* Action Buttons */}
-          <div style={{ marginLeft: 'auto', display: 'flex', gap: '0.5rem' }}>
-            <a 
-              href="/submit-results"
-              style={{
-                color: '#E5E7EB',
-                textDecoration: 'none',
-                padding: '0.5rem 1rem',
-                border: '1px solid #374151',
-                borderRadius: '4px',
-                backgroundColor: 'transparent'
-              }}
-            >
-              Submit Results
-            </a>
-            <a 
-              href="/team-preview"
-              style={{
-                color: '#0B1220',
-                textDecoration: 'none',
-                padding: '0.5rem 1rem',
-                border: '1px solid #F59E08FF',
-                borderRadius: '4px',
-                backgroundColor: '#F59E08FF'
-              }}
-            >
-              Team Preview
-            </a>
           </div>
         </div>
-
-        {/* Mobile Menu Button */}
-        <button style={{
-          display: 'block', // Show on mobile
-          background: 'none',
-          border: 'none',
-          color: '#E5E7EB',
-          cursor: 'pointer',
-          padding: '0.5rem'
-        }}>
-          ☰
-        </button>
       </div>
     </nav>
   );

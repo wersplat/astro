@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import ClickableRow from '@/components/shared/ClickableRow';
 
 type Team = {
   team_id: string;
@@ -39,17 +40,16 @@ export default function StandingsTable({ teams }: { teams: Team[] }) {
             const winPct = getWinPercentage(wins, losses);
             
             return (
-              <tr 
+              <ClickableRow
                 key={team.team_id}
+                href={`/team/${team.team_id}`}
                 style={{ 
                   borderBottom: '1px solid var(--color-border)',
                   backgroundColor: hoveredRow === team.team_id ? 'var(--color-background)' : 'transparent',
-                  cursor: 'pointer',
                   transition: 'background-color 0.2s'
                 }}
                 onMouseEnter={() => setHoveredRow(team.team_id)}
                 onMouseLeave={() => setHoveredRow(null)}
-                onClick={() => window.location.href = `/team/${team.team_id}`}
               >
                 <td style={{ padding: '0.75rem', fontWeight: idx < 3 ? '700' : '400' }}>
                   <span style={{ color: idx === 0 ? '#F59E08' : idx === 1 ? '#94A3B8' : idx === 2 ? '#CD7F32' : 'inherit' }}>
@@ -80,7 +80,7 @@ export default function StandingsTable({ teams }: { teams: Team[] }) {
                 <td style={{ padding: '0.75rem', textAlign: 'right', color: 'var(--color-primary)', fontWeight: '700' }}>
                   {team.current_rp || 0}
                 </td>
-              </tr>
+              </ClickableRow>
             );
           })}
         </tbody>

@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import ClickableRow from '@/components/shared/ClickableRow';
 
 type Result = {
   team_id: string;
@@ -46,17 +47,16 @@ export default function ResultsTable({ results }: { results: Result[] }) {
             const placementEmoji = getPlacementEmoji(placement);
             
             return (
-              <tr 
+              <ClickableRow
                 key={result.team_id}
+                href={`/team/${result.team_id}`}
                 style={{ 
                   borderBottom: '1px solid var(--color-border)',
                   backgroundColor: hoveredRow === result.team_id ? 'var(--color-background)' : 'transparent',
-                  cursor: 'pointer',
                   transition: 'background-color 0.2s'
                 }}
                 onMouseEnter={() => setHoveredRow(result.team_id)}
                 onMouseLeave={() => setHoveredRow(null)}
-                onClick={() => window.location.href = `/team/${result.team_id}`}
               >
                 <td style={{ padding: '0.75rem' }}>
                   <span style={{ fontWeight: '700', color: placementColor, fontSize: '1.125rem' }}>
@@ -81,7 +81,7 @@ export default function ResultsTable({ results }: { results: Result[] }) {
                 <td style={{ padding: '0.75rem', textAlign: 'center', color: '#EF4444', fontWeight: '600' }}>
                   {result.losses || 0}
                 </td>
-              </tr>
+              </ClickableRow>
             );
           })}
         </tbody>
