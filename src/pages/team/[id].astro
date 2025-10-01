@@ -13,20 +13,37 @@ const { data: team } = await supabase
   .eq('id', id!)
   .maybeSingle();
 
-const { data: playersRaw } = await supabase
+// Try getting roster from team_rosters first
+let playersRaw = await supabase
   .from('team_rosters')
   .select(`
     player_id,
-    position,
     is_captain,
-    players!inner(id, gamertag, position, player_rp)
+    is_player_coach,
+    joined_at,
+    players!inner(id, gamertag, position, player_rp, performance_score)
   `)
   .eq('team_id', id!)
   .is('left_at', null);
 
-const players = playersRaw?.map((r: any) => ({
+// If no roster found, try getting players by current_team_id
+if (!playersRaw.data || playersRaw.data.length === 0) {
+  const { data: currentPlayers } = await supabase
+    .from('players')
+    .select('id, gamertag, position, player_rp, performance_score')
+    .eq('current_team_id', id!);
+  
+  playersRaw.data = currentPlayers?.map((p: any) => ({
+    player_id: p.id,
+    is_captain: false,
+    is_player_coach: false,
+    player: p
+  })) || [];
+}
+
+const players = playersRaw.data?.map((r: any) => ({
   ...r,
-  player: Array.isArray(r.players) ? r.players[0] : r.players
+  player: Array.isArray(r.players) ? r.players[0] : r.players || r.player
 })) || [];
 
 const { data: recentMatches } = await supabase
@@ -62,19 +79,70 @@ const { data: recentMatches } = await supabase
               )}
               <div style="flex: 1;">
                 <h1 style="margin: 0 0 0.5rem; font-size: 2.5rem;">{team.name}</h1>
-                {team.global_rank && (
-                  <p class="text-secondary">Global Rank: #{team.global_rank}</p>
+                <div style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: center;">
+                  {team.global_rank && (
+                    <span style="color: var(--color-primary); font-weight: 600; font-size: 1.125rem;">
+                      #{team.global_rank} Global
+                    </span>
+                  )}
+                  {team.is_active !== null && (
+                    <span style={`padding: 0.25rem 0.75rem; border-radius: 4px; font-size: 0.75rem; font-weight: 600; background: ${team.is_active ? '#10B98120' : '#6B728020'}; color: ${team.is_active ? '#10B981' : '#6B7280'};`}>
+                      {team.is_active ? 'Active' : 'Inactive'}
+                    </span>
+                  )}
+                </div>
+              </div>
+              <div style="display: flex; gap: 2rem;">
+                {team.current_rp !== null && (
+                  <div style="text-align: right;">
+                    <div class="text-secondary" style="font-size: 0.875rem;">Ranking Points</div>
+                    <div style="font-size: 2rem; font-weight: 800; color: var(--color-primary);">
+                      {team.current_rp}
+                    </div>
+                  </div>
+                )}
+                {team.elo_rating && (
+                  <div style="text-align: right;">
+                    <div class="text-secondary" style="font-size: 0.875rem;">ELO Rating</div>
+                    <div style="font-size: 2rem; font-weight: 800; color: #9BF00B;">
+                      {Math.round(team.elo_rating)}
+                    </div>
+                  </div>
                 )}
               </div>
-              {team.current_rp && (
-                <div style="text-align: right;">
-                  <div class="text-secondary" style="font-size: 0.875rem;">Ranking Points</div>
-                  <div style="font-size: 2rem; font-weight: 800; color: var(--color-primary);">
-                    {team.current_rp}
-                  </div>
-                </div>
-              )}
             </div>
+          </div>
+
+          {/* Team Stats Summary */}
+          <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; margin-bottom: 2rem;">
+            <div class="paper" style="text-align: center; padding: 1rem;">
+              <div class="text-secondary" style="font-size: 0.875rem; margin-bottom: 0.25rem;">Players</div>
+              <div style="font-size: 1.5rem; font-weight: 700; color: var(--color-primary);">
+                {players.length}
+              </div>
+            </div>
+            <div class="paper" style="text-align: center; padding: 1rem;">
+              <div class="text-secondary" style="font-size: 0.875rem; margin-bottom: 0.25rem;">Matches</div>
+              <div style="font-size: 1.5rem; font-weight: 700; color: var(--color-primary);">
+                {recentMatches?.length || 0}
+              </div>
+            </div>
+            {team.money_won !== null && team.money_won > 0 && (
+              <div class="paper" style="text-align: center; padding: 1rem;">
+                <div class="text-secondary" style="font-size: 0.875rem; margin-bottom: 0.25rem;">Prize Money</div>
+                <div style="font-size: 1.5rem; font-weight: 700; color: #9BF00B;">
+                  ${team.money_won.toLocaleString()}
+                </div>
+              </div>
+            )}
+            {team.leaderboard_tier && (
+              <div class="paper" style="text-align: center; padding: 1rem;">
+                <div class="text-secondary" style="font-size: 0.875rem; margin-bottom: 0.25rem;">Tier</div>
+                <div style="font-size: 1.5rem; font-weight: 700; color: var(--color-primary);">
+                  {team.leaderboard_tier}
+                </div>
+              </div>
+            )}
           </div>
 
           <div class="paper" style="margin-bottom: 2rem;">
