@@ -84,7 +84,7 @@ export default function SimpleNavigation({ pathname }: { pathname: string }) {
 
           {/* Explore Dropdown */}
           <div 
-            style={{ position: 'relative' }}
+            style={{ position: 'relative', height: '100%', display: 'flex', alignItems: 'center' }}
             onMouseEnter={() => setExploreOpen(true)}
             onMouseLeave={() => setExploreOpen(false)}
           >
@@ -102,9 +102,18 @@ export default function SimpleNavigation({ pathname }: { pathname: string }) {
             }}>
               Explore {exploreOpen ? '▲' : '▼'}
             </button>
+            {/* Invisible bridge to prevent hover gap */}
             <div style={{
               position: 'absolute',
               top: '100%',
+              left: 0,
+              width: '100%',
+              height: '8px',
+              display: exploreOpen ? 'block' : 'none'
+            }} />
+            <div style={{
+              position: 'absolute',
+              top: 'calc(100% + 8px)',
               left: 0,
               backgroundColor: '#0F172A',
               border: '1px solid #374151',
@@ -112,7 +121,9 @@ export default function SimpleNavigation({ pathname }: { pathname: string }) {
               minWidth: '180px',
               display: exploreOpen ? 'block' : 'none',
               boxShadow: '0 10px 25px rgba(0, 0, 0, 0.5)',
-              marginTop: '0.5rem'
+              paddingTop: '0.5rem',
+              paddingBottom: '0.5rem',
+              zIndex: 100
             }}>
               {exploreItems.map((item) => (
                 <a
@@ -145,7 +156,7 @@ export default function SimpleNavigation({ pathname }: { pathname: string }) {
 
           {/* Competition Dropdown */}
           <div 
-            style={{ position: 'relative' }}
+            style={{ position: 'relative', height: '100%', display: 'flex', alignItems: 'center' }}
             onMouseEnter={() => setCompetitionOpen(true)}
             onMouseLeave={() => setCompetitionOpen(false)}
           >
@@ -163,9 +174,18 @@ export default function SimpleNavigation({ pathname }: { pathname: string }) {
             }}>
               Competition {competitionOpen ? '▲' : '▼'}
             </button>
+            {/* Invisible bridge to prevent hover gap */}
             <div style={{
               position: 'absolute',
               top: '100%',
+              left: 0,
+              width: '100%',
+              height: '8px',
+              display: competitionOpen ? 'block' : 'none'
+            }} />
+            <div style={{
+              position: 'absolute',
+              top: 'calc(100% + 8px)',
               left: 0,
               backgroundColor: '#0F172A',
               border: '1px solid #374151',
@@ -173,7 +193,9 @@ export default function SimpleNavigation({ pathname }: { pathname: string }) {
               minWidth: '180px',
               display: competitionOpen ? 'block' : 'none',
               boxShadow: '0 10px 25px rgba(0, 0, 0, 0.5)',
-              marginTop: '0.5rem'
+              paddingTop: '0.5rem',
+              paddingBottom: '0.5rem',
+              zIndex: 100
             }}>
               {competitionItems.map((item) => (
                 <a

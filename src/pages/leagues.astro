@@ -4,38 +4,39 @@ import { createClientServer } from '@/lib/supabaseClient';
 
 const supabase = createClientServer(Astro.cookies);
 
-const { data: leagueCalendar, error: calendarError } = await supabase
-  .from('league_calendar')
+const { data: leagueSeasons, error: calendarError } = await supabase
+  .from('league_seasons')
   .select(`
-    league_id,
+    id,
     league_name,
-    league_logo,
-    is_active,
-    season_id,
     season_number,
     start_date,
     end_date,
-    game_year
+    year,
+    is_active,
+    leagues_info:league_id(lg_logo_url)
   `)
-  .eq('game_year', '2K26')
+  .eq('year', '2K26')
   .order('start_date', { ascending: false });
 
 let leagues: any[] = [];
 let metrics = { activeCount: 0, totalParticipants: 0, regionsCovered: 0, totalLeagues: 0 };
 
-if (!calendarError && leagueCalendar) {
-  // Process leagues... (keeping the existing logic)
-  leagues = leagueCalendar.map((cal: any, index: number) => ({
-    id: cal.league_id || `league-${index}`,
-    name: cal.league_name || 'League',
-    logo: cal.league_logo,
-    status: cal.is_active ? 'Active' : 'Upcoming',
-    start_date: cal.start_date,
-    end_date: cal.end_date,
-    season_number: cal.season_number,
-    game_year: cal.game_year,
-    participants: 0
-  }));
+if (!calendarError && leagueSeasons) {
+  leagues = leagueSeasons.map((season: any) => {
+    const leagueInfo = Array.isArray(season.leagues_info) ? season.leagues_info[0] : season.leagues_info;
+    return {
+      id: season.id,
+      name: `${season.league_name} S${season.season_number}`,
+      logo: leagueInfo?.lg_logo_url,
+      status: season.is_active ? 'Active' : 'Completed',
+      start_date: season.start_date,
+      end_date: season.end_date,
+      season_number: season.season_number,
+      game_year: season.year,
+      participants: 0
+    };
+  });
 
   metrics = {
     activeCount: leagues.filter(l => l.status === 'Active').length,
@@ -101,7 +102,13 @@ function getStatusColor(status: string) {
     <!-- Leagues Grid -->
     <div class="grid">
       {leagues.map((league: any) => (
-        <div class="card">
+        <a 
+          href={`/league/${league.id}`}
+          class="card" 
+          style="text-decoration: none; color: inherit; transition: all 0.2s;"
+          onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 10px 25px rgba(0, 0, 0, 0.5)';"
+          onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='';"
+        >
           <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem;">
             {league.logo && (
               <img src={league.logo} alt={league.name} style="width: 32px; height: 32px; border-radius: 4px;" />
@@ -113,21 +120,21 @@ function getStatusColor(status: string) {
             </span>
           </div>
 
-          <h3 style="margin: 0 0 1rem 0; font-size: 1.25rem;">{league.name}</h3>
+          <h3 style="margin: 0 0 1rem 0; font-size: 1.25rem; font-weight: 700;">{league.name}</h3>
 
           <div class="text-secondary" style="font-size: 0.875rem; margin-bottom: 1rem;">
-            {league.start_date ? 
-              new Date(league.start_date).toLocaleDateString() : '—'
+            📅 {league.start_date ? 
+              new Date(league.start_date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : '—'
             }
           </div>
 
           {league.season_number && (
             <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 1rem; border-top: 1px solid var(--color-border);">
               <span class="text-secondary" style="font-size: 0.875rem;">Season</span>
-              <span style="font-weight: 600;">Season {league.season_number}</span>
+              <span style="font-weight: 600; color: var(--color-primary);">S{league.season_number}</span>
             </div>
           )}
-        </div>
+        </a>
       ))}
     </div>
 
