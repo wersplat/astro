@@ -1,14 +1,13 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
 import react from '@astrojs/react';
-
-import node from '@astrojs/node';
+import cloudflare from '@astrojs/cloudflare';
 
 // https://astro.build/config
 export default defineConfig({
   integrations: [react()],
   output: 'server',
-
+  
   server: {
     port: 4321,
     host: true
@@ -18,7 +17,10 @@ export default defineConfig({
     format: 'file'
   },
 
-  adapter: node({
-    mode: 'standalone'
+  adapter: cloudflare({
+    mode: 'directory',
+    platformProxy: {
+      enabled: true
+    }
   })
 });
