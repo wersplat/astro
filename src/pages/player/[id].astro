@@ -1,0 +1,72 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import { createClientServer } from '@/lib/supabaseClient';
+import HeroHeader from '@/components/player/HeroHeader';
+import StatTiles from '@/components/player/StatTiles';
+import PlayerTabs from '@/components/player/Tabs';
+
+const { id } = Astro.params;
+
+const supabase = createClientServer(Astro.cookies);
+
+// Fetch player
+const { data: player } = await supabase
+  .from('players')
+  .select('id, gamertag, position, player_rp, performance_score, salary_tier, current_team_id')
+  .eq('id', id!)
+  .maybeSingle();
+
+// Fetch team if player has one
+const team = player?.current_team_id ? (await supabase
+  .from('teams')
+  .select('id, name, logo_url, global_rank, current_rp')
+  .eq('id', player.current_team_id)
+  .maybeSingle()).data : null;
+
+// Season stats (basic aggregation)
+const { data: statsData } = await supabase
+  .from('player_stats')
+  .select('points, assists, rebounds, steals, blocks, three_points_made, three_points_attempted, turnovers')
+  .eq('player_id', id!)
+  .order('created_at', { ascending: false })
+  .limit(10);
+
+const seasonStats = statsData && statsData.length > 0 ? {
+  pts: statsData.reduce((acc, s) => acc + (s.points || 0), 0) / statsData.length,
+  ast: statsData.reduce((acc, s) => acc + (s.assists || 0), 0) / statsData.length,
+  reb: statsData.reduce((acc, s) => acc + (s.rebounds || 0), 0) / statsData.length,
+  stl: statsData.reduce((acc, s) => acc + (s.steals || 0), 0) / statsData.length,
+  blk: statsData.reduce((acc, s) => acc + (s.blocks || 0), 0) / statsData.length,
+  fg3_pct: statsData.reduce((acc, s) => acc + ((s.three_points_made || 0) / (s.three_points_attempted || 1)), 0) / statsData.length * 100,
+  tov: statsData.reduce((acc, s) => acc + (s.turnovers || 0), 0) / statsData.length,
+  oreb_pct: null
+} : null;
+
+const last10 = (statsData || []).map((s: any) => ({
+  pts: s.points,
+  ast: s.assists,
+  reb: s.rebounds,
+  stl: s.steals,
+  blk: s.blocks,
+  tov: s.turnovers
+}));
+---
+
+<Layout title={`${player?.gamertag || 'Player'} - Global Rankings`}>
+  <div style="min-height: 100vh; background-color: #0F172A;">
+    <div style="max-width: 1000px; margin: 0 auto; padding: 2rem 1rem;">
+      <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+        <HeroHeader player={player} team={team} client:load />
+        <StatTiles player={player} seasonStats={seasonStats} last10={last10} client:load />
+        <PlayerTabs playerId={id!} client:load />
+
+        {!player && (
+          <div style="color: #9CA3AF; font-size: 12px; text-align: center; padding: 1rem 0;">
+            Player not found.
+          </div>
+        )}
+      </div>
+    </div>
+  </div>
+</Layout>
+

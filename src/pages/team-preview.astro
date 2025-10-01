@@ -1,0 +1,26 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import TeamPreviewLeaderboard from '@/components/team-preview/TeamPreviewLeaderboard';
+import TeamPreviewStats from '@/components/team-preview/TeamPreviewStats';
+import TeamPreviewFeatures from '@/components/team-preview/TeamPreviewFeatures';
+---
+
+<Layout title="Team Preview - Global Rankings">
+  <div style="min-height: 100vh; background-color: #0F172A;">
+    <div style="max-width: 1200px; margin: 0 auto; padding: 2rem 1rem;">
+      <div style="margin-bottom: 2rem;">
+        <h1 style="font-size: 2.5rem; font-weight: 800; background: linear-gradient(135deg, #3B82F6 0%, #9BF00B 100%); -webkit-background-clip: text; background-clip: text; color: transparent; margin-bottom: 0.5rem;">
+          Team Rankings Preview
+        </h1>
+        <p style="font-size: 1.25rem; color: #9CA3AF;">
+          Preview of the competitive team landscape
+        </p>
+      </div>
+
+      <TeamPreviewStats client:load />
+      <TeamPreviewLeaderboard client:load />
+      <TeamPreviewFeatures client:load />
+    </div>
+  </div>
+</Layout>
+

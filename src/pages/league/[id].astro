@@ -1,0 +1,152 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import { createClientServer } from '@/lib/supabaseClient';
+import LeagueHeroHeader from '@/components/league/LeagueHeroHeader';
+import LeagueInformation from '@/components/league/LeagueInformation';
+import LeagueTabs from '@/components/league/LeagueTabs';
+
+const { id } = Astro.params;
+
+const supabase = createClientServer(Astro.cookies);
+
+// Fetch league data from league_calendar view
+const { data: league } = await supabase
+  .from('league_calendar')
+  .select('*')
+  .eq('league_id', id!)
+  .maybeSingle();
+
+// Fetch teams
+const { data: teamsData } = await supabase
+  .from('league_results')
+  .select('*')
+  .eq('league_id', id!)
+  .order('wins', { ascending: false });
+
+const teams = teamsData || [];
+
+// Fetch standings (same as teams, but could be different logic)
+const standings = teams;
+
+// Fetch recent matches
+const { data: recentMatchesRaw } = await supabase
+  .from('matches')
+  .select(`
+    id,
+    played_at,
+    team_a_id,
+    team_b_id,
+    score_a,
+    score_b,
+    stage,
+    boxscore_url,
+    team_a:team_a_id(name),
+    team_b:team_b_id(name)
+  `)
+  .eq('league_id', id!)
+  .not('played_at', 'is', null)
+  .order('played_at', { ascending: false })
+  .limit(10);
+
+const recentMatches = (recentMatchesRaw || []).map((m: any) => ({
+  ...m,
+  team_a_name: Array.isArray(m.team_a) ? m.team_a[0]?.name : m.team_a?.name,
+  team_b_name: Array.isArray(m.team_b) ? m.team_b[0]?.name : m.team_b?.name
+}));
+
+// Fetch upcoming matches
+const { data: upcomingMatchesRaw } = await supabase
+  .from('upcoming_matches')
+  .select(`
+    id,
+    scheduled_at,
+    team_a_id,
+    team_b_id,
+    stream_url
+  `)
+  .eq('league_id', id!)
+  .order('scheduled_at', { ascending: true })
+  .limit(10);
+
+const upcomingMatches = (upcomingMatchesRaw || []).map((m: any) => ({
+  ...m,
+  played_at: m.scheduled_at
+}));
+
+// Season matches
+const { data: seasonMatchesRaw } = await supabase
+  .from('matches')
+  .select(`
+    id,
+    played_at,
+    team_a_id,
+    team_b_id,
+    score_a,
+    score_b,
+    stage,
+    season_id,
+    team_a:team_a_id(name),
+    team_b:team_b_id(name)
+  `)
+  .eq('league_id', id!)
+  .eq('season_id', league?.season_id)
+  .order('played_at', { ascending: false });
+
+const seasonMatches = (seasonMatchesRaw || []).map((m: any) => ({
+  ...m,
+  team_a_name: Array.isArray(m.team_a) ? m.team_a[0]?.name : m.team_a?.name,
+  team_b_name: Array.isArray(m.team_b) ? m.team_b[0]?.name : m.team_b?.name
+}));
+
+// Top scorers from player_stats
+const { data: topScorers } = await supabase
+  .rpc('get_league_top_scorers', { p_league_id: id! })
+  .limit(10)
+  .catch(() => ({ data: [] }));
+
+const topAssists = [];
+const topRebounders = [];
+const topSteals = [];
+const topBlocks = [];
+const topThreePoint = [];
+const teamStats = teams;
+const teamMatchStats = [];
+const allPlayerStats = [];
+---
+
+<Layout title={`${league?.league_name || 'League'} - Global Rankings`}>
+  <div style="min-height: 100vh; background-color: #0F172A;">
+    <div style="max-width: 1000px; margin: 0 auto; padding: 2rem 1rem;">
+      <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+        <LeagueHeroHeader league={league} client:load />
+        <LeagueInformation league={league} client:load />
+        <LeagueTabs 
+          leagueId={id!}
+          teams={teams}
+          standings={standings}
+          league={league}
+          recentMatches={recentMatches}
+          upcomingMatches={upcomingMatches}
+          seasonMatches={seasonMatches}
+          topScorers={topScorers || []}
+          topAssists={topAssists}
+          topRebounders={topRebounders}
+          topSteals={topSteals}
+          topBlocks={topBlocks}
+          topThreePoint={topThreePoint}
+          teamStats={teamStats}
+          teamMatchStats={teamMatchStats}
+          allPlayerStats={allPlayerStats}
+          client:load 
+        />
+
+        {!league && (
+          <div style="color: #9CA3AF; font-size: 12px; text-align: center; padding: 1rem 0;">
+            League not found.
+          </div>
+        )}
+      </div>
+    </div>
+  </div>
+</Layout>
+

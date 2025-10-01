@@ -1,0 +1,31 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import AchievementsFilters from '@/components/achievements/AchievementsFilters';
+import AchievementsGrid from '@/components/achievements/AchievementsGrid';
+
+const searchParams = {
+  search: Astro.url.searchParams.get('search') || undefined,
+  category: Astro.url.searchParams.get('category') || undefined,
+  rarity: Astro.url.searchParams.get('rarity') || undefined,
+  view: Astro.url.searchParams.get('view') || undefined,
+};
+---
+
+<Layout title="Achievements - Global Pro-Am Rankings">
+  <div style="min-height: 100vh; background-color: #0F172A;">
+    <div style="max-width: 1200px; margin: 0 auto; padding: 2rem 1rem;">
+      <div style="margin-bottom: 2rem;">
+        <h1 style="font-size: 2.5rem; font-weight: 800; background: linear-gradient(135deg, #3B82F6 0%, #9BF00B 100%); -webkit-background-clip: text; background-clip: text; color: transparent; margin-bottom: 0.5rem;">
+          🏆 Achievements
+        </h1>
+        <p style="font-size: 1.25rem; color: #9CA3AF;">
+          Unlock badges and showcase your basketball prowess
+        </p>
+      </div>
+
+      <AchievementsFilters searchParams={searchParams} client:load />
+      <AchievementsGrid searchParams={searchParams} client:load />
+    </div>
+  </div>
+</Layout>
+

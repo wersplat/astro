@@ -1,0 +1,141 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import { createClientServer } from '@/lib/supabaseClient';
+import TeamHeroHeader from '@/components/team/TeamHeroHeader';
+import TeamStatistics from '@/components/team/TeamStatistics';
+import TeamTabs from '@/components/team/TeamTabs';
+
+const { id } = Astro.params;
+
+const supabase = createClientServer(Astro.cookies);
+
+// Fetch team header data
+const { data: team } = await supabase
+  .from('teams')
+  .select('id, name, logo_url, global_rank, current_rp, created_at')
+  .eq('id', id!)
+  .maybeSingle();
+
+// Fetch team performance
+const { data: teamPerformance } = await supabase
+  .from('team_performance_view')
+  .select('*')
+  .eq('team_id', id!)
+  .maybeSingle();
+
+// Fetch year stats
+const { data: yearStats } = await supabase
+  .from('team_performance_by_game_year')
+  .select('*')
+  .eq('team_id', id!)
+  .order('game_year', { ascending: false });
+
+// Fetch current roster
+const { data: playersRaw } = await supabase
+  .from('team_rosters')
+  .select(`
+    player_id,
+    position,
+    joined_at,
+    is_captain,
+    is_player_coach,
+    player:player_id(id, gamertag, position, player_rp, performance_score)
+  `)
+  .eq('team_id', id!)
+  .is('left_at', null);
+
+const players = (playersRaw || []).map((r: any) => ({
+  ...r,
+  player: Array.isArray(r.player) ? r.player[0] : r.player
+}));
+
+// Fetch recent matches
+const { data: recentMatchesRaw } = await supabase
+  .from('matches')
+  .select(`
+    id,
+    played_at,
+    team_a_id,
+    team_b_id,
+    score_a,
+    score_b,
+    boxscore_url,
+    team_a:team_a_id(name),
+    team_b:team_b_id(name)
+  `)
+  .or(`team_a_id.eq.${id},team_b_id.eq.${id}`)
+  .order('played_at', { ascending: false })
+  .limit(10);
+
+const recentMatches = (recentMatchesRaw || []).map((m: any) => ({
+  ...m,
+  team_a: Array.isArray(m.team_a) ? m.team_a[0] : m.team_a,
+  team_b: Array.isArray(m.team_b) ? m.team_b[0] : m.team_b
+}));
+
+// Fetch all matches for comprehensive view
+const { data: allMatchesRaw } = await supabase
+  .from('matches')
+  .select(`
+    id,
+    played_at,
+    team_a_id,
+    team_b_id,
+    score_a,
+    score_b,
+    boxscore_url,
+    team_a:team_a_id(name),
+    team_b:team_b_id(name)
+  `)
+  .or(`team_a_id.eq.${id},team_b_id.eq.${id}`)
+  .order('played_at', { ascending: false });
+
+const allMatches = (allMatchesRaw || []).map((m: any) => ({
+  ...m,
+  team_a: Array.isArray(m.team_a) ? m.team_a[0] : m.team_a,
+  team_b: Array.isArray(m.team_b) ? m.team_b[0] : m.team_b
+}));
+
+// Fetch team history
+const { data: teamHistory } = await supabase
+  .from('team_roster_history')
+  .select('*')
+  .eq('team_id', id!)
+  .order('joined_at', { ascending: false });
+
+// Fetch championships
+const { data: championships } = await supabase
+  .from('past_champions')
+  .select('*')
+  .eq('team_id', id!)
+  .order('created_at', { ascending: false });
+---
+
+<Layout title={`${team?.name || 'Team'} - Global Rankings`}>
+  <div style="min-height: 100vh; background-color: #0F172A;">
+    <div style="max-width: 1000px; margin: 0 auto; padding: 2rem 1rem;">
+      <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+        <TeamHeroHeader team={team} client:load />
+        <TeamStatistics teamPerformance={teamPerformance} yearStats={yearStats || []} client:load />
+        <TeamTabs 
+          teamId={id!} 
+          players={players} 
+          recentMatches={recentMatches}
+          allMatches={allMatches}
+          teamHistory={teamHistory || []}
+          championships={championships || []}
+          yearStats={yearStats || []}
+          teamPerformance={teamPerformance}
+          client:load 
+        />
+
+        {!team && (
+          <div style="color: #9CA3AF; font-size: 12px; text-align: center; padding: 1rem 0;">
+            Team not found.
+          </div>
+        )}
+      </div>
+    </div>
+  </div>
+</Layout>
+

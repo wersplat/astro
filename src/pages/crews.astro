@@ -1,0 +1,33 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import CrewsList from '@/components/crews/CrewsList';
+import CrewsFilters from '@/components/crews/CrewsFilters';
+
+const searchParams = {
+  search: Astro.url.searchParams.get('search') || undefined,
+  sort: Astro.url.searchParams.get('sort') || undefined,
+  page: Astro.url.searchParams.get('page') || undefined,
+};
+---
+
+<Layout title="Crews - Global Pro-Am Rankings">
+  <div style="min-height: 100vh; background-color: #0F172A;">
+    <div style="max-width: 1200px; margin: 0 auto; padding: 2rem 1rem;">
+      <div style="margin-bottom: 2rem;">
+        <h1 style="font-size: 2.5rem; font-weight: 800; background: linear-gradient(135deg, #3B82F6 0%, #9BF00B 100%); -webkit-background-clip: text; background-clip: text; color: transparent; margin-bottom: 0.5rem;">
+          City Crews
+        </h1>
+        <p style="font-size: 1.25rem; color: #9CA3AF;">
+          Explore basketball crews from around the world
+        </p>
+      </div>
+
+      <div style="margin-bottom: 1.5rem;">
+        <CrewsFilters searchParams={searchParams} client:load />
+      </div>
+
+      <CrewsList searchParams={searchParams} client:load />
+    </div>
+  </div>
+</Layout>
+

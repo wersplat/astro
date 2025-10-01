@@ -1,0 +1,97 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import { createClientServer } from '@/lib/supabaseClient';
+import TournamentHeroHeader from '@/components/tournament/TournamentHeroHeader';
+import TournamentInformation from '@/components/tournament/TournamentInformation';
+import TournamentTabs from '@/components/tournament/TournamentTabs';
+
+const { id } = Astro.params;
+
+const supabase = createClientServer(Astro.cookies);
+
+// Fetch tournament from tournament_calendar view
+const { data: tournament } = await supabase
+  .from('tournament_calendar')
+  .select('*')
+  .eq('id', id!)
+  .maybeSingle();
+
+// Fetch participants (teams that participated)
+const { data: participantsRaw } = await supabase
+  .from('tournament_results')
+  .select('*')
+  .eq('tournament_id', id!)
+  .order('final_placement', { ascending: true });
+
+const participants = participantsRaw || [];
+
+// Fetch matches
+const { data: matchesRaw } = await supabase
+  .from('matches')
+  .select(`
+    id,
+    played_at,
+    team_a_id,
+    team_b_id,
+    score_a,
+    score_b,
+    stage,
+    team_a:team_a_id(name, logo_url),
+    team_b:team_b_id(name, logo_url)
+  `)
+  .eq('tournament_id', id!)
+  .order('played_at', { ascending: false });
+
+const matches = (matchesRaw || []).map((m: any) => ({
+  ...m,
+  team_a_name: Array.isArray(m.team_a) ? m.team_a[0]?.name : m.team_a?.name,
+  team_b_name: Array.isArray(m.team_b) ? m.team_b[0]?.name : m.team_b?.name,
+  team_a_logo: Array.isArray(m.team_a) ? m.team_a[0]?.logo_url : m.team_a?.logo_url,
+  team_b_logo: Array.isArray(m.team_b) ? m.team_b[0]?.logo_url : m.team_b?.logo_url
+}));
+
+// Recent and upcoming matches
+const recentMatches = matches.filter((m: any) => m.played_at).slice(0, 10);
+const upcomingMatches = [];
+
+// Bracket matches (for bracket display)
+const bracketMatches = matches.filter((m: any) => 
+  m.stage && !['Regular Season', 'Group Play'].includes(m.stage)
+);
+
+// Tournament leaders and stats
+const tournamentLeaders = [];
+const bestPerformances = [];
+const tournamentRecords = [];
+---
+
+<Layout title={`${tournament?.tournament_name || 'Tournament'} - Global Rankings`}>
+  <div style="min-height: 100vh; background-color: #0F172A;">
+    <div style="max-width: 1000px; margin: 0 auto; padding: 2rem 1rem;">
+      <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+        <TournamentHeroHeader tournament={tournament} client:load />
+        <TournamentInformation tournament={tournament} client:load />
+        <TournamentTabs 
+          tournamentId={id!}
+          participants={participants}
+          matches={matches}
+          tournament={tournament}
+          recentMatches={recentMatches}
+          upcomingMatches={upcomingMatches}
+          bracketMatches={bracketMatches}
+          tournamentLeaders={tournamentLeaders}
+          bestPerformances={bestPerformances}
+          tournamentRecords={tournamentRecords}
+          client:load 
+        />
+
+        {!tournament && (
+          <div style="color: #9CA3AF; font-size: 12px; text-align: center; padding: 1rem 0;">
+            Tournament not found.
+          </div>
+        )}
+      </div>
+    </div>
+  </div>
+</Layout>
+

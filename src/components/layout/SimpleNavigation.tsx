@@ -4,6 +4,7 @@ const exploreItems = [
   { label: 'Crews', href: '/crews' },
   { label: 'Achievements', href: '/achievements' },
   { label: 'History', href: '/pro-am-history' },
+  { label: 'Ranking System', href: '/ranking-system' },
 ];
 
 const competitionItems = [
@@ -11,6 +12,8 @@ const competitionItems = [
   { label: 'Leagues', href: '/leagues' },
   { label: 'Events', href: '/events' },
   { label: 'UPA College', href: '/upa-college' },
+  { label: '2K26 Overview', href: '/2k26-overview' },
+  { label: 'Team Preview', href: '/team-preview' },
 ];
 
 export default function SimpleNavigation({ pathname }: { pathname: string }) {

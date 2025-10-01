@@ -1,0 +1,90 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import { createClientServer } from '@/lib/supabaseClient';
+import CrewHeroHeader from '@/components/crew/CrewHeroHeader';
+import CrewStats from '@/components/crew/CrewStats';
+import CrewTabs from '@/components/crew/CrewTabs';
+
+const { id } = Astro.params;
+
+// Create Supabase client with Astro cookies
+const supabase = createClientServer(Astro.cookies);
+
+// Fetch crew from city_crews
+const { data: crewRow } = await supabase
+  .from('city_crews')
+  .select('id, crewName, crewRegion, crewRank, crewLead, crew_logo')
+  .eq('id', id!)
+  .maybeSingle();
+
+const crew = crewRow ? {
+  id: crewRow.id,
+  name: crewRow.crewName,
+  logo_url: crewRow.crew_logo,
+  crew_color: null,
+  created_at: null,
+  description: crewRow.crewRegion
+} : null;
+
+// Members: players with this crew_affiliation
+const { data: memberPlayers } = await supabase
+  .from('players')
+  .select('id, gamertag, position, player_rp, performance_score, current_team_id')
+  .eq('crew_affiliation', id!);
+
+const members = (memberPlayers || []).map((p: any) => ({
+  player_id: p.id,
+  role: null,
+  joined_at: null,
+  player: {
+    id: p.id,
+    gamertag: p.gamertag,
+    position: p.position,
+    player_rp: p.player_rp,
+    performance_score: p.performance_score
+  }
+}));
+
+// Recent matches: any match involving members' current teams
+const teamIds = Array.from(new Set((memberPlayers || []).map((p: any) => p.current_team_id).filter(Boolean)));
+const { data: recentMatchesRaw } = teamIds.length > 0 ? await supabase
+  .from('matches')
+  .select(`
+    id,
+    played_at,
+    team_a_id,
+    team_b_id,
+    score_a,
+    score_b,
+    team_a:team_a_id(name),
+    team_b:team_b_id(name)
+  `)
+  .or(teamIds.map((tid: string) => `team_a_id.eq.${tid},team_b_id.eq.${tid}`).join(','))
+  .order('played_at', { ascending: false })
+  .limit(10) : { data: [] };
+
+const recentMatches = (recentMatchesRaw || []).map((m: any) => ({
+  ...m,
+  team_a: Array.isArray(m.team_a) ? m.team_a[0] || null : m.team_a,
+  team_b: Array.isArray(m.team_b) ? m.team_b[0] || null : m.team_b,
+}));
+---
+
+<Layout title={`${crew?.name || 'Crew'} - Global Rankings`}>
+  <div style="min-height: 100vh; background-color: #0F172A;">
+    <div style="max-width: 1000px; margin: 0 auto; padding: 2rem 1rem;">
+      <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+        <CrewHeroHeader crew={crew} client:load />
+        <CrewStats crew={crew} members={members} client:load />
+        <CrewTabs crewId={id!} members={members} recentMatches={recentMatches} client:load />
+
+        {!crew && (
+          <div style="color: #9CA3AF; font-size: 12px; text-align: center; padding: 1rem 0;">
+            Crew not found.
+          </div>
+        )}
+      </div>
+    </div>
+  </div>
+</Layout>
+

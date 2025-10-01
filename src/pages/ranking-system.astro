@@ -1,0 +1,67 @@
+---
+import Layout from '@/layouts/Layout.astro';
+---
+
+<Layout title="Ranking System - Global Rankings">
+  <div style="min-height: 100vh; background-color: #0F172A;">
+    <div style="max-width: 1200px; margin: 0 auto; padding: 2rem 1rem;">
+      <div style="margin-bottom: 2rem;">
+        <h1 style="font-size: 2.5rem; font-weight: 800; background: linear-gradient(135deg, #3B82F6 0%, #9BF00B 100%); -webkit-background-clip: text; background-clip: text; color: transparent; margin-bottom: 0.5rem;">
+          Ranking System
+        </h1>
+        <p style="font-size: 1.25rem; color: #9CA3AF;">
+          How our competitive ranking system works
+        </p>
+      </div>
+
+      <div style="background-color: #1E293B; padding: 2rem; border-radius: 8px;">
+        <h2 style="font-size: 2rem; color: #E5E7EB; margin-bottom: 1.5rem;">
+          How Rankings Work
+        </h2>
+        
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
+          <div>
+            <h3 style="font-size: 1.5rem; color: #E5E7EB; margin-bottom: 1rem;">
+              Team Rankings (RP System)
+            </h3>
+            <p style="color: #9CA3AF; margin-bottom: 1rem;">
+              Teams earn Ranking Points (RP) based on tournament performance. The system rewards consistency and success across multiple events.
+            </p>
+            <ul style="color: #9CA3AF; padding-left: 1.5rem;">
+              <li>T1 Events: Up to 1000 RP</li>
+              <li>T2 Events: Up to 750 RP</li>
+              <li>T3 Events: Up to 500 RP</li>
+              <li>T4 Events: Up to 350 RP</li>
+              <li>T5 Events: Up to 200 RP</li>
+            </ul>
+          </div>
+
+          <div>
+            <h3 style="font-size: 1.5rem; color: #E5E7EB; margin-bottom: 1rem;">
+              Player Rankings (PRS System)
+            </h3>
+            <p style="color: #9CA3AF; margin-bottom: 1rem;">
+              Players are ranked using a Performance Rating Score (PRS) that evaluates individual contribution across all games.
+            </p>
+            <ul style="color: #9CA3AF; padding-left: 1.5rem;">
+              <li>Statistical Performance</li>
+              <li>Team Success Contribution</li>
+              <li>Consistency Metrics</li>
+              <li>Efficiency Ratings</li>
+            </ul>
+          </div>
+
+          <div style="grid-column: 1 / -1;">
+            <h3 style="font-size: 1.5rem; color: #E5E7EB; margin-bottom: 1rem;">
+              Event Tier System
+            </h3>
+            <p style="color: #9CA3AF;">
+              Events are classified into tiers based on competition level, prize pool, and field strength.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</Layout>
+

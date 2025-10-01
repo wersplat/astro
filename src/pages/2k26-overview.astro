@@ -1,0 +1,30 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import GameOverviewLeaderboard from '@/components/2k26/GameOverviewLeaderboard';
+import GameOverviewStats from '@/components/2k26/GameOverviewStats';
+import GameOverviewFeatures from '@/components/2k26/GameOverviewFeatures';
+import GameOverviewLeagues from '@/components/2k26/GameOverviewLeagues';
+import GameOverviewTournaments from '@/components/2k26/GameOverviewTournaments';
+---
+
+<Layout title="2K26 Overview - Global Rankings">
+  <div style="min-height: 100vh; background-color: #0F172A;">
+    <div style="max-width: 1200px; margin: 0 auto; padding: 2rem 1rem;">
+      <div style="margin-bottom: 2rem;">
+        <h1 style="font-size: 2.5rem; font-weight: 800; background: linear-gradient(135deg, #3B82F6 0%, #9BF00B 100%); -webkit-background-clip: text; background-clip: text; color: transparent; margin-bottom: 0.5rem;">
+          NBA 2K26 Season Overview
+        </h1>
+        <p style="font-size: 1.25rem; color: #9CA3AF;">
+          The latest season of competitive Pro-Am basketball
+        </p>
+      </div>
+
+      <GameOverviewStats client:load />
+      <GameOverviewLeaderboard client:load />
+      <GameOverviewLeagues client:load />
+      <GameOverviewTournaments client:load />
+      <GameOverviewFeatures client:load />
+    </div>
+  </div>
+</Layout>
+
