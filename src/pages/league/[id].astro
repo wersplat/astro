@@ -98,11 +98,64 @@ const { data: recentMatches } = await supabase
               )}
               <div style="flex: 1;">
                 <h1 style="margin: 0 0 0.5rem; font-size: 2.5rem;">{league.league_name}</h1>
-                {league.season_number && (
-                  <p class="text-secondary">Season {league.season_number}</p>
+                <div style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: center;">
+                  {league.season_number && (
+                    <span style="color: var(--color-primary); font-weight: 600; font-size: 1.125rem;">
+                      Season {league.season_number}
+                    </span>
+                  )}
+                  {league.year && (
+                    <span class="text-secondary" style="font-weight: 600;">
+                      {league.year}
+                    </span>
+                  )}
+                  {league.is_active !== null && (
+                    <span style={`padding: 0.25rem 0.75rem; border-radius: 4px; font-size: 0.75rem; font-weight: 600; background: ${league.is_active ? '#10B98120' : '#6B728020'}; color: ${league.is_active ? '#10B981' : '#6B7280'};`}>
+                      {league.is_active ? 'Active' : 'Completed'}
+                    </span>
+                  )}
+                </div>
+                {(league.start_date || league.end_date) && (
+                  <p class="text-secondary" style="margin: 0.5rem 0 0; font-size: 0.875rem;">
+                    {league.start_date && new Date(league.start_date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+                    {league.start_date && league.end_date && ' - '}
+                    {league.end_date && new Date(league.end_date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+                  </p>
                 )}
               </div>
             </div>
+          </div>
+
+          {/* League Stats Summary */}
+          <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; margin-bottom: 2rem;">
+            <div class="paper" style="text-align: center; padding: 1rem;">
+              <div class="text-secondary" style="font-size: 0.875rem; margin-bottom: 0.25rem;">Teams</div>
+              <div style="font-size: 1.5rem; font-weight: 700; color: var(--color-primary);">
+                {teams?.length || 0}
+              </div>
+            </div>
+            <div class="paper" style="text-align: center; padding: 1rem;">
+              <div class="text-secondary" style="font-size: 0.875rem; margin-bottom: 0.25rem;">Matches</div>
+              <div style="font-size: 1.5rem; font-weight: 700; color: var(--color-primary);">
+                {recentMatches?.length || 0}
+              </div>
+            </div>
+            {league.prize_pool !== null && league.prize_pool > 0 && (
+              <div class="paper" style="text-align: center; padding: 1rem;">
+                <div class="text-secondary" style="font-size: 0.875rem; margin-bottom: 0.25rem;">Prize Pool</div>
+                <div style="font-size: 1.5rem; font-weight: 700; color: #9BF00B;">
+                  ${league.prize_pool.toLocaleString()}
+                </div>
+              </div>
+            )}
+            {league.entry_fee !== null && league.entry_fee > 0 && (
+              <div class="paper" style="text-align: center; padding: 1rem;">
+                <div class="text-secondary" style="font-size: 0.875rem; margin-bottom: 0.25rem;">Entry Fee</div>
+                <div style="font-size: 1.5rem; font-weight: 700; color: #F59E08;">
+                  ${Number(league.entry_fee).toLocaleString()}
+                </div>
+              </div>
+            )}
           </div>
 
           <div class="paper" style="margin-bottom: 2rem;">

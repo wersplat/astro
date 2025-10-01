@@ -48,8 +48,20 @@ const { data: recentGames } = await supabase
           <div class="paper" style="margin-bottom: 2rem;">
             <div style="display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap;">
               <div style="flex: 1;">
-                <h1 style="margin: 0 0 0.5rem; font-size: 2.5rem;">{player.gamertag}</h1>
-                <p class="text-secondary" style="font-size: 1.125rem;">
+                <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem;">
+                  <h1 style="margin: 0; font-size: 2.5rem;">{player.gamertag}</h1>
+                  {player.is_rookie && (
+                    <span style="padding: 0.25rem 0.75rem; border-radius: 4px; font-size: 0.875rem; font-weight: 700; background: rgba(139, 92, 246, 0.2); color: #8B5CF6;">
+                      ROOKIE
+                    </span>
+                  )}
+                  {player.salary_tier && (
+                    <span style="padding: 0.25rem 0.75rem; border-radius: 4px; font-size: 0.875rem; font-weight: 700; background: rgba(245, 158, 8, 0.2); color: #F59E08;">
+                      Tier {player.salary_tier}
+                    </span>
+                  )}
+                </div>
+                <p class="text-secondary" style="font-size: 1.125rem; margin: 0 0 0.5rem;">
                   {player.position || 'Position Unknown'}
                 </p>
                 {team && (
@@ -62,18 +74,81 @@ const { data: recentGames } = await supabase
                     {team.name} →
                   </a>
                 )}
+                <div style="display: flex; gap: 1rem; margin-top: 0.75rem; flex-wrap: wrap;">
+                  {player.twitch && (
+                    <a 
+                      href={`https://twitch.tv/${player.twitch}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style="color: #9146FF; text-decoration: none; font-size: 0.875rem; display: flex; align-items: center; gap: 0.25rem;"
+                      onmouseover="this.style.textDecoration='underline'"
+                    >
+                      📺 Twitch
+                    </a>
+                  )}
+                  {player.twitter_id && (
+                    <a 
+                      href={`https://twitter.com/${player.twitter_id}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style="color: #1DA1F2; text-decoration: none; font-size: 0.875rem; display: flex; align-items: center; gap: 0.25rem;"
+                      onmouseover="this.style.textDecoration='underline'"
+                    >
+                      🐦 Twitter
+                    </a>
+                  )}
+                  {player.discord_id && (
+                    <span class="text-secondary" style="font-size: 0.875rem; display: flex; align-items: center; gap: 0.25rem;">
+                      💬 {player.discord_id}
+                    </span>
+                  )}
+                </div>
               </div>
-              <div style="text-align: right;">
-                {player.player_rp && (
-                  <div>
+              <div style="display: flex; gap: 2rem;">
+                {player.player_rp !== null && (
+                  <div style="text-align: right;">
                     <div class="text-secondary" style="font-size: 0.875rem;">Ranking Points</div>
                     <div style="font-size: 2rem; font-weight: 800; color: var(--color-primary);">
                       {player.player_rp}
                     </div>
                   </div>
                 )}
+                {player.performance_score !== null && player.performance_score > 0 && (
+                  <div style="text-align: right;">
+                    <div class="text-secondary" style="font-size: 0.875rem;">Performance</div>
+                    <div style="font-size: 2rem; font-weight: 800; color: #9BF00B;">
+                      {Math.round(player.performance_score)}
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
+          </div>
+
+          {/* Player Stats Summary */}
+          <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; margin-bottom: 2rem;">
+            <div class="paper" style="text-align: center; padding: 1rem;">
+              <div class="text-secondary" style="font-size: 0.875rem; margin-bottom: 0.25rem;">Games Played</div>
+              <div style="font-size: 1.5rem; font-weight: 700; color: var(--color-primary);">
+                {recentGames?.length || 0}
+              </div>
+            </div>
+            {player.player_rank_score !== null && player.player_rank_score > 0 && (
+              <div class="paper" style="text-align: center; padding: 1rem;">
+                <div class="text-secondary" style="font-size: 0.875rem; margin-bottom: 0.25rem;">Rank Score</div>
+                <div style="font-size: 1.5rem; font-weight: 700; color: var(--color-primary);">
+                  {Math.round(player.player_rank_score)}
+                </div>
+              </div>
+            )}
+            {player.monthly_value !== null && player.monthly_value > 0 && (
+              <div class="paper" style="text-align: center; padding: 1rem;">
+                <div class="text-secondary" style="font-size: 0.875rem; margin-bottom: 0.25rem;">Monthly Value</div>
+                <div style="font-size: 1.5rem; font-weight: 700; color: #9BF00B;">
+                  ${player.monthly_value.toLocaleString()}
+                </div>
+              </div>
+            )}
           </div>
 
           <div class="paper">
