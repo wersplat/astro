@@ -1,30 +1,65 @@
 ---
 import Layout from '@/layouts/Layout.astro';
-import GameOverviewLeaderboard from '@/components/2k26/GameOverviewLeaderboard';
-import GameOverviewStats from '@/components/2k26/GameOverviewStats';
-import GameOverviewFeatures from '@/components/2k26/GameOverviewFeatures';
-import GameOverviewLeagues from '@/components/2k26/GameOverviewLeagues';
-import GameOverviewTournaments from '@/components/2k26/GameOverviewTournaments';
+import { createClientServer } from '@/lib/supabaseClient';
+
+const supabase = createClientServer(Astro.cookies);
+
+const { data: topPlayers } = await supabase
+  .from('player_performance_view')
+  .select('id, gamertag, position, player_rank_score')
+  .order('player_rank_score', { ascending: false })
+  .limit(10);
+
+const { data: activeLeagues } = await supabase
+  .from('league_calendar')
+  .select('*')
+  .eq('game_year', '2K26')
+  .order('start_date', { ascending: false })
+  .limit(10);
 ---
 
 <Layout title="2K26 Overview - Global Rankings">
-  <div style="min-height: 100vh; background-color: #0F172A;">
-    <div style="max-width: 1200px; margin: 0 auto; padding: 2rem 1rem;">
+  <div class="app-theme">
+    <div class="container">
       <div style="margin-bottom: 2rem;">
         <h1 style="font-size: 2.5rem; font-weight: 800; background: linear-gradient(135deg, #3B82F6 0%, #9BF00B 100%); -webkit-background-clip: text; background-clip: text; color: transparent; margin-bottom: 0.5rem;">
           NBA 2K26 Season Overview
         </h1>
-        <p style="font-size: 1.25rem; color: #9CA3AF;">
+        <p style="font-size: 1.25rem; color: var(--color-text-secondary);">
           The latest season of competitive Pro-Am basketball
         </p>
       </div>
 
-      <GameOverviewStats client:load />
-      <GameOverviewLeaderboard client:load />
-      <GameOverviewLeagues client:load />
-      <GameOverviewTournaments client:load />
-      <GameOverviewFeatures client:load />
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-bottom: 2rem;">
+        <div class="paper">
+          <h2 style="margin-bottom: 1.5rem;">Top Players</h2>
+          <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+            {topPlayers?.slice(0, 5).map((player: any, idx: number) => (
+              <a href={`/player/${player.id}`} style="text-decoration: none; color: inherit; display: flex; justify-content: space-between; align-items: center; padding: 0.5rem; border-radius: 4px; background: var(--color-background);">
+                <div>
+                  <span style="color: var(--color-text-secondary); margin-right: 0.5rem;">#{idx + 1}</span>
+                  <span>{player.gamertag}</span>
+                </div>
+                <span class="text-secondary" style="font-size: 0.875rem;">{player.position}</span>
+              </a>
+            ))}
+          </div>
+        </div>
+
+        <div class="paper">
+          <h2 style="margin-bottom: 1.5rem;">Active Leagues</h2>
+          <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+            {activeLeagues?.map((league: any) => (
+              <a href={`/league/${league.league_id}`} style="text-decoration: none; color: inherit; padding: 0.5rem; border-radius: 4px; background: var(--color-background);">
+                <h4 style="margin: 0 0 0.25rem;">{league.league_name}</h4>
+                <p class="text-secondary" style="font-size: 0.875rem; margin: 0;">
+                  Season {league.season_number}
+                </p>
+              </a>
+            ))}
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </Layout>
-

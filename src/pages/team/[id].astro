@@ -1,56 +1,33 @@
 ---
 import Layout from '@/layouts/Layout.astro';
 import { createClientServer } from '@/lib/supabaseClient';
-import TeamHeroHeader from '@/components/team/TeamHeroHeader';
-import TeamStatistics from '@/components/team/TeamStatistics';
-import TeamTabs from '@/components/team/TeamTabs';
 
 const { id } = Astro.params;
-
 const supabase = createClientServer(Astro.cookies);
 
-// Fetch team header data
 const { data: team } = await supabase
   .from('teams')
-  .select('id, name, logo_url, global_rank, current_rp, created_at')
+  .select('*')
   .eq('id', id!)
   .maybeSingle();
 
-// Fetch team performance
-const { data: teamPerformance } = await supabase
-  .from('team_performance_view')
-  .select('*')
-  .eq('team_id', id!)
-  .maybeSingle();
-
-// Fetch year stats
-const { data: yearStats } = await supabase
-  .from('team_performance_by_game_year')
-  .select('*')
-  .eq('team_id', id!)
-  .order('game_year', { ascending: false });
-
-// Fetch current roster
 const { data: playersRaw } = await supabase
   .from('team_rosters')
   .select(`
     player_id,
     position,
-    joined_at,
     is_captain,
-    is_player_coach,
-    player:player_id(id, gamertag, position, player_rp, performance_score)
+    players!inner(id, gamertag, position, player_rp)
   `)
   .eq('team_id', id!)
   .is('left_at', null);
 
-const players = (playersRaw || []).map((r: any) => ({
+const players = playersRaw?.map((r: any) => ({
   ...r,
-  player: Array.isArray(r.player) ? r.player[0] : r.player
-}));
+  player: Array.isArray(r.players) ? r.players[0] : r.players
+})) || [];
 
-// Fetch recent matches
-const { data: recentMatchesRaw } = await supabase
+const { data: recentMatches } = await supabase
   .from('matches')
   .select(`
     id,
@@ -58,84 +35,104 @@ const { data: recentMatchesRaw } = await supabase
     team_a_id,
     team_b_id,
     score_a,
-    score_b,
-    boxscore_url,
-    team_a:team_a_id(name),
-    team_b:team_b_id(name)
+    score_b
   `)
   .or(`team_a_id.eq.${id},team_b_id.eq.${id}`)
+  .not('played_at', 'is', null)
   .order('played_at', { ascending: false })
   .limit(10);
-
-const recentMatches = (recentMatchesRaw || []).map((m: any) => ({
-  ...m,
-  team_a: Array.isArray(m.team_a) ? m.team_a[0] : m.team_a,
-  team_b: Array.isArray(m.team_b) ? m.team_b[0] : m.team_b
-}));
-
-// Fetch all matches for comprehensive view
-const { data: allMatchesRaw } = await supabase
-  .from('matches')
-  .select(`
-    id,
-    played_at,
-    team_a_id,
-    team_b_id,
-    score_a,
-    score_b,
-    boxscore_url,
-    team_a:team_a_id(name),
-    team_b:team_b_id(name)
-  `)
-  .or(`team_a_id.eq.${id},team_b_id.eq.${id}`)
-  .order('played_at', { ascending: false });
-
-const allMatches = (allMatchesRaw || []).map((m: any) => ({
-  ...m,
-  team_a: Array.isArray(m.team_a) ? m.team_a[0] : m.team_a,
-  team_b: Array.isArray(m.team_b) ? m.team_b[0] : m.team_b
-}));
-
-// Fetch team history
-const { data: teamHistory } = await supabase
-  .from('team_roster_history')
-  .select('*')
-  .eq('team_id', id!)
-  .order('joined_at', { ascending: false });
-
-// Fetch championships
-const { data: championships } = await supabase
-  .from('past_champions')
-  .select('*')
-  .eq('team_id', id!)
-  .order('created_at', { ascending: false });
 ---
 
 <Layout title={`${team?.name || 'Team'} - Global Rankings`}>
-  <div style="min-height: 100vh; background-color: #0F172A;">
-    <div style="max-width: 1000px; margin: 0 auto; padding: 2rem 1rem;">
-      <div style="display: flex; flex-direction: column; gap: 1.5rem;">
-        <TeamHeroHeader team={team} client:load />
-        <TeamStatistics teamPerformance={teamPerformance} yearStats={yearStats || []} client:load />
-        <TeamTabs 
-          teamId={id!} 
-          players={players} 
-          recentMatches={recentMatches}
-          allMatches={allMatches}
-          teamHistory={teamHistory || []}
-          championships={championships || []}
-          yearStats={yearStats || []}
-          teamPerformance={teamPerformance}
-          client:load 
-        />
-
-        {!team && (
-          <div style="color: #9CA3AF; font-size: 12px; text-align: center; padding: 1rem 0;">
-            Team not found.
+  <div class="app-theme">
+    <div class="container">
+      {team ? (
+        <>
+          <div class="paper" style="margin-bottom: 2rem;">
+            <div style="display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap;">
+              {team.logo_url && (
+                <img 
+                  src={team.logo_url} 
+                  alt={team.name || 'Team'} 
+                  style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover;"
+                />
+              )}
+              <div style="flex: 1;">
+                <h1 style="margin: 0 0 0.5rem; font-size: 2.5rem;">{team.name}</h1>
+                {team.global_rank && (
+                  <p class="text-secondary">Global Rank: #{team.global_rank}</p>
+                )}
+              </div>
+              {team.current_rp && (
+                <div style="text-align: right;">
+                  <div class="text-secondary" style="font-size: 0.875rem;">Ranking Points</div>
+                  <div style="font-size: 2rem; font-weight: 800; color: var(--color-primary);">
+                    {team.current_rp}
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
-        )}
-      </div>
+
+          <div class="paper" style="margin-bottom: 2rem;">
+            <h2 style="margin-bottom: 1.5rem;">Current Roster ({players.length})</h2>
+            <div class="grid" style="grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));">
+              {players.map((p: any) => (
+                <a href={`/player/${p.player?.id}`} class="card" style="text-decoration: none; color: inherit;">
+                  <h4 style="margin: 0 0 0.5rem;">
+                    {p.player?.gamertag}
+                    {p.is_captain && ' (C)'}
+                  </h4>
+                  <p class="text-secondary" style="font-size: 0.875rem; margin: 0;">
+                    {p.player?.position || p.position || 'No Position'}
+                  </p>
+                </a>
+              ))}
+            </div>
+            {players.length === 0 && (
+              <p class="text-secondary">No players found</p>
+            )}
+          </div>
+
+          <div class="paper">
+            <h2 style="margin-bottom: 1.5rem;">Recent Matches</h2>
+            {recentMatches && recentMatches.length > 0 ? (
+              <div style="display: flex; flex-direction: column; gap: 1rem;">
+                {recentMatches.map((match: any) => {
+                  const isTeamA = match.team_a_id === id;
+                  const teamScore = isTeamA ? match.score_a : match.score_b;
+                  const oppScore = isTeamA ? match.score_b : match.score_a;
+                  const won = teamScore > oppScore;
+                  
+                  return (
+                    <div class="card" style="padding: 1rem;">
+                      <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div>
+                          <span style={`color: ${won ? '#10B981' : '#EF4444'}; font-weight: 600;`}>
+                            {won ? 'W' : 'L'}
+                          </span>
+                          <span style="margin-left: 1rem; font-size: 1.25rem; font-weight: 700;">
+                            {teamScore} - {oppScore}
+                          </span>
+                        </div>
+                        <p class="text-secondary" style="font-size: 0.875rem; margin: 0;">
+                          {new Date(match.played_at).toLocaleDateString()}
+                        </p>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            ) : (
+              <p class="text-secondary">No recent matches found</p>
+            )}
+          </div>
+        </>
+      ) : (
+        <div class="paper">
+          <p class="text-secondary">Team not found</p>
+        </div>
+      )}
     </div>
   </div>
 </Layout>
-

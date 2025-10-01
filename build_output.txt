@@ -1,0 +1,986 @@
+
+> global-rankings-astro@0.1.0 build
+> astro check && astro build
+
+00:43:09 [@astrojs/cloudflare] Enabling sessions with Cloudflare KV with the "SESSION" KV binding.
+00:43:09 [@astrojs/cloudflare] If you see the error "Invalid binding `SESSION`" in your build output, you need to add the binding to your wrangler config file.
+00:43:09 [WARN] [adapter] Cloudflare does not support sharp at runtime. However, you can configure `imageService: "compile"` to optimize images with sharp on prerendered pages during build time.
+00:43:09 [content] Syncing content
+00:43:09 [content] Synced content
+00:43:09 [types] Generated 21ms
+00:43:09 [check] Getting diagnostics for Astro files in /Volumes/870SSD/Active GH Projects/Global_Rankings/astro...
+[96msrc/components/2k26/GameOverviewFeatures.tsx[0m:[93m1[0m:[93m41[0m - [93mwarning[0m[90m ts(6133): [0m'Chip' is declared but its value is never read.
+
+[7m1[0m import { Paper, Typography, Stack, Box, Chip } from '@mui/material';
+[7m [0m [93m                                        ~~~~[0m
+
+[96msrc/components/2k26/GameOverviewStats.tsx[0m:[93m82[0m:[93m10[0m - [91merror[0m[90m ts(2769): [0mNo overload matches this call.
+  Overload 1 of 2, '(props: { component: ElementType<any, keyof IntrinsicElements>; } & GridBaseProps & { sx?: SxProps<Theme>; } & SystemProps<Theme> & Omit<...>): Element', gave the following error.
+  Overload 2 of 2, '(props: DefaultComponentProps<GridTypeMap<{}, "div">>): Element', gave the following error.
+
+[7m82[0m         <Grid item xs={12} sm={6} md={3}>
+[7m  [0m [91m         ~~~~[0m
+[96msrc/components/2k26/GameOverviewStats.tsx[0m:[93m71[0m:[93m10[0m - [91merror[0m[90m ts(2769): [0mNo overload matches this call.
+  Overload 1 of 2, '(props: { component: ElementType<any, keyof IntrinsicElements>; } & GridBaseProps & { sx?: SxProps<Theme>; } & SystemProps<Theme> & Omit<...>): Element', gave the following error.
+  Overload 2 of 2, '(props: DefaultComponentProps<GridTypeMap<{}, "div">>): Element', gave the following error.
+
+[7m71[0m         <Grid item xs={12} sm={6} md={3}>
+[7m  [0m [91m         ~~~~[0m
+[96msrc/components/2k26/GameOverviewStats.tsx[0m:[93m60[0m:[93m10[0m - [91merror[0m[90m ts(2769): [0mNo overload matches this call.
+  Overload 1 of 2, '(props: { component: ElementType<any, keyof IntrinsicElements>; } & GridBaseProps & { sx?: SxProps<Theme>; } & SystemProps<Theme> & Omit<...>): Element', gave the following error.
+  Overload 2 of 2, '(props: DefaultComponentProps<GridTypeMap<{}, "div">>): Element', gave the following error.
+
+[7m60[0m         <Grid item xs={12} sm={6} md={3}>
+[7m  [0m [91m         ~~~~[0m
+[96msrc/components/2k26/GameOverviewStats.tsx[0m:[93m49[0m:[93m10[0m - [91merror[0m[90m ts(2769): [0mNo overload matches this call.
+  Overload 1 of 2, '(props: { component: ElementType<any, keyof IntrinsicElements>; } & GridBaseProps & { sx?: SxProps<Theme>; } & SystemProps<Theme> & Omit<...>): Element', gave the following error.
+  Overload 2 of 2, '(props: DefaultComponentProps<GridTypeMap<{}, "div">>): Element', gave the following error.
+
+[7m49[0m         <Grid item xs={12} sm={6} md={3}>
+[7m  [0m [91m         ~~~~[0m
+
+[96msrc/components/2k26/GameOverviewTournaments.tsx[0m:[93m1[0m:[93m47[0m - [93mwarning[0m[90m ts(6133): [0m'Link' is declared but its value is never read.
+
+[7m1[0m import { Paper, Typography, Stack, Box, Chip, Link } from '@mui/material';
+[7m [0m [93m                                              ~~~~[0m
+
+[96msrc/components/2k26-team-preview/TeamPreviewStats.tsx[0m:[93m84[0m:[93m10[0m - [91merror[0m[90m ts(2769): [0mNo overload matches this call.
+  Overload 1 of 2, '(props: { component: ElementType<any, keyof IntrinsicElements>; } & GridBaseProps & { sx?: SxProps<Theme>; } & SystemProps<Theme> & Omit<...>): Element', gave the following error.
+  Overload 2 of 2, '(props: DefaultComponentProps<GridTypeMap<{}, "div">>): Element', gave the following error.
+
+[7m84[0m         <Grid item xs={12} md={4}>
+[7m  [0m [91m         ~~~~[0m
+[96msrc/components/2k26-team-preview/TeamPreviewStats.tsx[0m:[93m78[0m:[93m10[0m - [91merror[0m[90m ts(2769): [0mNo overload matches this call.
+  Overload 1 of 2, '(props: { component: ElementType<any, keyof IntrinsicElements>; } & GridBaseProps & { sx?: SxProps<Theme>; } & SystemProps<Theme> & Omit<...>): Element', gave the following error.
+  Overload 2 of 2, '(props: DefaultComponentProps<GridTypeMap<{}, "div">>): Element', gave the following error.
+
+[7m78[0m         <Grid item xs={12} md={4}>
+[7m  [0m [91m         ~~~~[0m
+[96msrc/components/2k26-team-preview/TeamPreviewStats.tsx[0m:[93m72[0m:[93m10[0m - [91merror[0m[90m ts(2769): [0mNo overload matches this call.
+  Overload 1 of 2, '(props: { component: ElementType<any, keyof IntrinsicElements>; } & GridBaseProps & { sx?: SxProps<Theme>; } & SystemProps<Theme> & Omit<...>): Element', gave the following error.
+  Overload 2 of 2, '(props: DefaultComponentProps<GridTypeMap<{}, "div">>): Element', gave the following error.
+
+[7m72[0m         <Grid item xs={12} md={4}>
+[7m  [0m [91m         ~~~~[0m
+
+[96msrc/components/achievements/AchievementsFilters.tsx[0m:[93m105[0m:[93m13[0m - [93mwarning[0m[90m ts(6385): [0m'InputProps' is deprecated.
+
+[7m105[0m             InputProps={{
+[7m   [0m [93m            ~~~~~~~~~~[0m
+
+[96msrc/components/achievements/AchievementsGrid.tsx[0m:[93m263[0m:[93m14[0m - [91merror[0m[90m ts(2769): [0mNo overload matches this call.
+  Overload 1 of 2, '(props: { component: ElementType<any, keyof IntrinsicElements>; } & GridBaseProps & { sx?: SxProps<Theme>; } & SystemProps<Theme> & Omit<...>): Element', gave the following error.
+  Overload 2 of 2, '(props: DefaultComponentProps<GridTypeMap<{}, "div">>): Element', gave the following error.
+
+[7m263[0m             <Grid item xs={12} sm={6} md={4} lg={3} key={achievement.id}>
+[7m   [0m [91m             ~~~~[0m
+
+[96msrc/components/crew/CrewStats.tsx[0m:[93m58[0m:[93m10[0m - [91merror[0m[90m ts(2769): [0mNo overload matches this call.
+  Overload 1 of 2, '(props: { component: ElementType<any, keyof IntrinsicElements>; } & GridBaseProps & { sx?: SxProps<Theme>; } & SystemProps<Theme> & Omit<...>): Element', gave the following error.
+  Overload 2 of 2, '(props: DefaultComponentProps<GridTypeMap<{}, "div">>): Element', gave the following error.
+
+[7m58[0m         <Grid item xs={12} sm={6} md={3} key={index}>
+[7m  [0m [91m         ~~~~[0m
+
+[96msrc/components/crew/CrewTabs.tsx[0m:[93m28[0m:[93m3[0m - [93mwarning[0m[90m ts(6133): [0m'crewId' is declared but its value is never read.
+
+[7m28[0m   crewId,
+[7m  [0m [93m  ~~~~~~[0m
+
+[96msrc/components/crew/skeletons.tsx[0m:[93m23[0m:[93m10[0m - [91merror[0m[90m ts(2769): [0mNo overload matches this call.
+  Overload 1 of 2, '(props: { component: ElementType<any, keyof IntrinsicElements>; } & GridBaseProps & { sx?: SxProps<Theme>; } & SystemProps<Theme> & Omit<...>): Element', gave the following error.
+  Overload 2 of 2, '(props: DefaultComponentProps<GridTypeMap<{}, "div">>): Element', gave the following error.
+
+[7m23[0m         <Grid item xs={12} sm={6} md={3} key={i}>
+[7m  [0m [91m         ~~~~[0m
+
+[96msrc/components/crews/CrewsFilters.tsx[0m:[93m94[0m:[93m10[0m - [91merror[0m[90m ts(2769): [0mNo overload matches this call.
+  Overload 1 of 2, '(props: { component: ElementType<any, keyof IntrinsicElements>; } & GridBaseProps & { sx?: SxProps<Theme>; } & SystemProps<Theme> & Omit<...>): Element', gave the following error.
+  Overload 2 of 2, '(props: DefaultComponentProps<GridTypeMap<{}, "div">>): Element', gave the following error.
+
+[7m94[0m         <Grid item xs={12} md={3}>
+[7m  [0m [91m         ~~~~[0m
+[96msrc/components/crews/CrewsFilters.tsx[0m:[93m77[0m:[93m10[0m - [91merror[0m[90m ts(2769): [0mNo overload matches this call.
+  Overload 1 of 2, '(props: { component: ElementType<any, keyof IntrinsicElements>; } & GridBaseProps & { sx?: SxProps<Theme>; } & SystemProps<Theme> & Omit<...>): Element', gave the following error.
+  Overload 2 of 2, '(props: DefaultComponentProps<GridTypeMap<{}, "div">>): Element', gave the following error.
+
+[7m77[0m         <Grid item xs={12} sm={6} md={3}>
+[7m  [0m [91m         ~~~~[0m
+[96msrc/components/crews/CrewsFilters.tsx[0m:[93m64[0m:[93m10[0m - [91merror[0m[90m ts(2769): [0mNo overload matches this call.
+  Overload 1 of 2, '(props: { component: ElementType<any, keyof IntrinsicElements>; } & GridBaseProps & { sx?: SxProps<Theme>; } & SystemProps<Theme> & Omit<...>): Element', gave the following error.
+  Overload 2 of 2, '(props: DefaultComponentProps<GridTypeMap<{}, "div">>): Element', gave the following error.
+
+[7m64[0m         <Grid item xs={12} md={6}>
+[7m  [0m [91m         ~~~~[0m
+[96msrc/components/crews/CrewsFilters.tsx[0m:[93m71[0m:[93m13[0m - [93mwarning[0m[90m ts(6385): [0m'InputProps' is deprecated.
+
+[7m71[0m             InputProps={{
+[7m  [0m [93m            ~~~~~~~~~~[0m
+
+[96msrc/components/crews/CrewsList.tsx[0m:[93m58[0m:[93m12[0m - [91merror[0m[90m ts(2769): [0mNo overload matches this call.
+  Overload 1 of 2, '(props: { component: ElementType<any, keyof IntrinsicElements>; } & GridBaseProps & { sx?: SxProps<Theme>; } & SystemProps<Theme> & Omit<...>): Element', gave the following error.
+  Overload 2 of 2, '(props: DefaultComponentProps<GridTypeMap<{}, "div">>): Element', gave the following error.
+
+[7m58[0m           <Grid item xs={12} sm={6} md={4} lg={3} key={crew.id}>
+[7m  [0m [91m           ~~~~[0m
+[96msrc/components/crews/CrewsList.tsx[0m:[93m14[0m:[93m30[0m - [91merror[0m[90m ts(2307): [0mCannot find module '../players/PaginationClient' or its corresponding type declarations.
+
+[7m14[0m import PaginationClient from '../players/PaginationClient';
+[7m  [0m [91m                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[96msrc/components/crews/CrewsList.tsx[0m:[93m31[0m:[93m9[0m - [93mwarning[0m[90m ts(6133): [0m'withAlpha' is declared but its value is never read.
+
+[7m31[0m   const withAlpha = (hexColor: string, opacity: number) => {
+[7m  [0m [93m        ~~~~~~~~~[0m
+[96msrc/components/crews/CrewsList.tsx[0m:[93m13[0m:[93m1[0m - [93mwarning[0m[90m ts(6192): [0mAll imports in import declaration are unused.
+
+[7m13[0m import { People, TrendingUp } from '@mui/icons-material';
+[7m  [0m [93m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[96msrc/components/crews/CrewsList.tsx[0m:[93m10[0m:[93m3[0m - [93mwarning[0m[90m ts(6133): [0m'Stack' is declared but its value is never read.
+
+[7m10[0m   Stack
+[7m  [0m [93m  ~~~~~[0m
+
+[96msrc/components/crews/skeletons.tsx[0m:[93m14[0m:[93m12[0m - [91merror[0m[90m ts(2769): [0mNo overload matches this call.
+  Overload 1 of 2, '(props: { component: ElementType<any, keyof IntrinsicElements>; } & GridBaseProps & { sx?: SxProps<Theme>; } & SystemProps<Theme> & Omit<...>): Element', gave the following error.
+  Overload 2 of 2, '(props: DefaultComponentProps<GridTypeMap<{}, "div">>): Element', gave the following error.
+
+[7m14[0m           <Grid item xs={12} sm={6} md={4} lg={3} key={i}>
+[7m  [0m [91m           ~~~~[0m
+
+[96msrc/components/events/EventsFilters.tsx[0m:[93m124[0m:[93m10[0m - [91merror[0m[90m ts(2769): [0mNo overload matches this call.
+  Overload 1 of 2, '(props: { component: ElementType<any, keyof IntrinsicElements>; } & GridBaseProps & { sx?: SxProps<Theme>; } & SystemProps<Theme> & Omit<...>): Element', gave the following error.
+  Overload 2 of 2, '(props: DefaultComponentProps<GridTypeMap<{}, "div">>): Element', gave the following error.
+
+[7m124[0m         <Grid item xs={12} md={3}>
+[7m   [0m [91m         ~~~~[0m
+[96msrc/components/events/EventsFilters.tsx[0m:[93m107[0m:[93m10[0m - [91merror[0m[90m ts(2769): [0mNo overload matches this call.
+  Overload 1 of 2, '(props: { component: ElementType<any, keyof IntrinsicElements>; } & GridBaseProps & { sx?: SxProps<Theme>; } & SystemProps<Theme> & Omit<...>): Element', gave the following error.
+  Overload 2 of 2, '(props: DefaultComponentProps<GridTypeMap<{}, "div">>): Element', gave the following error.
+
+[7m107[0m         <Grid item xs={12} sm={6} md={2}>
+[7m   [0m [91m         ~~~~[0m
+[96msrc/components/events/EventsFilters.tsx[0m:[93m90[0m:[93m10[0m - [91merror[0m[90m ts(2769): [0mNo overload matches this call.
+  Overload 1 of 2, '(props: { component: ElementType<any, keyof IntrinsicElements>; } & GridBaseProps & { sx?: SxProps<Theme>; } & SystemProps<Theme> & Omit<...>): Element', gave the following error.
+  Overload 2 of 2, '(props: DefaultComponentProps<GridTypeMap<{}, "div">>): Element', gave the following error.
+
+[7m90[0m         <Grid item xs={12} sm={6} md={2}>
+[7m  [0m [91m         ~~~~[0m
+[96msrc/components/events/EventsFilters.tsx[0m:[93m77[0m:[93m10[0m - [91merror[0m[90m ts(2769): [0mNo overload matches this call.
+  Overload 1 of 2, '(props: { component: ElementType<any, keyof IntrinsicElements>; } & GridBaseProps & { sx?: SxProps<Theme>; } & SystemProps<Theme> & Omit<...>): Element', gave the following error.
+  Overload 2 of 2, '(props: DefaultComponentProps<GridTypeMap<{}, "div">>): Element', gave the following error.
+
+[7m77[0m         <Grid item xs={12} md={5}>
+[7m  [0m [91m         ~~~~[0m
+[96msrc/components/events/EventsFilters.tsx[0m:[93m84[0m:[93m13[0m - [93mwarning[0m[90m ts(6385): [0m'InputProps' is deprecated.
+
+[7m84[0m             InputProps={{
+[7m  [0m [93m            ~~~~~~~~~~[0m
+
+[96msrc/components/events/EventsList.tsx[0m:[93m220[0m:[93m18[0m - [91merror[0m[90m ts(2769): [0mNo overload matches this call.
+  Overload 1 of 2, '(props: { component: ElementType<any, keyof IntrinsicElements>; } & GridBaseProps & { sx?: SxProps<Theme>; } & SystemProps<Theme> & Omit<...>): Element', gave the following error.
+  Overload 2 of 2, '(props: DefaultComponentProps<GridTypeMap<{}, "div">>): Element', gave the following error.
+
+[7m220[0m                 <Grid item xs={12} md={4}>
+[7m   [0m [91m                 ~~~~[0m
+[96msrc/components/events/EventsList.tsx[0m:[93m158[0m:[93m18[0m - [91merror[0m[90m ts(2769): [0mNo overload matches this call.
+  Overload 1 of 2, '(props: { component: ElementType<any, keyof IntrinsicElements>; } & GridBaseProps & { sx?: SxProps<Theme>; } & SystemProps<Theme> & Omit<...>): Element', gave the following error.
+  Overload 2 of 2, '(props: DefaultComponentProps<GridTypeMap<{}, "div">>): Element', gave the following error.
+
+[7m158[0m                 <Grid item xs={12} md={8}>
+[7m   [0m [91m                 ~~~~[0m
+[96msrc/components/events/EventsList.tsx[0m:[93m13[0m:[93m30[0m - [91merror[0m[90m ts(2307): [0mCannot find module '../players/PaginationClient' or its corresponding type declarations.
+
+[7m13[0m import PaginationClient from '../players/PaginationClient';
+[7m  [0m [91m                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[96msrc/components/events/skeletons.tsx[0m:[93m36[0m:[93m16[0m - [91merror[0m[90m ts(2769): [0mNo overload matches this call.
+  Overload 1 of 2, '(props: { component: ElementType<any, keyof IntrinsicElements>; } & GridBaseProps & { sx?: SxProps<Theme>; } & SystemProps<Theme> & Omit<...>): Element', gave the following error.
+  Overload 2 of 2, '(props: DefaultComponentProps<GridTypeMap<{}, "div">>): Element', gave the following error.
+
+[7m36[0m               <Grid item xs={12} md={4}>
+[7m  [0m [91m               ~~~~[0m
+[96msrc/components/events/skeletons.tsx[0m:[93m16[0m:[93m16[0m - [91merror[0m[90m ts(2769): [0mNo overload matches this call.
+  Overload 1 of 2, '(props: { component: ElementType<any, keyof IntrinsicElements>; } & GridBaseProps & { sx?: SxProps<Theme>; } & SystemProps<Theme> & Omit<...>): Element', gave the following error.
+  Overload 2 of 2, '(props: DefaultComponentProps<GridTypeMap<{}, "div">>): Element', gave the following error.
+
+[7m16[0m               <Grid item xs={12} md={8}>
+[7m  [0m [91m               ~~~~[0m
+
+[96msrc/components/league/LeagueInformation.tsx[0m:[93m197[0m:[93m10[0m - [91merror[0m[90m ts(2769): [0mNo overload matches this call.
+  Overload 1 of 2, '(props: { component: ElementType<any, keyof IntrinsicElements>; } & GridBaseProps & { sx?: SxProps<Theme>; } & SystemProps<Theme> & Omit<...>): Element', gave the following error.
+  Overload 2 of 2, '(props: DefaultComponentProps<GridTypeMap<{}, "div">>): Element', gave the following error.
+
+[7m197[0m         <Grid item xs={12} md={6}>
+[7m   [0m [91m         ~~~~[0m
+[96msrc/components/league/LeagueInformation.tsx[0m:[93m164[0m:[93m10[0m - [91merror[0m[90m ts(2769): [0mNo overload matches this call.
+  Overload 1 of 2, '(props: { component: ElementType<any, keyof IntrinsicElements>; } & GridBaseProps & { sx?: SxProps<Theme>; } & SystemProps<Theme> & Omit<...>): Element', gave the following error.
+  Overload 2 of 2, '(props: DefaultComponentProps<GridTypeMap<{}, "div">>): Element', gave the following error.
+
+[7m164[0m         <Grid item xs={12} md={6}>
+[7m   [0m [91m         ~~~~[0m
+[96msrc/components/league/LeagueInformation.tsx[0m:[93m256[0m:[93m21[0m - [91merror[0m[90m ts(17002): [0mExpected corresponding JSX closing tag for 'Link'.
+
+[7m256[0m                   </a>
+[7m   [0m [91m                    ~[0m
+
+[96msrc/components/league/LeagueMatches.tsx[0m:[93m682[0m:[93m9[0m - [93mwarning[0m[90m ts(6385): [0m'PaperProps' is deprecated.
+
+[7m682[0m         PaperProps={{
+[7m   [0m [93m        ~~~~~~~~~~[0m
+[96msrc/components/league/LeagueMatches.tsx[0m:[93m1[0m:[93m34[0m - [93mwarning[0m[90m ts(6133): [0m'Grid' is declared but its value is never read.
+
+[7m1[0m import { Box, Paper, Typography, Grid, Avatar, Chip, Table, TableBody, TableCell, TableHead, TableRow, Pagination, Dialog, DialogContent, DialogTitle, IconButton, Button, Tabs, Tab, CircularProgress, Alert } from '@mui/material';
+[7m [0m [93m                                 ~~~~[0m
+
+[96msrc/components/league/LeagueStatistics.tsx[0m:[93m1113[0m:[93m18[0m - [91merror[0m[90m ts(2769): [0mNo overload matches this call.
+  Overload 1 of 2, '(props: { component: ElementType<any, keyof IntrinsicElements>; } & GridBaseProps & { sx?: SxProps<Theme>; } & SystemProps<Theme> & Omit<...>): Element', gave the following error.
+  Overload 2 of 2, '(props: DefaultComponentProps<GridTypeMap<{}, "div">>): Element', gave the following error.
+
+[7m1113[0m                 <Grid item xs={12} md={6}>
+[7m    [0m [91m                 ~~~~[0m
+[96msrc/components/league/LeagueStatistics.tsx[0m:[93m1091[0m:[93m18[0m - [91merror[0m[90m ts(2769): [0mNo overload matches this call.
+  Overload 1 of 2, '(props: { component: ElementType<any, keyof IntrinsicElements>; } & GridBaseProps & { sx?: SxProps<Theme>; } & SystemProps<Theme> & Omit<...>): Element', gave the following error.
+  Overload 2 of 2, '(props: DefaultComponentProps<GridTypeMap<{}, "div">>): Element', gave the following error.
+
+[7m1091[0m                 <Grid item xs={12} md={6}>
+[7m    [0m [91m                 ~~~~[0m
+[96msrc/components/league/LeagueStatistics.tsx[0m:[93m1073[0m:[93m18[0m - [91merror[0m[90m ts(2769): [0mNo overload matches this call.
+  Overload 1 of 2, '(props: { component: ElementType<any, keyof IntrinsicElements>; } & GridBaseProps & { sx?: SxProps<Theme>; } & SystemProps<Theme> & Omit<...>): Element', gave the following error.
+  Overload 2 of 2, '(props: DefaultComponentProps<GridTypeMap<{}, "div">>): Element', gave the following error.
+
+[7m1073[0m                 <Grid item xs={12} md={6}>
+[7m    [0m [91m                 ~~~~[0m
+[96msrc/components/league/LeagueStatistics.tsx[0m:[93m1055[0m:[93m18[0m - [91merror[0m[90m ts(2769): [0mNo overload matches this call.
+  Overload 1 of 2, '(props: { component: ElementType<any, keyof IntrinsicElements>; } & GridBaseProps & { sx?: SxProps<Theme>; } & SystemProps<Theme> & Omit<...>): Element', gave the following error.
+  Overload 2 of 2, '(props: DefaultComponentProps<GridTypeMap<{}, "div">>): Element', gave the following error.
+
+[7m1055[0m                 <Grid item xs={12} md={6}>
+[7m    [0m [91m                 ~~~~[0m
+[96msrc/components/league/LeagueStatistics.tsx[0m:[93m1037[0m:[93m18[0m - [91merror[0m[90m ts(2769): [0mNo overload matches this call.
+  Overload 1 of 2, '(props: { component: ElementType<any, keyof IntrinsicElements>; } & GridBaseProps & { sx?: SxProps<Theme>; } & SystemProps<Theme> & Omit<...>): Element', gave the following error.
+  Overload 2 of 2, '(props: DefaultComponentProps<GridTypeMap<{}, "div">>): Element', gave the following error.
+
+[7m1037[0m                 <Grid item xs={12} md={6}>
+[7m    [0m [91m                 ~~~~[0m
+[96msrc/components/league/LeagueStatistics.tsx[0m:[93m1019[0m:[93m18[0m - [91merror[0m[90m ts(2769): [0mNo overload matches this call.
+  Overload 1 of 2, '(props: { component: ElementType<any, keyof IntrinsicElements>; } & GridBaseProps & { sx?: SxProps<Theme>; } & SystemProps<Theme> & Omit<...>): Element', gave the following error.
+  Overload 2 of 2, '(props: DefaultComponentProps<GridTypeMap<{}, "div">>): Element', gave the following error.
+
+[7m1019[0m                 <Grid item xs={12} md={6}>
+[7m    [0m [91m                 ~~~~[0m
+[96msrc/components/league/LeagueStatistics.tsx[0m:[93m988[0m:[93m14[0m - [91merror[0m[90m ts(2769): [0mNo overload matches this call.
+  Overload 1 of 2, '(props: { component: ElementType<any, keyof IntrinsicElements>; } & GridBaseProps & { sx?: SxProps<Theme>; } & SystemProps<Theme> & Omit<...>): Element', gave the following error.
+  Overload 2 of 2, '(props: DefaultComponentProps<GridTypeMap<{}, "div">>): Element', gave the following error.
+
+[7m988[0m             <Grid item xs={12} md={6}>
+[7m   [0m [91m             ~~~~[0m
+[96msrc/components/league/LeagueStatistics.tsx[0m:[93m967[0m:[93m14[0m - [91merror[0m[90m ts(2769): [0mNo overload matches this call.
+  Overload 1 of 2, '(props: { component: ElementType<any, keyof IntrinsicElements>; } & GridBaseProps & { sx?: SxProps<Theme>; } & SystemProps<Theme> & Omit<...>): Element', gave the following error.
+  Overload 2 of 2, '(props: DefaultComponentProps<GridTypeMap<{}, "div">>): Element', gave the following error.
+
+[7m967[0m             <Grid item xs={12} md={6}>
+[7m   [0m [91m             ~~~~[0m
+[96msrc/components/league/LeagueStatistics.tsx[0m:[93m941[0m:[93m14[0m - [91merror[0m[90m ts(2769): [0mNo overload matches this call.
+  Overload 1 of 2, '(props: { component: ElementType<any, keyof IntrinsicElements>; } & GridBaseProps & { sx?: SxProps<Theme>; } & SystemProps<Theme> & Omit<...>): Element', gave the following error.
+  Overload 2 of 2, '(props: DefaultComponentProps<GridTypeMap<{}, "div">>): Element', gave the following error.
+
+[7m941[0m             <Grid item xs={12} md={6}>
+[7m   [0m [91m             ~~~~[0m
+[96msrc/components/league/LeagueStatistics.tsx[0m:[93m923[0m:[93m14[0m - [91merror[0m[90m ts(2769): [0mNo overload matches this call.
+  Overload 1 of 2, '(props: { component: ElementType<any, keyof IntrinsicElements>; } & GridBaseProps & { sx?: SxProps<Theme>; } & SystemProps<Theme> & Omit<...>): Element', gave the following error.
+  Overload 2 of 2, '(props: DefaultComponentProps<GridTypeMap<{}, "div">>): Element', gave the following error.
+
+[7m923[0m             <Grid item xs={12} md={6}>
+[7m   [0m [91m             ~~~~[0m
+[96msrc/components/league/LeagueStatistics.tsx[0m:[93m893[0m:[93m14[0m - [91merror[0m[90m ts(2769): [0mNo overload matches this call.
+  Overload 1 of 2, '(props: { component: ElementType<any, keyof IntrinsicElements>; } & GridBaseProps & { sx?: SxProps<Theme>; } & SystemProps<Theme> & Omit<...>): Element', gave the following error.
+  Overload 2 of 2, '(props: DefaultComponentProps<GridTypeMap<{}, "div">>): Element', gave the following error.
+
+[7m893[0m             <Grid item xs={12} md={6}>
+[7m   [0m [91m             ~~~~[0m
+[96msrc/components/league/LeagueStatistics.tsx[0m:[93m872[0m:[93m14[0m - [91merror[0m[90m ts(2769): [0mNo overload matches this call.
+  Overload 1 of 2, '(props: { component: ElementType<any, keyof IntrinsicElements>; } & GridBaseProps & { sx?: SxProps<Theme>; } & SystemProps<Theme> & Omit<...>): Element', gave the following error.
+  Overload 2 of 2, '(props: DefaultComponentProps<GridTypeMap<{}, "div">>): Element', gave the following error.
+
+[7m872[0m             <Grid item xs={12} md={6}>
+[7m   [0m [91m             ~~~~[0m
+[96msrc/components/league/LeagueStatistics.tsx[0m:[93m853[0m:[93m14[0m - [91merror[0m[90m ts(2769): [0mNo overload matches this call.
+  Overload 1 of 2, '(props: { component: ElementType<any, keyof IntrinsicElements>; } & GridBaseProps & { sx?: SxProps<Theme>; } & SystemProps<Theme> & Omit<...>): Element', gave the following error.
+  Overload 2 of 2, '(props: DefaultComponentProps<GridTypeMap<{}, "div">>): Element', gave the following error.
+
+[7m853[0m             <Grid item xs={12} md={6}>
+[7m   [0m [91m             ~~~~[0m
+[96msrc/components/league/LeagueStatistics.tsx[0m:[93m833[0m:[93m14[0m - [91merror[0m[90m ts(2769): [0mNo overload matches this call.
+  Overload 1 of 2, '(props: { component: ElementType<any, keyof IntrinsicElements>; } & GridBaseProps & { sx?: SxProps<Theme>; } & SystemProps<Theme> & Omit<...>): Element', gave the following error.
+  Overload 2 of 2, '(props: DefaultComponentProps<GridTypeMap<{}, "div">>): Element', gave the following error.
+
+[7m833[0m             <Grid item xs={12} md={6}>
+[7m   [0m [91m             ~~~~[0m
+[96msrc/components/league/LeagueStatistics.tsx[0m:[93m813[0m:[93m14[0m - [91merror[0m[90m ts(2769): [0mNo overload matches this call.
+  Overload 1 of 2, '(props: { component: ElementType<any, keyof IntrinsicElements>; } & GridBaseProps & { sx?: SxProps<Theme>; } & SystemProps<Theme> & Omit<...>): Element', gave the following error.
+  Overload 2 of 2, '(props: DefaultComponentProps<GridTypeMap<{}, "div">>): Element', gave the following error.
+
+[7m813[0m             <Grid item xs={12} md={6}>
+[7m   [0m [91m             ~~~~[0m
+[96msrc/components/league/LeagueStatistics.tsx[0m:[93m793[0m:[93m14[0m - [91merror[0m[90m ts(2769): [0mNo overload matches this call.
+  Overload 1 of 2, '(props: { component: ElementType<any, keyof IntrinsicElements>; } & GridBaseProps & { sx?: SxProps<Theme>; } & SystemProps<Theme> & Omit<...>): Element', gave the following error.
+  Overload 2 of 2, '(props: DefaultComponentProps<GridTypeMap<{}, "div">>): Element', gave the following error.
+
+[7m793[0m             <Grid item xs={12} md={6}>
+[7m   [0m [91m             ~~~~[0m
+[96msrc/components/league/LeagueStatistics.tsx[0m:[93m751[0m:[93m18[0m - [91merror[0m[90m ts(2769): [0mNo overload matches this call.
+  Overload 1 of 2, '(props: { component: ElementType<any, keyof IntrinsicElements>; } & GridBaseProps & { sx?: SxProps<Theme>; } & SystemProps<Theme> & Omit<...>): Element', gave the following error.
+  Overload 2 of 2, '(props: DefaultComponentProps<GridTypeMap<{}, "div">>): Element', gave the following error.
+
+[7m751[0m                 <Grid item xs={12} md={6}>
+[7m   [0m [91m                 ~~~~[0m
+[96msrc/components/league/LeagueStatistics.tsx[0m:[93m720[0m:[93m18[0m - [91merror[0m[90m ts(2769): [0mNo overload matches this call.
+  Overload 1 of 2, '(props: { component: ElementType<any, keyof IntrinsicElements>; } & GridBaseProps & { sx?: SxProps<Theme>; } & SystemProps<Theme> & Omit<...>): Element', gave the following error.
+  Overload 2 of 2, '(props: DefaultComponentProps<GridTypeMap<{}, "div">>): Element', gave the following error.
+
+[7m720[0m                 <Grid item xs={12} md={6}>
+[7m   [0m [91m                 ~~~~[0m
+[96msrc/components/league/LeagueStatistics.tsx[0m:[93m689[0m:[93m18[0m - [91merror[0m[90m ts(2769): [0mNo overload matches this call.
+  Overload 1 of 2, '(props: { component: ElementType<any, keyof IntrinsicElements>; } & GridBaseProps & { sx?: SxProps<Theme>; } & SystemProps<Theme> & Omit<...>): Element', gave the following error.
+  Overload 2 of 2, '(props: DefaultComponentProps<GridTypeMap<{}, "div">>): Element', gave the following error.
+
+[7m689[0m                 <Grid item xs={12} md={6}>
+[7m   [0m [91m                 ~~~~[0m
+[96msrc/components/league/LeagueStatistics.tsx[0m:[93m658[0m:[93m18[0m - [91merror[0m[90m ts(2769): [0mNo overload matches this call.
+  Overload 1 of 2, '(props: { component: ElementType<any, keyof IntrinsicElements>; } & GridBaseProps & { sx?: SxProps<Theme>; } & SystemProps<Theme> & Omit<...>): Element', gave the following error.
+  Overload 2 of 2, '(props: DefaultComponentProps<GridTypeMap<{}, "div">>): Element', gave the following error.
+
+[7m658[0m                 <Grid item xs={12} md={6}>
+[7m   [0m [91m                 ~~~~[0m
+[96msrc/components/league/LeagueStatistics.tsx[0m:[93m626[0m:[93m18[0m - [91merror[0m[90m ts(2769): [0mNo overload matches this call.
+  Overload 1 of 2, '(props: { component: ElementType<any, keyof IntrinsicElements>; } & GridBaseProps & { sx?: SxProps<Theme>; } & SystemProps<Theme> & Omit<...>): Element', gave the following error.
+  Overload 2 of 2, '(props: DefaultComponentProps<GridTypeMap<{}, "div">>): Element', gave the following error.
+
+[7m626[0m                 <Grid item xs={12} md={6}>
+[7m   [0m [91m                 ~~~~[0m
+[96msrc/components/league/LeagueStatistics.tsx[0m:[93m594[0m:[93m18[0m - [91merror[0m[90m ts(2769): [0mNo overload matches this call.
+  Overload 1 of 2, '(props: { component: ElementType<any, keyof IntrinsicElements>; } & GridBaseProps & { sx?: SxProps<Theme>; } & SystemProps<Theme> & Omit<...>): Element', gave the following error.
+  Overload 2 of 2, '(props: DefaultComponentProps<GridTypeMap<{}, "div">>): Element', gave the following error.
+
+[7m594[0m                 <Grid item xs={12} md={6}>
+[7m   [0m [91m                 ~~~~[0m
+[96msrc/components/league/LeagueStatistics.tsx[0m:[93m571[0m:[93m14[0m - [91merror[0m[90m ts(2769): [0mNo overload matches this call.
+  Overload 1 of 2, '(props: { component: ElementType<any, keyof IntrinsicElements>; } & GridBaseProps & { sx?: SxProps<Theme>; } & SystemProps<Theme> & Omit<...>): Element', gave the following error.
+  Overload 2 of 2, '(props: DefaultComponentProps<GridTypeMap<{}, "div">>): Element', gave the following error.
+
+[7m571[0m             <Grid item xs={12} md={6}>
+[7m   [0m [91m             ~~~~[0m
+[96msrc/components/league/LeagueStatistics.tsx[0m:[93m559[0m:[93m14[0m - [91merror[0m[90m ts(2769): [0mNo overload matches this call.
+  Overload 1 of 2, '(props: { component: ElementType<any, keyof IntrinsicElements>; } & GridBaseProps & { sx?: SxProps<Theme>; } & SystemProps<Theme> & Omit<...>): Element', gave the following error.
+  Overload 2 of 2, '(props: DefaultComponentProps<GridTypeMap<{}, "div">>): Element', gave the following error.
+
+[7m559[0m             <Grid item xs={12} md={6}>
+[7m   [0m [91m             ~~~~[0m
+[96msrc/components/league/LeagueStatistics.tsx[0m:[93m547[0m:[93m14[0m - [91merror[0m[90m ts(2769): [0mNo overload matches this call.
+  Overload 1 of 2, '(props: { component: ElementType<any, keyof IntrinsicElements>; } & GridBaseProps & { sx?: SxProps<Theme>; } & SystemProps<Theme> & Omit<...>): Element', gave the following error.
+  Overload 2 of 2, '(props: DefaultComponentProps<GridTypeMap<{}, "div">>): Element', gave the following error.
+
+[7m547[0m             <Grid item xs={12} md={6}>
+[7m   [0m [91m             ~~~~[0m
+[96msrc/components/league/LeagueStatistics.tsx[0m:[93m535[0m:[93m14[0m - [91merror[0m[90m ts(2769): [0mNo overload matches this call.
+  Overload 1 of 2, '(props: { component: ElementType<any, keyof IntrinsicElements>; } & GridBaseProps & { sx?: SxProps<Theme>; } & SystemProps<Theme> & Omit<...>): Element', gave the following error.
+  Overload 2 of 2, '(props: DefaultComponentProps<GridTypeMap<{}, "div">>): Element', gave the following error.
+
+[7m535[0m             <Grid item xs={12} md={6}>
+[7m   [0m [91m             ~~~~[0m
+[96msrc/components/league/LeagueStatistics.tsx[0m:[93m523[0m:[93m14[0m - [91merror[0m[90m ts(2769): [0mNo overload matches this call.
+  Overload 1 of 2, '(props: { component: ElementType<any, keyof IntrinsicElements>; } & GridBaseProps & { sx?: SxProps<Theme>; } & SystemProps<Theme> & Omit<...>): Element', gave the following error.
+  Overload 2 of 2, '(props: DefaultComponentProps<GridTypeMap<{}, "div">>): Element', gave the following error.
+
+[7m523[0m             <Grid item xs={12} md={6}>
+[7m   [0m [91m             ~~~~[0m
+[96msrc/components/league/LeagueStatistics.tsx[0m:[93m507[0m:[93m14[0m - [91merror[0m[90m ts(2769): [0mNo overload matches this call.
+  Overload 1 of 2, '(props: { component: ElementType<any, keyof IntrinsicElements>; } & GridBaseProps & { sx?: SxProps<Theme>; } & SystemProps<Theme> & Omit<...>): Element', gave the following error.
+  Overload 2 of 2, '(props: DefaultComponentProps<GridTypeMap<{}, "div">>): Element', gave the following error.
+
+[7m507[0m             <Grid item xs={12} md={6}>
+[7m   [0m [91m             ~~~~[0m
+[96msrc/components/league/LeagueStatistics.tsx[0m:[93m495[0m:[93m14[0m - [91merror[0m[90m ts(2769): [0mNo overload matches this call.
+  Overload 1 of 2, '(props: { component: ElementType<any, keyof IntrinsicElements>; } & GridBaseProps & { sx?: SxProps<Theme>; } & SystemProps<Theme> & Omit<...>): Element', gave the following error.
+  Overload 2 of 2, '(props: DefaultComponentProps<GridTypeMap<{}, "div">>): Element', gave the following error.
+
+[7m495[0m             <Grid item xs={12} md={6}>
+[7m   [0m [91m             ~~~~[0m
+[96msrc/components/league/LeagueStatistics.tsx[0m:[93m483[0m:[93m14[0m - [91merror[0m[90m ts(2769): [0mNo overload matches this call.
+  Overload 1 of 2, '(props: { component: ElementType<any, keyof IntrinsicElements>; } & GridBaseProps & { sx?: SxProps<Theme>; } & SystemProps<Theme> & Omit<...>): Element', gave the following error.
+  Overload 2 of 2, '(props: DefaultComponentProps<GridTypeMap<{}, "div">>): Element', gave the following error.
+
+[7m483[0m             <Grid item xs={12} md={6}>
+[7m   [0m [91m             ~~~~[0m
+[96msrc/components/league/LeagueStatistics.tsx[0m:[93m462[0m:[93m16[0m - [91merror[0m[90m ts(2769): [0mNo overload matches this call.
+  Overload 1 of 2, '(props: { component: ElementType<any, keyof IntrinsicElements>; } & GridBaseProps & { sx?: SxProps<Theme>; } & SystemProps<Theme> & Omit<...>): Element', gave the following error.
+  Overload 2 of 2, '(props: DefaultComponentProps<GridTypeMap<{}, "div">>): Element', gave the following error.
+
+[7m462[0m               <Grid item xs={6} sm={3}>
+[7m   [0m [91m               ~~~~[0m
+[96msrc/components/league/LeagueStatistics.tsx[0m:[93m452[0m:[93m16[0m - [91merror[0m[90m ts(2769): [0mNo overload matches this call.
+  Overload 1 of 2, '(props: { component: ElementType<any, keyof IntrinsicElements>; } & GridBaseProps & { sx?: SxProps<Theme>; } & SystemProps<Theme> & Omit<...>): Element', gave the following error.
+  Overload 2 of 2, '(props: DefaultComponentProps<GridTypeMap<{}, "div">>): Element', gave the following error.
+
+[7m452[0m               <Grid item xs={6} sm={3}>
+[7m   [0m [91m               ~~~~[0m
+[96msrc/components/league/LeagueStatistics.tsx[0m:[93m442[0m:[93m16[0m - [91merror[0m[90m ts(2769): [0mNo overload matches this call.
+  Overload 1 of 2, '(props: { component: ElementType<any, keyof IntrinsicElements>; } & GridBaseProps & { sx?: SxProps<Theme>; } & SystemProps<Theme> & Omit<...>): Element', gave the following error.
+  Overload 2 of 2, '(props: DefaultComponentProps<GridTypeMap<{}, "div">>): Element', gave the following error.
+
+[7m442[0m               <Grid item xs={6} sm={3}>
+[7m   [0m [91m               ~~~~[0m
+[96msrc/components/league/LeagueStatistics.tsx[0m:[93m432[0m:[93m16[0m - [91merror[0m[90m ts(2769): [0mNo overload matches this call.
+  Overload 1 of 2, '(props: { component: ElementType<any, keyof IntrinsicElements>; } & GridBaseProps & { sx?: SxProps<Theme>; } & SystemProps<Theme> & Omit<...>): Element', gave the following error.
+  Overload 2 of 2, '(props: DefaultComponentProps<GridTypeMap<{}, "div">>): Element', gave the following error.
+
+[7m432[0m               <Grid item xs={6} sm={3}>
+[7m   [0m [91m               ~~~~[0m
+[96msrc/components/league/LeagueStatistics.tsx[0m:[93m406[0m:[93m18[0m - [91merror[0m[90m ts(2769): [0mNo overload matches this call.
+  Overload 1 of 2, '(props: { component: ElementType<any, keyof IntrinsicElements>; } & GridBaseProps & { sx?: SxProps<Theme>; } & SystemProps<Theme> & Omit<...>): Element', gave the following error.
+  Overload 2 of 2, '(props: DefaultComponentProps<GridTypeMap<{}, "div">>): Element', gave the following error.
+
+[7m406[0m                 <Grid item xs={12} md={4}>
+[7m   [0m [91m                 ~~~~[0m
+[96msrc/components/league/LeagueStatistics.tsx[0m:[93m397[0m:[93m18[0m - [91merror[0m[90m ts(2769): [0mNo overload matches this call.
+  Overload 1 of 2, '(props: { component: ElementType<any, keyof IntrinsicElements>; } & GridBaseProps & { sx?: SxProps<Theme>; } & SystemProps<Theme> & Omit<...>): Element', gave the following error.
+  Overload 2 of 2, '(props: DefaultComponentProps<GridTypeMap<{}, "div">>): Element', gave the following error.
+
+[7m397[0m                 <Grid item xs={12} md={4}>
+[7m   [0m [91m                 ~~~~[0m
+[96msrc/components/league/LeagueStatistics.tsx[0m:[93m388[0m:[93m18[0m - [91merror[0m[90m ts(2769): [0mNo overload matches this call.
+  Overload 1 of 2, '(props: { component: ElementType<any, keyof IntrinsicElements>; } & GridBaseProps & { sx?: SxProps<Theme>; } & SystemProps<Theme> & Omit<...>): Element', gave the following error.
+  Overload 2 of 2, '(props: DefaultComponentProps<GridTypeMap<{}, "div">>): Element', gave the following error.
+
+[7m388[0m                 <Grid item xs={12} md={4}>
+[7m   [0m [91m                 ~~~~[0m
+[96msrc/components/league/LeagueStatistics.tsx[0m:[93m376[0m:[93m14[0m - [91merror[0m[90m ts(2769): [0mNo overload matches this call.
+  Overload 1 of 2, '(props: { component: ElementType<any, keyof IntrinsicElements>; } & GridBaseProps & { sx?: SxProps<Theme>; } & SystemProps<Theme> & Omit<...>): Element', gave the following error.
+  Overload 2 of 2, '(props: DefaultComponentProps<GridTypeMap<{}, "div">>): Element', gave the following error.
+
+[7m376[0m             <Grid item xs={12} md={4}>
+[7m   [0m [91m             ~~~~[0m
+[96msrc/components/league/LeagueStatistics.tsx[0m:[93m367[0m:[93m14[0m - [91merror[0m[90m ts(2769): [0mNo overload matches this call.
+  Overload 1 of 2, '(props: { component: ElementType<any, keyof IntrinsicElements>; } & GridBaseProps & { sx?: SxProps<Theme>; } & SystemProps<Theme> & Omit<...>): Element', gave the following error.
+  Overload 2 of 2, '(props: DefaultComponentProps<GridTypeMap<{}, "div">>): Element', gave the following error.
+
+[7m367[0m             <Grid item xs={12} md={4}>
+[7m   [0m [91m             ~~~~[0m
+[96msrc/components/league/LeagueStatistics.tsx[0m:[93m358[0m:[93m14[0m - [91merror[0m[90m ts(2769): [0mNo overload matches this call.
+  Overload 1 of 2, '(props: { component: ElementType<any, keyof IntrinsicElements>; } & GridBaseProps & { sx?: SxProps<Theme>; } & SystemProps<Theme> & Omit<...>): Element', gave the following error.
+  Overload 2 of 2, '(props: DefaultComponentProps<GridTypeMap<{}, "div">>): Element', gave the following error.
+
+[7m358[0m             <Grid item xs={12} md={4}>
+[7m   [0m [91m             ~~~~[0m
+[96msrc/components/league/LeagueStatistics.tsx[0m:[93m1[0m:[93m152[0m - [93mwarning[0m[90m ts(6133): [0m'IconButton' is declared but its value is never read.
+
+[7m1[0m import { Box, Paper, Typography, Grid, Chip, Stack, Avatar, Divider, Table, TableBody, TableCell, TableHead, TableRow, TableContainer, TableSortLabel, IconButton } from '@mui/material';
+[7m [0m [93m                                                                                                                                                       ~~~~~~~~~~[0m
+[96msrc/components/league/LeagueStatistics.tsx[0m:[93m1[0m:[93m136[0m - [93mwarning[0m[90m ts(6133): [0m'TableSortLabel' is declared but its value is never read.
+
+[7m1[0m import { Box, Paper, Typography, Grid, Chip, Stack, Avatar, Divider, Table, TableBody, TableCell, TableHead, TableRow, TableContainer, TableSortLabel, IconButton } from '@mui/material';
+[7m [0m [93m                                                                                                                                       ~~~~~~~~~~~~~~[0m
+[96msrc/components/league/LeagueStatistics.tsx[0m:[93m1[0m:[93m46[0m - [93mwarning[0m[90m ts(6133): [0m'Stack' is declared but its value is never read.
+
+[7m1[0m import { Box, Paper, Typography, Grid, Chip, Stack, Avatar, Divider, Table, TableBody, TableCell, TableHead, TableRow, TableContainer, TableSortLabel, IconButton } from '@mui/material';
+[7m [0m [93m                                             ~~~~~[0m
+[96msrc/components/league/LeagueStatistics.tsx[0m:[93m1[0m:[93m40[0m - [93mwarning[0m[90m ts(6133): [0m'Chip' is declared but its value is never read.
+
+[7m1[0m import { Box, Paper, Typography, Grid, Chip, Stack, Avatar, Divider, Table, TableBody, TableCell, TableHead, TableRow, TableContainer, TableSortLabel, IconButton } from '@mui/material';
+[7m [0m [93m                                       ~~~~[0m
+
+[96msrc/components/league/LeagueStats.tsx[0m:[93m41[0m:[93m8[0m - [91merror[0m[90m ts(2769): [0mNo overload matches this call.
+  Overload 1 of 2, '(props: { component: ElementType<any, keyof IntrinsicElements>; } & GridBaseProps & { sx?: SxProps<Theme>; } & SystemProps<Theme> & Omit<...>): Element', gave the following error.
+  Overload 2 of 2, '(props: DefaultComponentProps<GridTypeMap<{}, "div">>): Element', gave the following error.
+
+[7m41[0m       <Grid item xs={12} sm={6} md={3}>
+[7m  [0m [91m       ~~~~[0m
+[96msrc/components/league/LeagueStats.tsx[0m:[93m33[0m:[93m8[0m - [91merror[0m[90m ts(2769): [0mNo overload matches this call.
+  Overload 1 of 2, '(props: { component: ElementType<any, keyof IntrinsicElements>; } & GridBaseProps & { sx?: SxProps<Theme>; } & SystemProps<Theme> & Omit<...>): Element', gave the following error.
+  Overload 2 of 2, '(props: DefaultComponentProps<GridTypeMap<{}, "div">>): Element', gave the following error.
+
+[7m33[0m       <Grid item xs={12} sm={6} md={3}>
+[7m  [0m [91m       ~~~~[0m
+[96msrc/components/league/LeagueStats.tsx[0m:[93m25[0m:[93m8[0m - [91merror[0m[90m ts(2769): [0mNo overload matches this call.
+  Overload 1 of 2, '(props: { component: ElementType<any, keyof IntrinsicElements>; } & GridBaseProps & { sx?: SxProps<Theme>; } & SystemProps<Theme> & Omit<...>): Element', gave the following error.
+  Overload 2 of 2, '(props: DefaultComponentProps<GridTypeMap<{}, "div">>): Element', gave the following error.
+
+[7m25[0m       <Grid item xs={12} sm={6} md={3}>
+[7m  [0m [91m       ~~~~[0m
+[96msrc/components/league/LeagueStats.tsx[0m:[93m17[0m:[93m8[0m - [91merror[0m[90m ts(2769): [0mNo overload matches this call.
+  Overload 1 of 2, '(props: { component: ElementType<any, keyof IntrinsicElements>; } & GridBaseProps & { sx?: SxProps<Theme>; } & SystemProps<Theme> & Omit<...>): Element', gave the following error.
+  Overload 2 of 2, '(props: DefaultComponentProps<GridTypeMap<{}, "div">>): Element', gave the following error.
+
+[7m17[0m       <Grid item xs={12} sm={6} md={3}>
+[7m  [0m [91m       ~~~~[0m
+[96msrc/components/league/LeagueStats.tsx[0m:[93m3[0m:[93m39[0m - [93mwarning[0m[90m ts(6133): [0m'league' is declared but its value is never read.
+
+[7m3[0m export default function LeagueStats({ league, teams }: { league: any; teams: any[] }) {
+[7m [0m [93m                                      ~~~~~~[0m
+
+[96msrc/components/league/LeagueTabs.tsx[0m:[93m29[0m:[93m3[0m - [93mwarning[0m[90m ts(6133): [0m'leagueId' is declared but its value is never read.
+
+[7m29[0m   leagueId,
+[7m  [0m [93m  ~~~~~~~~[0m
+
+[96msrc/components/player/StatTiles.tsx[0m:[93m81[0m:[93m10[0m - [91merror[0m[90m ts(2769): [0mNo overload matches this call.
+  Overload 1 of 2, '(props: { component: ElementType<any, keyof IntrinsicElements>; } & GridBaseProps & { sx?: SxProps<Theme>; } & SystemProps<Theme> & Omit<...>): Element', gave the following error.
+  Overload 2 of 2, '(props: DefaultComponentProps<GridTypeMap<{}, "div">>): Element', gave the following error.
+
+[7m81[0m         <Grid item xs={12} sm={6} md={3} key={idx}>
+[7m  [0m [91m         ~~~~[0m
+
+[96msrc/components/player/Tabs.tsx[0m:[93m36[0m:[93m12[0m - [91merror[0m[90m ts(2786): [0m'MediaGrid' cannot be used as a JSX component.
+  Its type '({ playerId }: { playerId: string; }) => Promise<Element>' is not a valid JSX element type.
+
+[7m36[0m           <MediaGrid playerId={playerId} />
+[7m  [0m [91m           ~~~~~~~~~[0m
+[96msrc/components/player/Tabs.tsx[0m:[93m31[0m:[93m12[0m - [91merror[0m[90m ts(2786): [0m'BadgesGrid' cannot be used as a JSX component.
+  Its type '({ playerId }: { playerId: string; }) => Promise<Element>' is not a valid JSX element type.
+
+[7m31[0m           <BadgesGrid playerId={playerId} />
+[7m  [0m [91m           ~~~~~~~~~~[0m
+[96msrc/components/player/Tabs.tsx[0m:[93m26[0m:[93m12[0m - [91merror[0m[90m ts(2786): [0m'Career' cannot be used as a JSX component.
+  Its type '({ playerId }: { playerId: string; }) => Promise<Element>' is not a valid JSX element type.
+
+[7m26[0m           <Career playerId={playerId} />
+[7m  [0m [91m           ~~~~~~[0m
+[96msrc/components/player/Tabs.tsx[0m:[93m21[0m:[93m12[0m - [91merror[0m[90m ts(2786): [0m'GamesTable' cannot be used as a JSX component.
+  Its type '({ playerId }: { playerId: string; }) => Promise<Element>' is not a valid JSX element type.
+
+[7m21[0m           <GamesTable playerId={playerId} />
+[7m  [0m [91m           ~~~~~~~~~~[0m
+[96msrc/components/player/Tabs.tsx[0m:[93m16[0m:[93m12[0m - [91merror[0m[90m ts(2786): [0m'Overview' cannot be used as a JSX component.
+  Its type '({ playerId }: { playerId: string; }) => Promise<Element>' is not a valid JSX element type.
+
+[7m16[0m           <Overview playerId={playerId} />
+[7m  [0m [91m           ~~~~~~~~[0m
+[96msrc/components/player/Tabs.tsx[0m:[93m3[0m:[93m1[0m - [93mwarning[0m[90m ts(6133): [0m'Box' is declared but its value is never read.
+
+[7m3[0m import { Box } from '@mui/material';
+[7m [0m [93m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[96msrc/components/player/skeletons.tsx[0m:[93m55[0m:[93m10[0m - [91merror[0m[90m ts(2769): [0mNo overload matches this call.
+  Overload 1 of 2, '(props: { component: ElementType<any, keyof IntrinsicElements>; } & GridBaseProps & { sx?: SxProps<Theme>; } & SystemProps<Theme> & Omit<...>): Element', gave the following error.
+  Overload 2 of 2, '(props: DefaultComponentProps<GridTypeMap<{}, "div">>): Element', gave the following error.
+
+[7m55[0m         <Grid item xs={12} md={4} key={i}>
+[7m  [0m [91m         ~~~~[0m
+[96msrc/components/player/skeletons.tsx[0m:[93m22[0m:[93m10[0m - [91merror[0m[90m ts(2769): [0mNo overload matches this call.
+  Overload 1 of 2, '(props: { component: ElementType<any, keyof IntrinsicElements>; } & GridBaseProps & { sx?: SxProps<Theme>; } & SystemProps<Theme> & Omit<...>): Element', gave the following error.
+  Overload 2 of 2, '(props: DefaultComponentProps<GridTypeMap<{}, "div">>): Element', gave the following error.
+
+[7m22[0m         <Grid item xs={12} sm={6} md={3} key={i}>
+[7m  [0m [91m         ~~~~[0m
+
+[96msrc/components/player/tabs/BadgesGrid.tsx[0m:[93m24[0m:[93m10[0m - [91merror[0m[90m ts(2769): [0mNo overload matches this call.
+  Overload 1 of 2, '(props: { component: ElementType<any, keyof IntrinsicElements>; } & GridBaseProps & { sx?: SxProps<Theme>; } & SystemProps<Theme> & Omit<...>): Element', gave the following error.
+  Overload 2 of 2, '(props: DefaultComponentProps<GridTypeMap<{}, "div">>): Element', gave the following error.
+
+[7m24[0m         <Grid item xs={12} sm={6} md={4} key={b.id}>
+[7m  [0m [91m         ~~~~[0m
+
+[96msrc/components/player/tabs/Career.tsx[0m:[93m63[0m:[93m8[0m - [91merror[0m[90m ts(2769): [0mNo overload matches this call.
+  Overload 1 of 2, '(props: { component: ElementType<any, keyof IntrinsicElements>; } & GridBaseProps & { sx?: SxProps<Theme>; } & SystemProps<Theme> & Omit<...>): Element', gave the following error.
+  Overload 2 of 2, '(props: DefaultComponentProps<GridTypeMap<{}, "div">>): Element', gave the following error.
+
+[7m63[0m       <Grid item xs={12}>
+[7m  [0m [91m       ~~~~[0m
+[96msrc/components/player/tabs/Career.tsx[0m:[93m48[0m:[93m8[0m - [91merror[0m[90m ts(2769): [0mNo overload matches this call.
+  Overload 1 of 2, '(props: { component: ElementType<any, keyof IntrinsicElements>; } & GridBaseProps & { sx?: SxProps<Theme>; } & SystemProps<Theme> & Omit<...>): Element', gave the following error.
+  Overload 2 of 2, '(props: DefaultComponentProps<GridTypeMap<{}, "div">>): Element', gave the following error.
+
+[7m48[0m       <Grid item xs={12} md={6}>
+[7m  [0m [91m       ~~~~[0m
+[96msrc/components/player/tabs/Career.tsx[0m:[93m32[0m:[93m8[0m - [91merror[0m[90m ts(2769): [0mNo overload matches this call.
+  Overload 1 of 2, '(props: { component: ElementType<any, keyof IntrinsicElements>; } & GridBaseProps & { sx?: SxProps<Theme>; } & SystemProps<Theme> & Omit<...>): Element', gave the following error.
+  Overload 2 of 2, '(props: DefaultComponentProps<GridTypeMap<{}, "div">>): Element', gave the following error.
+
+[7m32[0m       <Grid item xs={12} md={6}>
+[7m  [0m [91m       ~~~~[0m
+[96msrc/components/player/tabs/Career.tsx[0m:[93m3[0m:[93m101[0m - [93mwarning[0m[90m ts(6133): [0m'Box' is declared but its value is never read.
+
+[7m3[0m import { Grid, Paper, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Box } from '@mui/material';
+[7m [0m [93m                                                                                                    ~~~[0m
+
+[96msrc/components/player/tabs/GamesTable.tsx[0m:[93m5[0m:[93m1[0m - [93mwarning[0m[90m ts(6133): [0m'KeyboardArrowUpIcon' is declared but its value is never read.
+
+[7m5[0m import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+[7m [0m [93m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[96msrc/components/player/tabs/GamesTable.tsx[0m:[93m4[0m:[93m1[0m - [93mwarning[0m[90m ts(6133): [0m'KeyboardArrowDownIcon' is declared but its value is never read.
+
+[7m4[0m import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+[7m [0m [93m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[96msrc/components/player/tabs/GamesTable.tsx[0m:[93m3[0m:[93m25[0m - [93mwarning[0m[90m ts(6133): [0m'IconButton' is declared but its value is never read.
+
+[7m3[0m import { Box, Collapse, IconButton, Paper, Table, TableBody, TableCell, TableHead, TableRow, Typography } from '@mui/material';
+[7m [0m [93m                        ~~~~~~~~~~[0m
+[96msrc/components/player/tabs/GamesTable.tsx[0m:[93m3[0m:[93m15[0m - [93mwarning[0m[90m ts(6133): [0m'Collapse' is declared but its value is never read.
+
+[7m3[0m import { Box, Collapse, IconButton, Paper, Table, TableBody, TableCell, TableHead, TableRow, Typography } from '@mui/material';
+[7m [0m [93m              ~~~~~~~~[0m
+
+[96msrc/components/player/tabs/MediaGrid.tsx[0m:[93m63[0m:[93m16[0m - [91merror[0m[90m ts(2769): [0mNo overload matches this call.
+  Overload 1 of 2, '(props: { component: ElementType<any, keyof IntrinsicElements>; } & GridBaseProps & { sx?: SxProps<Theme>; } & SystemProps<Theme> & Omit<...>): Element', gave the following error.
+  Overload 2 of 2, '(props: DefaultComponentProps<GridTypeMap<{}, "div">>): Element', gave the following error.
+
+[7m63[0m               <Grid item xs={12} sm={6} md={4} lg={3} key={m.id}>
+[7m  [0m [91m               ~~~~[0m
+
+[96msrc/components/player/tabs/Overview.tsx[0m:[93m104[0m:[93m8[0m - [91merror[0m[90m ts(2769): [0mNo overload matches this call.
+  Overload 1 of 2, '(props: { component: ElementType<any, keyof IntrinsicElements>; } & GridBaseProps & { sx?: SxProps<Theme>; } & SystemProps<Theme> & Omit<...>): Element', gave the following error.
+  Overload 2 of 2, '(props: DefaultComponentProps<GridTypeMap<{}, "div">>): Element', gave the following error.
+
+[7m104[0m       <Grid item xs={12}>
+[7m   [0m [91m       ~~~~[0m
+[96msrc/components/player/tabs/Overview.tsx[0m:[93m95[0m:[93m8[0m - [91merror[0m[90m ts(2769): [0mNo overload matches this call.
+  Overload 1 of 2, '(props: { component: ElementType<any, keyof IntrinsicElements>; } & GridBaseProps & { sx?: SxProps<Theme>; } & SystemProps<Theme> & Omit<...>): Element', gave the following error.
+  Overload 2 of 2, '(props: DefaultComponentProps<GridTypeMap<{}, "div">>): Element', gave the following error.
+
+[7m95[0m       <Grid item xs={12} md={4}>
+[7m  [0m [91m       ~~~~[0m
+[96msrc/components/player/tabs/Overview.tsx[0m:[93m80[0m:[93m8[0m - [91merror[0m[90m ts(2769): [0mNo overload matches this call.
+  Overload 1 of 2, '(props: { component: ElementType<any, keyof IntrinsicElements>; } & GridBaseProps & { sx?: SxProps<Theme>; } & SystemProps<Theme> & Omit<...>): Element', gave the following error.
+  Overload 2 of 2, '(props: DefaultComponentProps<GridTypeMap<{}, "div">>): Element', gave the following error.
+
+[7m80[0m       <Grid item xs={12} md={8}>
+[7m  [0m [91m       ~~~~[0m
+[96msrc/components/player/tabs/Overview.tsx[0m:[93m1[0m:[93m53[0m - [93mwarning[0m[90m ts(6133): [0m'IconButton' is declared but its value is never read.
+
+[7m1[0m import { Box, Grid, Paper, Stack, Typography, Link, IconButton } from '@mui/material';
+[7m [0m [93m                                                    ~~~~~~~~~~[0m
+[96msrc/components/player/tabs/Overview.tsx[0m:[93m156[0m:[93m21[0m - [91merror[0m[90m ts(17002): [0mExpected corresponding JSX closing tag for 'Link'.
+
+[7m156[0m                   </a>
+[7m   [0m [91m                    ~[0m
+
+[96msrc/components/pro-am-history/ProAmHistoryStats.tsx[0m:[93m35[0m:[93m10[0m - [91merror[0m[90m ts(2769): [0mNo overload matches this call.
+  Overload 1 of 2, '(props: { component: ElementType<any, keyof IntrinsicElements>; } & GridBaseProps & { sx?: SxProps<Theme>; } & SystemProps<Theme> & Omit<...>): Element', gave the following error.
+  Overload 2 of 2, '(props: DefaultComponentProps<GridTypeMap<{}, "div">>): Element', gave the following error.
+
+[7m35[0m         <Grid item xs={12} sm={6}>
+[7m  [0m [91m         ~~~~[0m
+[96msrc/components/pro-am-history/ProAmHistoryStats.tsx[0m:[93m29[0m:[93m10[0m - [91merror[0m[90m ts(2769): [0mNo overload matches this call.
+  Overload 1 of 2, '(props: { component: ElementType<any, keyof IntrinsicElements>; } & GridBaseProps & { sx?: SxProps<Theme>; } & SystemProps<Theme> & Omit<...>): Element', gave the following error.
+  Overload 2 of 2, '(props: DefaultComponentProps<GridTypeMap<{}, "div">>): Element', gave the following error.
+
+[7m29[0m         <Grid item xs={12} sm={6}>
+[7m  [0m [91m         ~~~~[0m
+
+[96msrc/components/pro-am-history/ProAmHistoryTimeline.tsx[0m:[93m32[0m:[93m37[0m - [93mwarning[0m[90m ts(7044): [0mParameter 'r' implicitly has an 'any' type, but a better type may be inferred from usage.
+
+[7m32[0m   (tourneysRes.data || []).forEach((r) => merged.set(makeKey(r), r));
+[7m  [0m [93m                                    ~[0m
+[96msrc/components/pro-am-history/ProAmHistoryTimeline.tsx[0m:[93m31[0m:[93m36[0m - [93mwarning[0m[90m ts(7044): [0mParameter 'r' implicitly has an 'any' type, but a better type may be inferred from usage.
+
+[7m31[0m   (leaguesRes.data || []).forEach((r) => merged.set(makeKey(r), r));
+[7m  [0m [93m                                   ~[0m
+
+[96msrc/components/team/TeamSocials.tsx[0m:[93m1[0m:[93m10[0m - [93mwarning[0m[90m ts(6133): [0m'Box' is declared but its value is never read.
+
+[7m1[0m import { Box, IconButton, Stack, Tooltip } from '@mui/material';
+[7m [0m [93m         ~~~[0m
+
+[96msrc/components/team/TeamStatistics.tsx[0m:[93m466[0m:[93m18[0m - [91merror[0m[90m ts(2769): [0mNo overload matches this call.
+  Overload 1 of 2, '(props: { component: ElementType<any, keyof IntrinsicElements>; } & GridBaseProps & { sx?: SxProps<Theme>; } & SystemProps<Theme> & Omit<...>): Element', gave the following error.
+  Overload 2 of 2, '(props: DefaultComponentProps<GridTypeMap<{}, "div">>): Element', gave the following error.
+
+[7m466[0m                 <Grid item xs={12} sm={6} md={3}>
+[7m   [0m [91m                 ~~~~[0m
+[96msrc/components/team/TeamStatistics.tsx[0m:[93m455[0m:[93m18[0m - [91merror[0m[90m ts(2769): [0mNo overload matches this call.
+  Overload 1 of 2, '(props: { component: ElementType<any, keyof IntrinsicElements>; } & GridBaseProps & { sx?: SxProps<Theme>; } & SystemProps<Theme> & Omit<...>): Element', gave the following error.
+  Overload 2 of 2, '(props: DefaultComponentProps<GridTypeMap<{}, "div">>): Element', gave the following error.
+
+[7m455[0m                 <Grid item xs={12} sm={6} md={3}>
+[7m   [0m [91m                 ~~~~[0m
+[96msrc/components/team/TeamStatistics.tsx[0m:[93m444[0m:[93m18[0m - [91merror[0m[90m ts(2769): [0mNo overload matches this call.
+  Overload 1 of 2, '(props: { component: ElementType<any, keyof IntrinsicElements>; } & GridBaseProps & { sx?: SxProps<Theme>; } & SystemProps<Theme> & Omit<...>): Element', gave the following error.
+  Overload 2 of 2, '(props: DefaultComponentProps<GridTypeMap<{}, "div">>): Element', gave the following error.
+
+[7m444[0m                 <Grid item xs={12} sm={6} md={3}>
+[7m   [0m [91m                 ~~~~[0m
+[96msrc/components/team/TeamStatistics.tsx[0m:[93m433[0m:[93m18[0m - [91merror[0m[90m ts(2769): [0mNo overload matches this call.
+  Overload 1 of 2, '(props: { component: ElementType<any, keyof IntrinsicElements>; } & GridBaseProps & { sx?: SxProps<Theme>; } & SystemProps<Theme> & Omit<...>): Element', gave the following error.
+  Overload 2 of 2, '(props: DefaultComponentProps<GridTypeMap<{}, "div">>): Element', gave the following error.
+
+[7m433[0m                 <Grid item xs={12} sm={6} md={3}>
+[7m   [0m [91m                 ~~~~[0m
+[96msrc/components/team/TeamStatistics.tsx[0m:[93m422[0m:[93m10[0m - [91merror[0m[90m ts(2769): [0mNo overload matches this call.
+  Overload 1 of 2, '(props: { component: ElementType<any, keyof IntrinsicElements>; } & GridBaseProps & { sx?: SxProps<Theme>; } & SystemProps<Theme> & Omit<...>): Element', gave the following error.
+  Overload 2 of 2, '(props: DefaultComponentProps<GridTypeMap<{}, "div">>): Element', gave the following error.
+
+[7m422[0m         <Grid item xs={12}>
+[7m   [0m [91m         ~~~~[0m
+[96msrc/components/team/TeamStatistics.tsx[0m:[93m399[0m:[93m10[0m - [91merror[0m[90m ts(2769): [0mNo overload matches this call.
+  Overload 1 of 2, '(props: { component: ElementType<any, keyof IntrinsicElements>; } & GridBaseProps & { sx?: SxProps<Theme>; } & SystemProps<Theme> & Omit<...>): Element', gave the following error.
+  Overload 2 of 2, '(props: DefaultComponentProps<GridTypeMap<{}, "div">>): Element', gave the following error.
+
+[7m399[0m         <Grid item xs={12} md={6}>
+[7m   [0m [91m         ~~~~[0m
+[96msrc/components/team/TeamStatistics.tsx[0m:[93m360[0m:[93m10[0m - [91merror[0m[90m ts(2769): [0mNo overload matches this call.
+  Overload 1 of 2, '(props: { component: ElementType<any, keyof IntrinsicElements>; } & GridBaseProps & { sx?: SxProps<Theme>; } & SystemProps<Theme> & Omit<...>): Element', gave the following error.
+  Overload 2 of 2, '(props: DefaultComponentProps<GridTypeMap<{}, "div">>): Element', gave the following error.
+
+[7m360[0m         <Grid item xs={12} md={6}>
+[7m   [0m [91m         ~~~~[0m
+[96msrc/components/team/TeamStatistics.tsx[0m:[93m299[0m:[93m10[0m - [91merror[0m[90m ts(2769): [0mNo overload matches this call.
+  Overload 1 of 2, '(props: { component: ElementType<any, keyof IntrinsicElements>; } & GridBaseProps & { sx?: SxProps<Theme>; } & SystemProps<Theme> & Omit<...>): Element', gave the following error.
+  Overload 2 of 2, '(props: DefaultComponentProps<GridTypeMap<{}, "div">>): Element', gave the following error.
+
+[7m299[0m         <Grid item xs={12} md={6}>
+[7m   [0m [91m         ~~~~[0m
+[96msrc/components/team/TeamStatistics.tsx[0m:[93m230[0m:[93m10[0m - [91merror[0m[90m ts(2769): [0mNo overload matches this call.
+  Overload 1 of 2, '(props: { component: ElementType<any, keyof IntrinsicElements>; } & GridBaseProps & { sx?: SxProps<Theme>; } & SystemProps<Theme> & Omit<...>): Element', gave the following error.
+  Overload 2 of 2, '(props: DefaultComponentProps<GridTypeMap<{}, "div">>): Element', gave the following error.
+
+[7m230[0m         <Grid item xs={12} md={6}>
+[7m   [0m [91m         ~~~~[0m
+[96msrc/components/team/TeamStatistics.tsx[0m:[93m177[0m:[93m10[0m - [91merror[0m[90m ts(2769): [0mNo overload matches this call.
+  Overload 1 of 2, '(props: { component: ElementType<any, keyof IntrinsicElements>; } & GridBaseProps & { sx?: SxProps<Theme>; } & SystemProps<Theme> & Omit<...>): Element', gave the following error.
+  Overload 2 of 2, '(props: DefaultComponentProps<GridTypeMap<{}, "div">>): Element', gave the following error.
+
+[7m177[0m         <Grid item xs={12} md={6}>
+[7m   [0m [91m         ~~~~[0m
+[96msrc/components/team/TeamStatistics.tsx[0m:[93m130[0m:[93m10[0m - [91merror[0m[90m ts(2769): [0mNo overload matches this call.
+  Overload 1 of 2, '(props: { component: ElementType<any, keyof IntrinsicElements>; } & GridBaseProps & { sx?: SxProps<Theme>; } & SystemProps<Theme> & Omit<...>): Element', gave the following error.
+  Overload 2 of 2, '(props: DefaultComponentProps<GridTypeMap<{}, "div">>): Element', gave the following error.
+
+[7m130[0m         <Grid item xs={12} md={6}>
+[7m   [0m [91m         ~~~~[0m
+[96msrc/components/team/TeamStatistics.tsx[0m:[93m66[0m:[93m59[0m - [93mwarning[0m[90m ts(6133): [0m'yearStats' is declared but its value is never read.
+
+[7m66[0m export default function TeamStatistics({ teamPerformance, yearStats }: TeamStatisticsProps) {
+[7m  [0m [93m                                                          ~~~~~~~~~[0m
+[96msrc/components/team/TeamStatistics.tsx[0m:[93m14[0m:[93m3[0m - [93mwarning[0m[90m ts(6133): [0m'TableHead' is declared but its value is never read.
+
+[7m14[0m   TableHead,
+[7m  [0m [93m  ~~~~~~~~~[0m
+[96msrc/components/team/TeamStatistics.tsx[0m:[93m9[0m:[93m3[0m - [93mwarning[0m[90m ts(6133): [0m'Divider' is declared but its value is never read.
+
+[7m9[0m   Divider,
+[7m [0m [93m  ~~~~~~~[0m
+[96msrc/components/team/TeamStatistics.tsx[0m:[93m3[0m:[93m3[0m - [93mwarning[0m[90m ts(6133): [0m'Paper' is declared but its value is never read.
+
+[7m3[0m   Paper,
+[7m [0m [93m  ~~~~~[0m
+
+[96msrc/components/team/TeamStats.tsx[0m:[93m6[0m:[93m8[0m - [91merror[0m[90m ts(2769): [0mNo overload matches this call.
+  Overload 1 of 2, '(props: { component: ElementType<any, keyof IntrinsicElements>; } & GridBaseProps & { sx?: SxProps<Theme>; } & SystemProps<Theme> & Omit<...>): Element', gave the following error.
+  Overload 2 of 2, '(props: DefaultComponentProps<GridTypeMap<{}, "div">>): Element', gave the following error.
+
+[7m6[0m       <Grid item xs={12} sm={6} md={3}>
+[7m [0m [91m       ~~~~[0m
+[96msrc/components/team/TeamStats.tsx[0m:[93m3[0m:[93m37[0m - [93mwarning[0m[90m ts(6133): [0m'team' is declared but its value is never read.
+
+[7m3[0m export default function TeamStats({ team, players }: { team: any; players: any[] }) {
+[7m [0m [93m                                    ~~~~[0m
+
+[96msrc/components/team/TeamTabs.tsx[0m:[93m737[0m:[93m14[0m - [91merror[0m[90m ts(2769): [0mNo overload matches this call.
+  Overload 1 of 2, '(props: { component: ElementType<any, keyof IntrinsicElements>; } & GridBaseProps & { sx?: SxProps<Theme>; } & SystemProps<Theme> & Omit<...>): Element', gave the following error.
+  Overload 2 of 2, '(props: DefaultComponentProps<GridTypeMap<{}, "div">>): Element', gave the following error.
+
+[7m737[0m             <Grid item xs={12} md={6}>
+[7m   [0m [91m             ~~~~[0m
+[96msrc/components/team/TeamTabs.tsx[0m:[93m693[0m:[93m14[0m - [91merror[0m[90m ts(2769): [0mNo overload matches this call.
+  Overload 1 of 2, '(props: { component: ElementType<any, keyof IntrinsicElements>; } & GridBaseProps & { sx?: SxProps<Theme>; } & SystemProps<Theme> & Omit<...>): Element', gave the following error.
+  Overload 2 of 2, '(props: DefaultComponentProps<GridTypeMap<{}, "div">>): Element', gave the following error.
+
+[7m693[0m             <Grid item xs={12} md={6}>
+[7m   [0m [91m             ~~~~[0m
+[96msrc/components/team/TeamTabs.tsx[0m:[93m824[0m:[93m9[0m - [93mwarning[0m[90m ts(6385): [0m'PaperProps' is deprecated.
+
+[7m824[0m         PaperProps={{
+[7m   [0m [93m        ~~~~~~~~~~[0m
+[96msrc/components/team/TeamTabs.tsx[0m:[93m3[0m:[93m203[0m - [93mwarning[0m[90m ts(6133): [0m'MuiTab' is declared but its value is never read.
+
+[7m3[0m import { Box, Paper, Tab, Tabs as MuiTabs, Typography, Grid, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Chip, Dialog, DialogContent, DialogTitle, IconButton, Button, Tabs, Tab as MuiTab, CircularProgress, Alert, Avatar } from '@mui/material';
+[7m [0m [93m                                                                                                                                                                                                          ~~~~~~[0m
+[96msrc/components/team/TeamTabs.tsx[0m:[93m2[0m:[93m27[0m - [93mwarning[0m[90m ts(6133): [0m'useEffect' is declared but its value is never read.
+
+[7m2[0m import React, { useState, useEffect } from 'react';
+[7m [0m [93m                          ~~~~~~~~~[0m
+
+[96msrc/components/team/skeletons.tsx[0m:[93m22[0m:[93m10[0m - [91merror[0m[90m ts(2769): [0mNo overload matches this call.
+  Overload 1 of 2, '(props: { component: ElementType<any, keyof IntrinsicElements>; } & GridBaseProps & { sx?: SxProps<Theme>; } & SystemProps<Theme> & Omit<...>): Element', gave the following error.
+  Overload 2 of 2, '(props: DefaultComponentProps<GridTypeMap<{}, "div">>): Element', gave the following error.
+
+[7m22[0m         <Grid item xs={12} sm={6} md={3} key={i}>
+[7m  [0m [91m         ~~~~[0m
+
+[96msrc/components/team-preview/TeamPreviewFeatures.tsx[0m:[93m11[0m:[93m9[0m - [93mwarning[0m[90m ts(6133): [0m'topTeams' is declared but its value is never read.
+
+[7m11[0m   const { data: topTeams } = await supabase
+[7m  [0m [93m        ~~~~~~~~~~~~~~~~~~[0m
+[96msrc/components/team-preview/TeamPreviewFeatures.tsx[0m:[93m4[0m:[93m59[0m - [93mwarning[0m[90m ts(6133): [0m'Shield' is declared but its value is never read.
+
+[7m4[0m import { Preview, TrendingUp, EmojiEvents, People, Speed, Shield } from '@mui/icons-material';
+[7m [0m [93m                                                          ~~~~~~[0m
+[96msrc/components/team-preview/TeamPreviewFeatures.tsx[0m:[93m4[0m:[93m52[0m - [93mwarning[0m[90m ts(6133): [0m'Speed' is declared but its value is never read.
+
+[7m4[0m import { Preview, TrendingUp, EmojiEvents, People, Speed, Shield } from '@mui/icons-material';
+[7m [0m [93m                                                   ~~~~~[0m
+
+[96msrc/components/team-preview/TeamPreviewStats.tsx[0m:[93m61[0m:[93m10[0m - [91merror[0m[90m ts(2769): [0mNo overload matches this call.
+  Overload 1 of 2, '(props: { component: ElementType<any, keyof IntrinsicElements>; } & GridBaseProps & { sx?: SxProps<Theme>; } & SystemProps<Theme> & Omit<...>): Element', gave the following error.
+  Overload 2 of 2, '(props: DefaultComponentProps<GridTypeMap<{}, "div">>): Element', gave the following error.
+
+[7m61[0m         <Grid item xs={12} sm={6} md={3}>
+[7m  [0m [91m         ~~~~[0m
+[96msrc/components/team-preview/TeamPreviewStats.tsx[0m:[93m55[0m:[93m10[0m - [91merror[0m[90m ts(2769): [0mNo overload matches this call.
+  Overload 1 of 2, '(props: { component: ElementType<any, keyof IntrinsicElements>; } & GridBaseProps & { sx?: SxProps<Theme>; } & SystemProps<Theme> & Omit<...>): Element', gave the following error.
+  Overload 2 of 2, '(props: DefaultComponentProps<GridTypeMap<{}, "div">>): Element', gave the following error.
+
+[7m55[0m         <Grid item xs={12} sm={6} md={3}>
+[7m  [0m [91m         ~~~~[0m
+[96msrc/components/team-preview/TeamPreviewStats.tsx[0m:[93m49[0m:[93m10[0m - [91merror[0m[90m ts(2769): [0mNo overload matches this call.
+  Overload 1 of 2, '(props: { component: ElementType<any, keyof IntrinsicElements>; } & GridBaseProps & { sx?: SxProps<Theme>; } & SystemProps<Theme> & Omit<...>): Element', gave the following error.
+  Overload 2 of 2, '(props: DefaultComponentProps<GridTypeMap<{}, "div">>): Element', gave the following error.
+
+[7m49[0m         <Grid item xs={12} sm={6} md={3}>
+[7m  [0m [91m         ~~~~[0m
+[96msrc/components/team-preview/TeamPreviewStats.tsx[0m:[93m43[0m:[93m10[0m - [91merror[0m[90m ts(2769): [0mNo overload matches this call.
+  Overload 1 of 2, '(props: { component: ElementType<any, keyof IntrinsicElements>; } & GridBaseProps & { sx?: SxProps<Theme>; } & SystemProps<Theme> & Omit<...>): Element', gave the following error.
+  Overload 2 of 2, '(props: DefaultComponentProps<GridTypeMap<{}, "div">>): Element', gave the following error.
+
+[7m43[0m         <Grid item xs={12} sm={6} md={3}>
+[7m  [0m [91m         ~~~~[0m
+
+[96msrc/components/tournament/TournamentBracket.tsx[0m:[93m1[0m:[93m48[0m - [93mwarning[0m[90m ts(6133): [0m'Chip' is declared but its value is never read.
+
+[7m1[0m import { Box, Paper, Typography, Grid, Avatar, Chip } from '@mui/material';
+[7m [0m [93m                                               ~~~~[0m
+[96msrc/components/tournament/TournamentBracket.tsx[0m:[93m1[0m:[93m34[0m - [93mwarning[0m[90m ts(6133): [0m'Grid' is declared but its value is never read.
+
+[7m1[0m import { Box, Paper, Typography, Grid, Avatar, Chip } from '@mui/material';
+[7m [0m [93m                                 ~~~~[0m
+
+[96msrc/components/tournament/TournamentInformation.tsx[0m:[93m75[0m:[93m10[0m - [91merror[0m[90m ts(2769): [0mNo overload matches this call.
+  Overload 1 of 2, '(props: { component: ElementType<any, keyof IntrinsicElements>; } & GridBaseProps & { sx?: SxProps<Theme>; } & SystemProps<Theme> & Omit<...>): Element', gave the following error.
+  Overload 2 of 2, '(props: DefaultComponentProps<GridTypeMap<{}, "div">>): Element', gave the following error.
+
+[7m75[0m         <Grid item xs={12} md={6}>
+[7m  [0m [91m         ~~~~[0m
+[96msrc/components/tournament/TournamentInformation.tsx[0m:[93m33[0m:[93m10[0m - [91merror[0m[90m ts(2769): [0mNo overload matches this call.
+  Overload 1 of 2, '(props: { component: ElementType<any, keyof IntrinsicElements>; } & GridBaseProps & { sx?: SxProps<Theme>; } & SystemProps<Theme> & Omit<...>): Element', gave the following error.
+  Overload 2 of 2, '(props: DefaultComponentProps<GridTypeMap<{}, "div">>): Element', gave the following error.
+
+[7m33[0m         <Grid item xs={12} md={6}>
+[7m  [0m [91m         ~~~~[0m
+[96msrc/components/tournament/TournamentInformation.tsx[0m:[93m1[0m:[93m46[0m - [93mwarning[0m[90m ts(6133): [0m'Link' is declared but its value is never read.
+
+[7m1[0m import { Box, Paper, Typography, Grid, Chip, Link } from '@mui/material';
+[7m [0m [93m                                             ~~~~[0m
+
+[96msrc/components/tournament/TournamentStatistics.tsx[0m:[93m78[0m:[93m10[0m - [91merror[0m[90m ts(2769): [0mNo overload matches this call.
+  Overload 1 of 2, '(props: { component: ElementType<any, keyof IntrinsicElements>; } & GridBaseProps & { sx?: SxProps<Theme>; } & SystemProps<Theme> & Omit<...>): Element', gave the following error.
+  Overload 2 of 2, '(props: DefaultComponentProps<GridTypeMap<{}, "div">>): Element', gave the following error.
+
+[7m78[0m         <Grid item xs={12} md={4}>
+[7m  [0m [91m         ~~~~[0m
+[96msrc/components/tournament/TournamentStatistics.tsx[0m:[93m67[0m:[93m10[0m - [91merror[0m[90m ts(2769): [0mNo overload matches this call.
+  Overload 1 of 2, '(props: { component: ElementType<any, keyof IntrinsicElements>; } & GridBaseProps & { sx?: SxProps<Theme>; } & SystemProps<Theme> & Omit<...>): Element', gave the following error.
+  Overload 2 of 2, '(props: DefaultComponentProps<GridTypeMap<{}, "div">>): Element', gave the following error.
+
+[7m67[0m         <Grid item xs={12} md={4}>
+[7m  [0m [91m         ~~~~[0m
+[96msrc/components/tournament/TournamentStatistics.tsx[0m:[93m56[0m:[93m10[0m - [91merror[0m[90m ts(2769): [0mNo overload matches this call.
+  Overload 1 of 2, '(props: { component: ElementType<any, keyof IntrinsicElements>; } & GridBaseProps & { sx?: SxProps<Theme>; } & SystemProps<Theme> & Omit<...>): Element', gave the following error.
+  Overload 2 of 2, '(props: DefaultComponentProps<GridTypeMap<{}, "div">>): Element', gave the following error.
+
+[7m56[0m         <Grid item xs={12} md={4}>
+[7m  [0m [91m         ~~~~[0m
+
+[96msrc/components/tournament/TournamentStats.tsx[0m:[93m6[0m:[93m8[0m - [91merror[0m[90m ts(2769): [0mNo overload matches this call.
+  Overload 1 of 2, '(props: { component: ElementType<any, keyof IntrinsicElements>; } & GridBaseProps & { sx?: SxProps<Theme>; } & SystemProps<Theme> & Omit<...>): Element', gave the following error.
+  Overload 2 of 2, '(props: DefaultComponentProps<GridTypeMap<{}, "div">>): Element', gave the following error.
+
+[7m6[0m       <Grid item xs={12} sm={6} md={3}>
+[7m [0m [91m       ~~~~[0m
+[96msrc/components/tournament/TournamentStats.tsx[0m:[93m3[0m:[93m43[0m - [93mwarning[0m[90m ts(6133): [0m'tournament' is declared but its value is never read.
+
+[7m3[0m export default function TournamentStats({ tournament, participants }: { tournament: any; participants: any[] }) {
+[7m [0m [93m                                          ~~~~~~~~~~[0m
+
+[96msrc/components/tournament/TournamentTabs.tsx[0m:[93m26[0m:[93m3[0m - [93mwarning[0m[90m ts(6133): [0m'matches' is declared but its value is never read.
+
+[7m26[0m   matches,
+[7m  [0m [93m  ~~~~~~~[0m
+[96msrc/components/tournament/TournamentTabs.tsx[0m:[93m24[0m:[93m3[0m - [93mwarning[0m[90m ts(6133): [0m'tournamentId' is declared but its value is never read.
+
+[7m24[0m   tournamentId,
+[7m  [0m [93m  ~~~~~~~~~~~~[0m
+
+[96msrc/components/tournament/skeletons.tsx[0m:[93m29[0m:[93m10[0m - [91merror[0m[90m ts(2769): [0mNo overload matches this call.
+  Overload 1 of 2, '(props: { component: ElementType<any, keyof IntrinsicElements>; } & GridBaseProps & { sx?: SxProps<Theme>; } & SystemProps<Theme> & Omit<...>): Element', gave the following error.
+  Overload 2 of 2, '(props: DefaultComponentProps<GridTypeMap<{}, "div">>): Element', gave the following error.
+
+[7m29[0m         <Grid item xs={12} sm={6} md={3} key={i}>
+[7m  [0m [91m         ~~~~[0m
+
+[96msrc/lib/supabaseClient.ts[0m:[93m77[0m:[93m10[0m - [93mwarning[0m[90m ts(6387): [0mThe signature '(supabaseUrl: string, supabaseKey: string, options: SupabaseClientOptions<"public"> & { cookieOptions?: CookieOptionsWithName; cookies: CookieMethodsServerDeprecated; cookieEncoding?: "raw" | "base64url"; }): SupabaseClient<...>' of 'createServerClient' is deprecated.
+
+[7m77[0m   return createServerClient<Database>(url, anon, {
+[7m  [0m [93m         ~~~~~~~~~~~~~~~~~~[0m
+
+[96msrc/pages/player/[id].astro[0m:[93m41[0m:[93m31[0m - [93mwarning[0m[90m ts(7044): [0mParameter 's' implicitly has an 'any' type, but a better type may be inferred from usage.
+
+[7m41[0m   tov: statsData.reduce((acc, s) => acc + (s.turnovers || 0), 0) / statsData.length,
+[7m  [0m [93m                              ~[0m
+[96msrc/pages/player/[id].astro[0m:[93m41[0m:[93m26[0m - [93mwarning[0m[90m ts(7044): [0mParameter 'acc' implicitly has an 'any' type, but a better type may be inferred from usage.
+
+[7m41[0m   tov: statsData.reduce((acc, s) => acc + (s.turnovers || 0), 0) / statsData.length,
+[7m  [0m [93m                         ~~~[0m
+[96msrc/pages/player/[id].astro[0m:[93m40[0m:[93m35[0m - [93mwarning[0m[90m ts(7044): [0mParameter 's' implicitly has an 'any' type, but a better type may be inferred from usage.
+
+[7m40[0m   fg3_pct: statsData.reduce((acc, s) => acc + ((s.three_points_made || 0) / (s.three_points_attempted || 1)), 0) / statsData.length * 100,
+[7m  [0m [93m                                  ~[0m
+[96msrc/pages/player/[id].astro[0m:[93m40[0m:[93m30[0m - [93mwarning[0m[90m ts(7044): [0mParameter 'acc' implicitly has an 'any' type, but a better type may be inferred from usage.
+
+[7m40[0m   fg3_pct: statsData.reduce((acc, s) => acc + ((s.three_points_made || 0) / (s.three_points_attempted || 1)), 0) / statsData.length * 100,
+[7m  [0m [93m                             ~~~[0m
+[96msrc/pages/player/[id].astro[0m:[93m39[0m:[93m31[0m - [93mwarning[0m[90m ts(7044): [0mParameter 's' implicitly has an 'any' type, but a better type may be inferred from usage.
+
+[7m39[0m   blk: statsData.reduce((acc, s) => acc + (s.blocks || 0), 0) / statsData.length,
+[7m  [0m [93m                              ~[0m
+[96msrc/pages/player/[id].astro[0m:[93m39[0m:[93m26[0m - [93mwarning[0m[90m ts(7044): [0mParameter 'acc' implicitly has an 'any' type, but a better type may be inferred from usage.
+
+[7m39[0m   blk: statsData.reduce((acc, s) => acc + (s.blocks || 0), 0) / statsData.length,
+[7m  [0m [93m                         ~~~[0m
+[96msrc/pages/player/[id].astro[0m:[93m38[0m:[93m31[0m - [93mwarning[0m[90m ts(7044): [0mParameter 's' implicitly has an 'any' type, but a better type may be inferred from usage.
+
+[7m38[0m   stl: statsData.reduce((acc, s) => acc + (s.steals || 0), 0) / statsData.length,
+[7m  [0m [93m                              ~[0m
+[96msrc/pages/player/[id].astro[0m:[93m38[0m:[93m26[0m - [93mwarning[0m[90m ts(7044): [0mParameter 'acc' implicitly has an 'any' type, but a better type may be inferred from usage.
+
+[7m38[0m   stl: statsData.reduce((acc, s) => acc + (s.steals || 0), 0) / statsData.length,
+[7m  [0m [93m                         ~~~[0m
+[96msrc/pages/player/[id].astro[0m:[93m37[0m:[93m31[0m - [93mwarning[0m[90m ts(7044): [0mParameter 's' implicitly has an 'any' type, but a better type may be inferred from usage.
+
+[7m37[0m   reb: statsData.reduce((acc, s) => acc + (s.rebounds || 0), 0) / statsData.length,
+[7m  [0m [93m                              ~[0m
+[96msrc/pages/player/[id].astro[0m:[93m37[0m:[93m26[0m - [93mwarning[0m[90m ts(7044): [0mParameter 'acc' implicitly has an 'any' type, but a better type may be inferred from usage.
+
+[7m37[0m   reb: statsData.reduce((acc, s) => acc + (s.rebounds || 0), 0) / statsData.length,
+[7m  [0m [93m                         ~~~[0m
+[96msrc/pages/player/[id].astro[0m:[93m36[0m:[93m31[0m - [93mwarning[0m[90m ts(7044): [0mParameter 's' implicitly has an 'any' type, but a better type may be inferred from usage.
+
+[7m36[0m   ast: statsData.reduce((acc, s) => acc + (s.assists || 0), 0) / statsData.length,
+[7m  [0m [93m                              ~[0m
+[96msrc/pages/player/[id].astro[0m:[93m36[0m:[93m26[0m - [93mwarning[0m[90m ts(7044): [0mParameter 'acc' implicitly has an 'any' type, but a better type may be inferred from usage.
+
+[7m36[0m   ast: statsData.reduce((acc, s) => acc + (s.assists || 0), 0) / statsData.length,
+[7m  [0m [93m                         ~~~[0m
+[96msrc/pages/player/[id].astro[0m:[93m35[0m:[93m31[0m - [93mwarning[0m[90m ts(7044): [0mParameter 's' implicitly has an 'any' type, but a better type may be inferred from usage.
+
+[7m35[0m   pts: statsData.reduce((acc, s) => acc + (s.points || 0), 0) / statsData.length,
+[7m  [0m [93m                              ~[0m
+[96msrc/pages/player/[id].astro[0m:[93m35[0m:[93m26[0m - [93mwarning[0m[90m ts(7044): [0mParameter 'acc' implicitly has an 'any' type, but a better type may be inferred from usage.
+
+[7m35[0m   pts: statsData.reduce((acc, s) => acc + (s.points || 0), 0) / statsData.length,
+[7m  [0m [93m                         ~~~[0m
+
+Result (111 files): 
+- 117 errors
+- 0 warnings
+- 59 hints
+

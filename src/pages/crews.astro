@@ -1,33 +1,67 @@
 ---
 import Layout from '@/layouts/Layout.astro';
-import CrewsList from '@/components/crews/CrewsList';
-import CrewsFilters from '@/components/crews/CrewsFilters';
+import { createClientServer } from '@/lib/supabaseClient';
 
-const searchParams = {
-  search: Astro.url.searchParams.get('search') || undefined,
-  sort: Astro.url.searchParams.get('sort') || undefined,
-  page: Astro.url.searchParams.get('page') || undefined,
-};
+const supabase = createClientServer(Astro.cookies);
+
+const { data: crews } = await supabase
+  .from('city_crews')
+  .select('id, crewName, crewRegion, crewRank, crew_logo')
+  .order('crewRank', { ascending: true })
+  .limit(50);
 ---
 
 <Layout title="Crews - Global Pro-Am Rankings">
-  <div style="min-height: 100vh; background-color: #0F172A;">
-    <div style="max-width: 1200px; margin: 0 auto; padding: 2rem 1rem;">
+  <div class="app-theme">
+    <div class="container">
       <div style="margin-bottom: 2rem;">
         <h1 style="font-size: 2.5rem; font-weight: 800; background: linear-gradient(135deg, #3B82F6 0%, #9BF00B 100%); -webkit-background-clip: text; background-clip: text; color: transparent; margin-bottom: 0.5rem;">
           City Crews
         </h1>
-        <p style="font-size: 1.25rem; color: #9CA3AF;">
+        <p style="font-size: 1.25rem; color: var(--color-text-secondary);">
           Explore basketball crews from around the world
         </p>
       </div>
 
-      <div style="margin-bottom: 1.5rem;">
-        <CrewsFilters searchParams={searchParams} client:load />
+      <div class="grid">
+        {crews?.map((crew) => (
+          <a 
+            href={`/crew/${crew.id}`}
+            class="card"
+            style="text-decoration: none; color: inherit;"
+          >
+            <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+              {crew.crew_logo && (
+                <img 
+                  src={crew.crew_logo} 
+                  alt={crew.crewName || 'Crew'} 
+                  style="width: 48px; height: 48px; border-radius: 50%; object-fit: cover;"
+                />
+              )}
+              <div style="flex: 1;">
+                <h3 style="margin: 0 0 0.25rem;">{crew.crewName}</h3>
+                <p class="text-secondary" style="font-size: 0.875rem; margin: 0;">
+                  {crew.crewRegion || 'Region Unknown'}
+                </p>
+              </div>
+              {crew.crewRank && (
+                <div style="text-align: right;">
+                  <div class="text-secondary" style="font-size: 0.75rem;">Rank</div>
+                  <div style="font-size: 1.5rem; font-weight: 700; color: var(--color-primary);">
+                    #{crew.crewRank}
+                  </div>
+                </div>
+              )}
+            </div>
+          </a>
+        ))}
       </div>
 
-      <CrewsList searchParams={searchParams} client:load />
+      {!crews || crews.length === 0 && (
+        <div style="text-align: center; padding: 4rem 0;">
+          <p class="text-secondary">No crews found</p>
+        </div>
+      )}
     </div>
   </div>
 </Layout>
-

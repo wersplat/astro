@@ -1,97 +1,95 @@
 ---
 import Layout from '@/layouts/Layout.astro';
 import { createClientServer } from '@/lib/supabaseClient';
-import TournamentHeroHeader from '@/components/tournament/TournamentHeroHeader';
-import TournamentInformation from '@/components/tournament/TournamentInformation';
-import TournamentTabs from '@/components/tournament/TournamentTabs';
 
 const { id } = Astro.params;
-
 const supabase = createClientServer(Astro.cookies);
 
-// Fetch tournament from tournament_calendar view
 const { data: tournament } = await supabase
   .from('tournament_calendar')
   .select('*')
   .eq('id', id!)
   .maybeSingle();
 
-// Fetch participants (teams that participated)
-const { data: participantsRaw } = await supabase
+const { data: results } = await supabase
   .from('tournament_results')
   .select('*')
   .eq('tournament_id', id!)
-  .order('final_placement', { ascending: true });
-
-const participants = participantsRaw || [];
-
-// Fetch matches
-const { data: matchesRaw } = await supabase
-  .from('matches')
-  .select(`
-    id,
-    played_at,
-    team_a_id,
-    team_b_id,
-    score_a,
-    score_b,
-    stage,
-    team_a:team_a_id(name, logo_url),
-    team_b:team_b_id(name, logo_url)
-  `)
-  .eq('tournament_id', id!)
-  .order('played_at', { ascending: false });
-
-const matches = (matchesRaw || []).map((m: any) => ({
-  ...m,
-  team_a_name: Array.isArray(m.team_a) ? m.team_a[0]?.name : m.team_a?.name,
-  team_b_name: Array.isArray(m.team_b) ? m.team_b[0]?.name : m.team_b?.name,
-  team_a_logo: Array.isArray(m.team_a) ? m.team_a[0]?.logo_url : m.team_a?.logo_url,
-  team_b_logo: Array.isArray(m.team_b) ? m.team_b[0]?.logo_url : m.team_b?.logo_url
-}));
-
-// Recent and upcoming matches
-const recentMatches = matches.filter((m: any) => m.played_at).slice(0, 10);
-const upcomingMatches = [];
-
-// Bracket matches (for bracket display)
-const bracketMatches = matches.filter((m: any) => 
-  m.stage && !['Regular Season', 'Group Play'].includes(m.stage)
-);
-
-// Tournament leaders and stats
-const tournamentLeaders = [];
-const bestPerformances = [];
-const tournamentRecords = [];
+  .order('final_placement', { ascending: true })
+  .limit(20);
 ---
 
 <Layout title={`${tournament?.tournament_name || 'Tournament'} - Global Rankings`}>
-  <div style="min-height: 100vh; background-color: #0F172A;">
-    <div style="max-width: 1000px; margin: 0 auto; padding: 2rem 1rem;">
-      <div style="display: flex; flex-direction: column; gap: 1.5rem;">
-        <TournamentHeroHeader tournament={tournament} client:load />
-        <TournamentInformation tournament={tournament} client:load />
-        <TournamentTabs 
-          tournamentId={id!}
-          participants={participants}
-          matches={matches}
-          tournament={tournament}
-          recentMatches={recentMatches}
-          upcomingMatches={upcomingMatches}
-          bracketMatches={bracketMatches}
-          tournamentLeaders={tournamentLeaders}
-          bestPerformances={bestPerformances}
-          tournamentRecords={tournamentRecords}
-          client:load 
-        />
-
-        {!tournament && (
-          <div style="color: #9CA3AF; font-size: 12px; text-align: center; padding: 1rem 0;">
-            Tournament not found.
+  <div class="app-theme">
+    <div class="container">
+      {tournament ? (
+        <>
+          <div class="paper" style="margin-bottom: 2rem;">
+            <div style="display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap;">
+              {tournament.organizer_logo_url && (
+                <img 
+                  src={tournament.organizer_logo_url} 
+                  alt={tournament.organizer_name || 'Organizer'} 
+                  style="width: 80px; height: 80px; object-fit: contain;"
+                />
+              )}
+              <div style="flex: 1;">
+                <h1 style="margin: 0 0 0.5rem; font-size: 2.5rem;">{tournament.tournament_name}</h1>
+                <p class="text-secondary">
+                  {tournament.organizer_name}
+                  {tournament.start_date && ` • ${new Date(tournament.start_date).toLocaleDateString()}`}
+                </p>
+              </div>
+              {tournament.tier && (
+                <span style="padding: 0.5rem 1rem; border-radius: 4px; background: var(--color-primary); color: white; font-weight: 600;">
+                  {tournament.tier}
+                </span>
+              )}
+            </div>
           </div>
-        )}
-      </div>
+
+          <div class="paper">
+            <h2 style="margin-bottom: 1.5rem;">Results</h2>
+            <div style="overflow-x: auto;">
+              <table style="width: 100%; border-collapse: collapse;">
+                <thead>
+                  <tr style="border-bottom: 1px solid var(--color-border);">
+                    <th style="padding: 0.75rem; text-align: left; color: var(--color-text-secondary);">Place</th>
+                    <th style="padding: 0.75rem; text-align: left; color: var(--color-text-secondary);">Team</th>
+                    <th style="padding: 0.75rem; text-align: left; color: var(--color-text-secondary);">W</th>
+                    <th style="padding: 0.75rem; text-align: left; color: var(--color-text-secondary);">L</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {results?.map((result: any) => (
+                    <tr style="border-bottom: 1px solid var(--color-border);">
+                      <td style="padding: 0.75rem;">
+                        <span style={`font-weight: 700; color: ${result.final_placement === 1 ? '#F59E08' : result.final_placement === 2 ? '#94A3B8' : result.final_placement === 3 ? '#CD7F32' : 'inherit'};`}>
+                          {result.final_placement || '-'}
+                        </span>
+                      </td>
+                      <td style="padding: 0.75rem;">
+                        <a href={`/team/${result.team_id}`} style="color: inherit; text-decoration: none;">
+                          {result.team_name}
+                        </a>
+                      </td>
+                      <td style="padding: 0.75rem;">{result.wins || 0}</td>
+                      <td style="padding: 0.75rem;">{result.losses || 0}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            {(!results || results.length === 0) && (
+              <p class="text-secondary">No results found</p>
+            )}
+          </div>
+        </>
+      ) : (
+        <div class="paper">
+          <p class="text-secondary">Tournament not found</p>
+        </div>
+      )}
     </div>
   </div>
 </Layout>
-

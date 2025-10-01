@@ -1,26 +1,54 @@
 ---
 import Layout from '@/layouts/Layout.astro';
-import TeamPreviewLeaderboard from '@/components/team-preview/TeamPreviewLeaderboard';
-import TeamPreviewStats from '@/components/team-preview/TeamPreviewStats';
-import TeamPreviewFeatures from '@/components/team-preview/TeamPreviewFeatures';
+import { createClientServer } from '@/lib/supabaseClient';
+
+const supabase = createClientServer(Astro.cookies);
+
+const { data: topTeams } = await supabase
+  .from('teams')
+  .select('id, name, logo_url, global_rank, current_rp')
+  .order('global_rank', { ascending: true })
+  .limit(20);
 ---
 
 <Layout title="Team Preview - Global Rankings">
-  <div style="min-height: 100vh; background-color: #0F172A;">
-    <div style="max-width: 1200px; margin: 0 auto; padding: 2rem 1rem;">
+  <div class="app-theme">
+    <div class="container">
       <div style="margin-bottom: 2rem;">
         <h1 style="font-size: 2.5rem; font-weight: 800; background: linear-gradient(135deg, #3B82F6 0%, #9BF00B 100%); -webkit-background-clip: text; background-clip: text; color: transparent; margin-bottom: 0.5rem;">
           Team Rankings Preview
         </h1>
-        <p style="font-size: 1.25rem; color: #9CA3AF;">
+        <p style="font-size: 1.25rem; color: var(--color-text-secondary);">
           Preview of the competitive team landscape
         </p>
       </div>
 
-      <TeamPreviewStats client:load />
-      <TeamPreviewLeaderboard client:load />
-      <TeamPreviewFeatures client:load />
+      <div class="grid">
+        {topTeams?.map((team: any) => (
+          <a href={`/team/${team.id}`} class="card" style="text-decoration: none; color: inherit;">
+            <div style="display: flex; align-items: center; gap: 1rem;">
+              {team.logo_url && (
+                <img 
+                  src={team.logo_url} 
+                  alt={team.name || 'Team'} 
+                  style="width: 48px; height: 48px; border-radius: 50%; object-fit: cover;"
+                />
+              )}
+              <div style="flex: 1;">
+                <h4 style="margin: 0 0 0.25rem;">{team.name}</h4>
+                <p class="text-secondary" style="font-size: 0.875rem; margin: 0;">
+                  Rank #{team.global_rank}
+                </p>
+              </div>
+              <div style="text-align: right;">
+                <p style="margin: 0; font-weight: 700; color: var(--color-primary);">
+                  {team.current_rp || 0} RP
+                </p>
+              </div>
+            </div>
+          </a>
+        ))}
+      </div>
     </div>
   </div>
 </Layout>
-

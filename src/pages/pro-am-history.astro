@@ -1,25 +1,62 @@
 ---
 import Layout from '@/layouts/Layout.astro';
-import ProAmHistoryTimeline from '@/components/pro-am-history/ProAmHistoryTimeline';
-import ProAmHistoryStats from '@/components/pro-am-history/ProAmHistoryStats';
+import { createClientServer } from '@/lib/supabaseClient';
+
+const supabase = createClientServer(Astro.cookies);
+
+const { data: champions } = await supabase
+  .from('past_champions')
+  .select('*')
+  .order('year', { ascending: false })
+  .limit(50);
 ---
 
 <Layout title="Pro-Am History - Global Rankings">
-  <div style="min-height: 100vh; background-color: #0F172A;">
-    <div style="max-width: 1200px; margin: 0 auto; padding: 2rem 1rem;">
+  <div class="app-theme">
+    <div class="container">
       <div style="margin-bottom: 2rem;">
         <h1 style="font-size: 2.5rem; font-weight: 800; background: linear-gradient(135deg, #3B82F6 0%, #9BF00B 100%); -webkit-background-clip: text; background-clip: text; color: transparent; margin-bottom: 0.5rem;">
           Pro-Am History
         </h1>
-        <p style="font-size: 1.25rem; color: #9CA3AF;">
+        <p style="font-size: 1.25rem; color: var(--color-text-secondary);">
           A journey through competitive basketball history
         </p>
       </div>
 
-      <ProAmHistoryStats client:load />
-      <ProAmHistoryTimeline client:load />
+      <div style="display: flex; flex-direction: column; gap: 2rem;">
+        {champions?.map((champ: any) => (
+          <div class="paper">
+            <div style="display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap;">
+              {champ.champion_logo && (
+                <img 
+                  src={champ.champion_logo} 
+                  alt={champ.team_name || 'Champion'} 
+                  style="width: 60px; height: 60px; border-radius: 50%; object-fit: cover;"
+                />
+              )}
+              <div style="flex: 1;">
+                <h3 style="margin: 0 0 0.5rem; color: var(--color-primary);">
+                  {champ.team_name}
+                </h3>
+                <p class="text-secondary" style="margin: 0;">
+                  {champ.is_tournament ? '🏆 Tournament' : '🏀 League'} • {champ.year}
+                  {champ.league_name && ` • ${champ.league_name}`}
+                  {champ.season && ` Season ${champ.season}`}
+                </p>
+              </div>
+              <span style="padding: 0.5rem 1rem; border-radius: 4px; background: rgba(245, 158, 8, 0.2); color: #F59E08; font-weight: 600;">
+                Champion
+              </span>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {(!champions || champions.length === 0) && (
+        <div class="paper">
+          <p class="text-secondary">No championship history found</p>
+        </div>
+      )}
     </div>
   </div>
 </Layout>
-
-

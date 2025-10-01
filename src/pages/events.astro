@@ -1,35 +1,104 @@
 ---
 import Layout from '@/layouts/Layout.astro';
-import EventsList from '@/components/events/EventsList';
-import EventsFilters from '@/components/events/EventsFilters';
+import { createClientServer } from '@/lib/supabaseClient';
 
-const searchParams = {
-  search: Astro.url.searchParams.get('search') || undefined,
-  tier: Astro.url.searchParams.get('tier') || undefined,
-  status: Astro.url.searchParams.get('status') || undefined,
-  sort: Astro.url.searchParams.get('sort') || undefined,
-  page: Astro.url.searchParams.get('page') || undefined,
-};
+const supabase = createClientServer(Astro.cookies);
+
+// Fetch tournaments
+const { data: tournaments } = await supabase
+  .from('tournament_calendar')
+  .select('*')
+  .order('start_date', { ascending: false })
+  .limit(50);
+
+// Fetch leagues
+const { data: leagues } = await supabase
+  .from('league_calendar')
+  .select('*')
+  .order('start_date', { ascending: false })
+  .limit(50);
+
+// Combine into events
+const events = [
+  ...(tournaments || []).map(t => ({ 
+    ...t, 
+    type: 'tournament', 
+    name: t.tournament_name,
+    event_date: t.start_date,
+    tier: t.tier === 'T1' ? 1 : t.tier === 'T2' ? 2 : t.tier === 'T3' ? 3 : t.tier === 'T4' ? 4 : 5
+  })),
+  ...(leagues || []).map(l => ({ 
+    ...l, 
+    type: 'league', 
+    name: l.league_name,
+    event_date: l.start_date,
+    tier: 2
+  }))
+].sort((a, b) => new Date(b.event_date || '').getTime() - new Date(a.event_date || '').getTime());
+
+function getTierLabel(tier: number) {
+  return `T${tier}`;
+}
+
+function getTierColor(tier: number) {
+  const colors = ['#F59E08', '#3B82F6', '#8B5CF6', '#10B981', '#6B7280'];
+  return colors[tier - 1] || colors[4];
+}
 ---
 
 <Layout title="Events - Global Pro-Am Rankings">
-  <div style="min-height: 100vh; background-color: #0F172A;">
-    <div style="max-width: 1200px; margin: 0 auto; padding: 2rem 1rem;">
+  <div class="app-theme">
+    <div class="container">
       <div style="margin-bottom: 2rem;">
         <h1 style="font-size: 2.5rem; font-weight: 800; background: linear-gradient(135deg, #3B82F6 0%, #9BF00B 100%); -webkit-background-clip: text; background-clip: text; color: transparent; margin-bottom: 0.5rem;">
           Events
         </h1>
-        <p style="font-size: 1.25rem; color: #9CA3AF;">
+        <p style="font-size: 1.25rem; color: var(--color-text-secondary);">
           Discover Pro-Am events across all tiers and regions
         </p>
       </div>
 
-      <div style="margin-bottom: 1.5rem;">
-        <EventsFilters searchParams={searchParams} client:load />
+      <div class="grid">
+        {events.map((event) => {
+          const tierColor = getTierColor(event.tier);
+          const tierLabel = getTierLabel(event.tier);
+          const isUpcoming = new Date(event.event_date || '') > new Date();
+          
+          return (
+            <a 
+              href={event.type === 'league' ? `/league/${event.id}` : `/tournament/${event.id}`}
+              class="card"
+              style="text-decoration: none; color: inherit;"
+            >
+              <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 1rem;">
+                <h3 style="margin: 0; flex: 1;">{event.name}</h3>
+                <div style="display: flex; flex-direction: column; gap: 0.5rem; align-items: flex-end;">
+                  <span style={`font-size: 0.75rem; padding: 0.25rem 0.5rem; border-radius: 4px; background: ${tierColor}20; color: ${tierColor}; border: 1px solid ${tierColor};`}>
+                    {tierLabel}
+                  </span>
+                  <span style={`font-size: 0.75rem; padding: 0.25rem 0.5rem; border-radius: 4px; background: ${isUpcoming ? '#10B98120' : '#6B728020'}; color: ${isUpcoming ? '#10B981' : '#6B7280'};`}>
+                    {isUpcoming ? 'Upcoming' : 'Completed'}
+                  </span>
+                </div>
+              </div>
+              <p class="text-secondary" style="font-size: 0.875rem; margin-bottom: 1rem;">
+                {event.type === 'tournament' ? '🏆 Tournament' : '🏀 League'}
+              </p>
+              {event.event_date && (
+                <p class="text-secondary" style="font-size: 0.875rem;">
+                  📅 {new Date(event.event_date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+                </p>
+              )}
+            </a>
+          );
+        })}
       </div>
 
-      <EventsList searchParams={searchParams} client:load />
+      {events.length === 0 && (
+        <div style="text-align: center; padding: 4rem 0;">
+          <p class="text-secondary">No events found</p>
+        </div>
+      )}
     </div>
   </div>
 </Layout>
-
