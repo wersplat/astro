@@ -46,7 +46,8 @@ const players = playersRaw.data?.map((r: any) => ({
   player: Array.isArray(r.players) ? r.players[0] : r.players || r.player
 })) || [];
 
-const { data: recentMatches } = await supabase
+// Get all matches for this team
+const { data: allTeamMatches } = await supabase
   .from('matches')
   .select(`
     id,
@@ -58,9 +59,23 @@ const { data: recentMatches } = await supabase
     boxscore_url
   `)
   .or(`team_a_id.eq.${id},team_b_id.eq.${id}`)
-  .not('played_at', 'is', null)
-  .order('played_at', { ascending: false })
-  .limit(10);
+  .not('score_a', 'is', null)
+  .order('played_at', { ascending: false });
+
+const totalMatches = allTeamMatches?.length || 0;
+const recentMatches = allTeamMatches?.slice(0, 10) || [];
+
+// Calculate team record
+let teamWins = 0;
+let teamLosses = 0;
+allTeamMatches?.forEach((match: any) => {
+  const isTeamA = match.team_a_id === id;
+  const teamScore = isTeamA ? match.score_a : match.score_b;
+  const oppScore = isTeamA ? match.score_b : match.score_a;
+  
+  if (teamScore > oppScore) teamWins++;
+  else if (teamScore < oppScore) teamLosses++;
+});
 ---
 
 <Layout title={`${team?.name || 'Team'} - Global Rankings`}>
@@ -124,7 +139,15 @@ const { data: recentMatches } = await supabase
             <div class="paper" style="text-align: center; padding: 1rem;">
               <div class="text-secondary" style="font-size: 0.875rem; margin-bottom: 0.25rem;">Matches</div>
               <div style="font-size: 1.5rem; font-weight: 700; color: var(--color-primary);">
-                {recentMatches?.length || 0}
+                {totalMatches}
+              </div>
+            </div>
+            <div class="paper" style="text-align: center; padding: 1rem;">
+              <div class="text-secondary" style="font-size: 0.875rem; margin-bottom: 0.25rem;">Record</div>
+              <div style="font-size: 1.5rem; font-weight: 700;">
+                <span style="color: #10B981;">{teamWins}</span>
+                <span style="color: var(--color-text-secondary);">-</span>
+                <span style="color: #EF4444;">{teamLosses}</span>
               </div>
             </div>
             {team.money_won !== null && team.money_won > 0 && (

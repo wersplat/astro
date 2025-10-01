@@ -1,7 +1,7 @@
 ---
 import Layout from '@/layouts/Layout.astro';
 import { createClientServer } from '@/lib/supabaseClient';
-import StandingsTable from '@/components/league/StandingsTable';
+import LeagueTabs from '@/components/league/LeagueTabs';
 import LeagueMatchCard from '@/components/league/MatchCard';
 
 const { id } = Astro.params;
@@ -63,7 +63,8 @@ const teams = Array.from(uniqueTeams.values()).sort((a: any, b: any) => {
   return (b.current_rp || 0) - (a.current_rp || 0);
 });
 
-const { data: recentMatches } = await supabase
+// Get all matches for this season
+const { data: allMatches } = await supabase
   .from('matches')
   .select(`
     id,
@@ -78,8 +79,51 @@ const { data: recentMatches } = await supabase
   `)
   .eq('season_id', id!)
   .not('score_a', 'is', null)
-  .order('played_at', { ascending: false })
-  .limit(10);
+  .order('played_at', { ascending: false });
+
+const totalMatches = allMatches?.length || 0;
+const recentMatches = allMatches?.slice(0, 10) || [];
+
+// Get player stats for this season
+const { data: playerStatsRaw } = await supabase
+  .from('player_stats')
+  .select(`
+    player_id,
+    points,
+    assists,
+    rebounds,
+    players!inner(gamertag, current_team_id, teams:current_team_id(name))
+  `)
+  .in('match_id', allMatches?.map((m: any) => m.id) || []);
+
+// Aggregate player stats
+const playerStatsMap = new Map();
+playerStatsRaw?.forEach((stat: any) => {
+  const player = Array.isArray(stat.players) ? stat.players[0] : stat.players;
+  const team = player?.teams ? (Array.isArray(player.teams) ? player.teams[0] : player.teams) : null;
+  
+  if (!playerStatsMap.has(stat.player_id)) {
+    playerStatsMap.set(stat.player_id, {
+      player_id: stat.player_id,
+      gamertag: player?.gamertag || 'Unknown',
+      team_name: team?.name,
+      points: 0,
+      assists: 0,
+      rebounds: 0,
+      games: 0
+    });
+  }
+  
+  const playerData = playerStatsMap.get(stat.player_id);
+  playerData.points += stat.points || 0;
+  playerData.assists += stat.assists || 0;
+  playerData.rebounds += stat.rebounds || 0;
+  playerData.games += 1;
+});
+
+const playerStats = Array.from(playerStatsMap.values())
+  .sort((a: any, b: any) => (b.points / b.games) - (a.points / a.games))
+  .slice(0, 20);
 ---
 
 <Layout title={`${league?.league_name || 'League'} - Global Rankings`}>
@@ -137,7 +181,7 @@ const { data: recentMatches } = await supabase
             <div class="paper" style="text-align: center; padding: 1rem;">
               <div class="text-secondary" style="font-size: 0.875rem; margin-bottom: 0.25rem;">Matches</div>
               <div style="font-size: 1.5rem; font-weight: 700; color: var(--color-primary);">
-                {recentMatches?.length || 0}
+                {totalMatches}
               </div>
             </div>
             {league.prize_pool !== null && league.prize_pool > 0 && (
@@ -159,12 +203,7 @@ const { data: recentMatches } = await supabase
           </div>
 
           <div class="paper" style="margin-bottom: 2rem;">
-            <h2 style="margin-bottom: 1.5rem;">Standings - Click team to view details</h2>
-            {teams && teams.length > 0 ? (
-              <StandingsTable teams={teams} client:load />
-            ) : (
-              <p class="text-secondary">No teams found</p>
-            )}
+            <LeagueTabs teams={teams} playerStats={playerStats} totalMatches={totalMatches} client:load />
           </div>
 
           <div class="paper">

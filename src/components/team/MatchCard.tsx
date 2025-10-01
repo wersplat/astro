@@ -18,6 +18,7 @@ export default function MatchCard({ match, teamId }: { match: Match; teamId: str
   const isTeamA = match.team_a_id === teamId;
   const teamScore = isTeamA ? match.score_a : match.score_b;
   const oppScore = isTeamA ? match.score_b : match.score_a;
+  const oppTeamId = isTeamA ? match.team_b_id : match.team_a_id;
   const won = teamScore > oppScore;
 
   return (
@@ -37,19 +38,33 @@ export default function MatchCard({ match, teamId }: { match: Match; teamId: str
         e.currentTarget.style.backgroundColor = '';
       }}
     >
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <div>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '1rem', flexWrap: 'wrap' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
           <span style={{ 
             color: won ? '#10B981' : '#EF4444', 
             fontWeight: '700',
-            fontSize: '1.125rem',
-            marginRight: '1rem'
+            fontSize: '1.125rem'
           }}>
             {won ? 'W' : 'L'}
           </span>
           <span style={{ fontSize: '1.5rem', fontWeight: '700' }}>
             {teamScore} - {oppScore}
           </span>
+          <a 
+            href={`/team/${oppTeamId}`}
+            style={{ 
+              color: 'var(--color-text-secondary)', 
+              textDecoration: 'none',
+              fontSize: '0.875rem',
+              fontWeight: '600',
+              transition: 'color 0.2s'
+            }}
+            onClick={(e) => e.stopPropagation()}
+            onMouseOver={(e) => e.currentTarget.style.color = 'var(--color-primary)'}
+            onMouseOut={(e) => e.currentTarget.style.color = 'var(--color-text-secondary)'}
+          >
+            vs Opponent →
+          </a>
         </div>
         <div style={{ textAlign: 'right' }}>
           <p className="text-secondary" style={{ fontSize: '0.875rem', margin: 0 }}>
