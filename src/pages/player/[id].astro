@@ -1,7 +1,7 @@
 ---
 import Layout from '@/layouts/Layout.astro';
 import { createClientServer } from '@/lib/supabaseClient';
-import RecentGamesTable from '@/components/player/RecentGamesTable';
+import Tabs from '@/components/player/Tabs';
 
 const { id } = Astro.params;
 const supabase = createClientServer(Astro.cookies);
@@ -151,14 +151,14 @@ const { data: recentGames } = await supabase
             )}
           </div>
 
-          <div class="paper">
-            <h2 style="margin-bottom: 1.5rem;">Recent Games (Click for details)</h2>
-            {recentGames && recentGames.length > 0 ? (
-              <RecentGamesTable games={recentGames} client:load />
-            ) : (
-              <p class="text-secondary">No recent games found</p>
-            )}
-          </div>
+          {/* Player Tabs */}
+          <Tabs 
+            player={player} 
+            team={team} 
+            recentGames={recentGames || []} 
+            playerId={id!} 
+            client:load 
+          />
         </>
       ) : (
         <div class="paper">
